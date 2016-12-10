@@ -1,6 +1,9 @@
-### The standard Lorem Ipsum passage, used since the 1500s
-"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+### Erik's Test blog
 
-The standard Lorem Ipsum passage, used since the 1500s
+[The Untouchables Pt 2: Offline TouchBar activation with a purged disk](http://blog.eriknicolasgomez.com/untouchables_pt_2)
 
-"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+```
+A few days ago I wrote a post about a new activation mechanism for the TouchBar/WatchOS hybrid device.
+
+After doing some more tests, I began to discover something interesting...
+```
