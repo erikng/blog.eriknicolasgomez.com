@@ -7,28 +7,30 @@ tags: [DeployStudio, Imagr]
 
 If you're here, chances are you're interested in Imagr and read a [blog post](https://managingosx.wordpress.com/2015/04/22/introducing-imagr/) or [two](https://managingosx.wordpress.com/2015/04/22/setting-up-server-side-resources-for-imagr-testing/) or [three](https://osxdominion.wordpress.com/2015/05/12/we-are-imagr-and-so-can-you/). Unfortunately, something is holding you back. Maybe it's time, your imaging process or a very specific function of DeployStudio that you absolutely need. As you'll quickly find out, most barriers are short lived.
 
-##### Benefits of Imagr:
+## Benefits of Imagr:
 - Open Source
 - Light
 - [You actually know the maintainers!](https://groups.google.com/forum/#!topic/macenterprise/neLd-ScON5o)
 
-##### Areas of Improvement:
+### Areas of Improvement:
 - Server Logging
 - Embedded Workflows
 - Fusion Drive Support
 
-##### Imagr isn't:
+### Imagr isn't:
 - A tool for capturing thick images
 - GUI based for the Admin
 
 ---
 
-#### A few basic scripts
+## A few basic scripts
 I've created two Imagr Wiki pages:
+
 - [DeployStudio Alternative Scripts](https://github.com/grahamgilbert/imagr/wiki/DeployStudio-Alternative-Scripts)
 - [Admin Provided Scripts](https://github.com/grahamgilbert/imagr/wiki/Admin-Provided-Scripts)
 
 Sir Gilbert has opted for the Wiki route for a few reasons:
+
 - Smaller codebase to maintain
 - Easier entry for admins to contribute to the project.
 
@@ -36,7 +38,7 @@ Currently there are only a few scripts. As you begin to transition over to Imagr
 
 ---
 
-#### Breaking down your DeployStudio Workflows
+## Breaking down your DeployStudio Workflows
 I've taken DeployStudio for granted for many years. While I document many other processes, due to DeployStudio being mostly WYSIWYG, I've never felt compelled to actually list out each process I used.
 
 If you want a successful transition you're going to want to document. You know those checkboxes you use in DeployStudio? Document them!
@@ -63,7 +65,7 @@ If you want a successful transition you're going to want to document. You know t
 
 Let's tackle these one by one. All of these tasks should be added to the `components` array
 
-#### DS Restore Task
+## DS Restore Task
 This one can is rather simple. By default, Imagr will automatically `bless` the volume.
 
 ```xml
@@ -93,7 +95,7 @@ diskutil cs convert disk0s2
 </dict>
 ```
 
-#### DS HostName Task
+## DS HostName Task
 Imagr can now prompt for a name.
 
 ```xml
@@ -116,7 +118,7 @@ If your naming convention is based via serial number (like me) you can even remo
 </dict>
 ```
 
-#### DS Configure Task
+## DS Configure Task
 Both of these tasks are rather simple.
 
 ```xml
@@ -140,10 +142,10 @@ spctl --master-disable
 </dict>
 ```
 
-#### DS Generic Task
+## DS Generic Task
 Basically everything we are doing here are considered "Generic Tasks". See [my other post](https://onemoreadmin.wordpress.com/2015/05/14/using-munki-manifest-selector-with-imagr/) for an approach to non-scripted generic tasks.
 
-#### DS Package Install Task
+## DS Package Install Task
 Packages are very straight forward
 
 ```xml
@@ -157,7 +159,7 @@ Packages are very straight forward
 </dict>
 ```
 
-#### DS SoftwareUpdate Task
+## DS SoftwareUpdate Task
 Here is where I recommend a mobile configuration file. If you still want to do it the DeployStudio way, here is an example.
 
 ```xml
@@ -176,7 +178,7 @@ chmod 644 "{{target_volume}}/Library/Preferences/com.apple.SoftwareUpdate.plist"
 </dict>
 ```
 
-#### Time Task
+## Time Task
 [Rich Trouton](https://github.com/rtrouton/rtrouton_scripts/blob/master/rtrouton_scripts/time_settings/time_settings.sh) has a great script to accomplish this.
 
 ```xml
@@ -224,7 +226,7 @@ echo "server $TimeServer3" >> /etc/ntp.conf
 </dict>
 ```
 
-#### DS Active Directory Task
+## DS Active Directory Task
 I would highly recommend that you package this as saving this directly in the imagr_config.plist will leave your AD binding account exposed.
 
 With that said, [Sir Gilbert](https://github.com/grahamgilbert/macscripts/blob/master/AD%20Bind/postinstall) has a great script for this (taken from DS.)
@@ -523,7 +525,7 @@ exit 1
 </dict>
 ```
 
-#### DS Automatic Reboot
+## DS Automatic Reboot
 If you would like Image to automatically reboot after deploying your image (and begin it's first boot processes), add this somewhere in your workflow.
 
 ```xml

@@ -14,6 +14,7 @@ With the release of Apple's Server 5, iOS 9 and El Capitan, Cacher has been rece
 Today I'd like to announce Cacher "2.0"
 
 Here are some of the changes:
+
 - Support for Server 5
 - Support for large caching servers who transfer terabytes of content
 - Add logic for cases where Cacher does not understand and request relevant logs

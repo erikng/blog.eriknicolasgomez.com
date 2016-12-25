@@ -6,6 +6,7 @@ tags: [Apple Configurator 2, logging, macOS, OS X]
 ---
 
 luggage.local
+
 ```bash
 l_usr_local_outset_custom: l_usr_local
 	@sudo mkdir -p ${WORK_D}/usr/local/outset/custom
@@ -55,7 +56,9 @@ pack-usr-local-outset-login-every-%: % l_usr_local_outset_login_every
 pack-usr-local-outset-login-once-%: % l_usr_local_outset_login_once
 	@sudo ${INSTALL} -m 755 -g wheel -o root "${<}" ${WORK_D}/usr/local/outset/login-once
 ```
+
 Makefile
+
 ```makefile
 USE_PKGBUILD=1
 include /usr/local/share/luggage/luggage.make

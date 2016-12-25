@@ -11,8 +11,8 @@ If you have never used it, I highly recommend at least trying it out. It require
 
 As I began to test and move my workflows to Imagr, I hit a road block. While both DeployStudio and Imagr have a **generic task**, they are radically different architecturally.
 
-#### DeployStudio vs Imagr Generic Task:
-###### DeployStudio
+## DeployStudio vs Imagr Generic Task:
+### DeployStudio
 Since DeployStudio mounts a network volume, the Runtime has direct access to MMS. All an admin needs to do is place both Munki Manifest Selector.app and a corresponding script into the DeployStudio Scripts folder and then call it with a Generic Task. Here is an example script.
 
 ```bash
@@ -22,7 +22,7 @@ $BASE_DIR/Munki\ Manifest\ Selector.app/Contents/MacOS/Munki\ Manifest\ Selector
     --targetVolume "${DS_LAST_SELECTED_TARGET}"\
 ```
 
-###### Imagr
+### Imagr
 Imagr's Generic Tasks are completely different. In many ways they mimic the behavior of Munki. Scripts are taken from imagr_config.plist and then ran.
 
 ```xml
@@ -39,7 +39,7 @@ Imagr's Generic Tasks are completely different. In many ways they mimic the beha
 
 Unlike DeployStudio, all Imagr components are downloaded individually. What's an admin to do?
 
-#### Get Creative - Curl to the rescue!
+## Get Creative - Curl to the rescue!
 
 To begin, let's download MMS [here](https://dl.dropbox.com/u/12228667/Linked%20Files/Munki%20Manifest%20Selector.dmg). For this example please rename the dmg to "Munki_Manifest_Selector.dmg"
 
@@ -52,6 +52,7 @@ mkdir -p /yourmunkirepo/imagr/packages
 After placing it there, we need to add a workflow to your imagr_config.plist but let's break this down first.
 
 After pulling down the image and verifying a successful deployment, we are going to utilize Imagr's Generic Task with first_boot disabled. This task is going to do a few things:
+
 - Curl the DMG (using the new deployment's curl binary)
 - Mount the dmg using hdiutil from the NBI
 - Run Munki Manifest Selector and wait for user input
@@ -117,7 +118,7 @@ exit 0
 </plist>
 ```
 
-# Voila!
+## Voila!
 
 That's it. There's no need to re-architect MMS - just simply wrap it in a DMG. Obviously this is a first version and there isn't any download verification but with MMS being so small (~100k) for most deployments this should be sufficient.
 

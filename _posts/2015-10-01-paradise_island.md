@@ -15,7 +15,7 @@ Lovely.
 
 Let's dive a little deeper...
 
-#### WebKit
+## WebKit
 
 The App Store itself uses WebKit/HTML to display most of its content. Looking at the source file of the Update tab, you will see a div inserted specifically for El Capitan.
 
@@ -54,7 +54,7 @@ The App Store itself uses WebKit/HTML to display most of its content. Looking at
 
 If you notice, there is a `context-menu` class that contains the phrase `hideosupdate`. This class is what allows you to disable the screen via the first method.
 
-#### Method 1 - Right Click - Hide Update
+### Method 1 - Right Click - Hide Update
 Any user can simply right click on the banner and select `Hide Update`
 
 ![Hide Update](https://onemoreadmin.files.wordpress.com/2015/10/screen-shot-2015-10-01-at-7-29-28-am.png)
@@ -69,7 +69,7 @@ Upon opening this database, you will find a key called `didHideUTDIsland`. Apple
 
 To test this, you can easily hide and unhide the banner by moving this database out it's location and then moving it back in. Each time you will need to close out of the App Store or refresh the window.
 
-#### Method 2 - Deploying file.
+### Method 2 - Deploying file.
 So now that we have the file, we must ensure that this database file is installed onto every user's library. I'm a huge fan of [Outset](https://github.com/chilcote/outset) and more recently [Munki-Pkg](https://github.com/munki/munki-pkg) (you don't need to be a munki user to use munki-pkg!), so this will be my preferred method of deployment.
 
 Personally, when a script calls for a file, I place it in `/usr/local/outset/custom`. This folder does not exist in the default Outset installation, so my munki-pkg creates contains the logic to support this. With that said, it is still pretty straight forward.
@@ -93,14 +93,14 @@ By simply dropping a script into `/usr/local/outset/login-once`, Outset will cau
 
 You will find my the script I am using, as well as the munki-pkg files at my [Github](https://github.com/erikng/munki-pkg-projects/tree/master/Outset_OL_HideUTDIsland)
 
-#### Caveat Emptor
+## Caveat Emptor
 Since we are removing this file if it exists, there is a chance that users may lose other updates that they have hidden. Some may find this an added bonus, while others will shake their heads in disapproval. 
 
 If either of these items concern you, you may want to rewrite the script to not remove the file and simply check if it exists first.
 
-#### Notes
+## Notes
 If you have never used munki-pkg before, it is a very straight forward approach to building packages. There is no UI and it is fast and easy to learn. Hopefully this is reason enough to test it out.
 
-#### Sorry Apple!
+## Sorry Apple!
 
 ![Jack](https://media2.giphy.com/media/wxYgRoM7xDHP2/200_s.gif)

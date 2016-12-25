@@ -13,12 +13,13 @@ By utilizing [Outset](https://github.com/chilcote/outset), [Luggage](https://git
 
 ![Yo Screenshot](https://onemoreadmin.files.wordpress.com/2015/03/yo.png "Yo Screenshot")
 
-Let's begin...
+## Let's begin...
 
 On a test machine, install the latest versions of Luggage, Outset and Yo. It will help to have Pages, Xcode and the Xcode command line tools as well.
-[Luggage](https://github.com/unixorn/luggage/releases)
-[Outset](https://github.com/chilcote/outset/releases)
-[Yo](https://github.com/sheagcraig/yo/releases)
+
+- [Luggage](https://github.com/unixorn/luggage/releases)
+- [Outset](https://github.com/chilcote/outset/releases)
+- [Yo](https://github.com/sheagcraig/yo/releases)
 
 Create a working directory. When playing with things like this, I prefer the desktop. Let's open terminal.
 
@@ -64,6 +65,7 @@ Inside nano let's copy/paste the following:
 Once entered, press ctrl+o to write the file. It will confirm the name you previously entered - hit enter to save. If done correctly, you should now have a bash script file located in your working directory.
 
 Craig has some great documentation. Let's look at the values we have setup.
+
 ```
 -t, --title:
 Title for notification. REQUIRED.
@@ -86,6 +88,8 @@ extension. See the README for more info.
 We are going to have a title, subtitle and informative text. For a little flair, we will have the notification "poof" if a user hits cancel. By pointing to a private framework sound, we can also use the same alert that a user will hear when receiving an iMessage (located at `/System/Library/PrivateFrameworks/ToneLibrary.framework/Versions/A/Resources/AlertTones/Modern/`). The action path itself can point to anything and invokes the __open__ command. The options are endless.
 
 If you are paying attention, you'll notice this script is pointing to `/Library/Documentation/yo.pdf`. How might one get this file to this location? You could manually move it for this test or build a pkg with [Packages](https://derflounder.wordpress.com/2013/11/03/re-packaging-installer-packages-with-packages/), but let's take a slightly different approach.
+
+## Luggage
 
 Enter Luggage, a great tool that doesn't seem to get a lot of [blog](http://garylarizza.com/blog/2010/12/21/getting-started-with-the-luggage/) posts. For this post we won't go too in depth, but let's do a quick overview.
 

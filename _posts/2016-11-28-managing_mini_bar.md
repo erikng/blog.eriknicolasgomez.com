@@ -4,7 +4,10 @@ title: "Managing (or setting) the Mini TouchBar Control Strip"
 description: "A simple way to configure the touchbar for your users."
 tags: [Touch Bar, MacBook Pro, macOS, Sierra]
 ---
-<img src="https://github.com/erikng/blogposts/blob/master/ControlStrip/Customized%20Touch%20Bar.png?raw=true" class="fit image">
+![MiniBar Hero](https://github.com/erikng/blogposts/blob/master/ControlStrip/Customized%20Touch%20Bar.png?raw=true "MiniBar Hero")
+
+---
+
 While Apple [documented](https://support.apple.com/en-us/HT207055) how to customize the TouchBar, a macadmin or intrepid user may want to configure it via CLI tools.
 
 The following is a brief overview on how to quickly set these defaults.
@@ -24,7 +27,8 @@ Once there, a GUI overlay will be displayed, allowing you to drag the desired cu
 ## How to configure the Control Strip
 
 ### The values
-As of 10.12.1, these are the following values you can configure.
+As of 10.12.1, these are the following values you can configure:
+
 * com.apple.system.brightness
 * com.apple.system.dashboard
 * com.apple.system.dictation
@@ -44,9 +48,7 @@ As of 10.12.1, these are the following values you can configure.
 * com.apple.system.sleep
 * com.apple.system.volume
 
-I think they are fairly easy to comprehend, so I will not be detailing each value.
-
-You can customize up to four buttons here and even deploy *zero* button.
+I think they are fairly easy to comprehend, so I will not be detailing each value. You can customize up to four buttons here and even deploy *zero* button.
 
 The preference file is located at `~/Library/Preferences/com.apple.controlstrip.plist`
 
@@ -78,18 +80,22 @@ Use this method to quickly _set_ the default values for your users. This could b
 Just know that by using this truly terrible method, a California macadmin loses their wings.
 
 In the userspace:
+
 ``` bash
 defaults write ~/Library/Preferences/com.apple.controlstrip MiniCustomized '(com.apple.system.do-not-disturb, com.apple.system.media-play-pause, com.apple.system.sleep, com.apple.system.screen-lock )'
 ```
 
 followed by:
+
 ``` bash
 killall ControlStrip
 ```
+
 ### Option 2 - Apple Approved Profile
 By installing a profile on your devices, you can force a configuration for all users of the TouchBar.
 
 While this might be an "Apple approved" management process, it is clunky for the following reasons:
+
 * The GUI does not inform the user that their TouchBar is being managed.
 * The user can customize their TouchBar on top of the management, but after a reboot or logout/login, it will be re-configured per the profile.
 * If you attempt to only manage one item in the Control Strip, it will still manage the entire `key` and the user will be limited to one single item.
@@ -120,7 +126,7 @@ node.default['cpe_controlstrip']['MiniCustomized'] => [
 
 Please note that this requires the cpe_controlstrip cookbook, which you can find [here](https://github.com/erikng/cookbooks/tree/master/macOS/cpe_controlstrip)
 
-### Example
+## Example of a single item
 In this example we would want to remove all current Control Strip items and replace them with just a single item - the screen lock.
 
 ``` bash
@@ -134,9 +140,8 @@ Your users would then be left with the following:
 ![Customized Control Strip](https://github.com/erikng/blogposts/blob/master/ControlStrip/Customized%20Touch%20Bar.png?raw=true "Customized Control Strip")
 
 ## Final Notes
-If you have not noticed, in all examples, there are _four_ values set. This is because there are exactly four "buttons" you can customize. Make sure that whichever mechanism you deploy has **all four values configured.**
-
 While some macadmins hate over-managing configurations, there is some benefits to this approach:
+
 1. You can now configure a shortcut key to instantly lock your devices. Your security team may love this.
 2. Some users may never know or care to customize their Control Strip. This at least allows you to be consistent.
 3. More than likely you know what's best for your company, not Apple.

@@ -135,7 +135,9 @@ Offline Upgrades seems to occur each time the machine there is a new firmware de
 7. The TouchBar attempts to boot and if everything goes well the machine presents the loginwindow.
 8. User authenticates, unlocks the login.keychain, and TouchID is then available for use.
 
-### Baking The Cake
+---
+
+## Baking The Cake
 
 My spidey sense tingled when I first noticed offline activations and offline upgrades. It was clear that Apple didn't want to force a "Critical Update required" screen every time there was a new point release and we could use this to our advantage.
 

@@ -4,12 +4,15 @@ title: "Yosemite Style Banners for Munki 2"
 description: "You get a banner. Everyone gets a banner."
 tags: [Munki Manifest Selector, Imagr]
 ---
-<img src="https://onemoreadmin.files.wordpress.com/2015/05/xcode.png" class="fit image">
+![MSC Hero](https://onemoreadmin.files.wordpress.com/2015/05/xcode.png "MSC Hero")
+
+---
+
 Customizing munki can be quite rewarding when done right. By utilizing the client_resources.zip file you can make a great looking GUI for your users.
 
 ### Trick 1: Add CSS into footer_template.html
 
-<a href="https://github.com/bartreardon/munki_client_resources" target="_blank">Bart Reardon</a> first documented this trick. You can modify (for better or worse) the css Munki utilizes by adding your desired changes directly into the footer_template.html. The following is what I am currently using to make Munki look more like the App Store in Yosemite.
+[Bart Reardon](https://github.com/bartreardon/munki_client_resources) first documented this trick. You can modify (for better or worse) the css Munki utilizes by adding your desired changes directly into the footer_template.html. The following is what I am currently using to make Munki look more like the App Store in Yosemite.
 
 ```css
 <style>
@@ -46,7 +49,7 @@ Adding an icon to the sidebar is quite simple - simply add your .png file to you
 
 This isn't really a trick, but more of a feature that isn't completely documented. You can link individual banners to specific items in your repository.
 
-Below you will find three examples: All Categories, Music and iMovie. Make sure you add <strong>.html</strong> to each item or it will not work.
+Below you will find three examples: All Categories, Music and iMovie. Make sure you add __.html__ to each item or it will not work.
 
 ```html
 <div class="showcase">

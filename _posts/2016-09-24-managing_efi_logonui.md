@@ -5,18 +5,19 @@ description: "Reverse engineering Sierra's new loginwindow."
 tags: [loginwindow, macOS, Sierra, efi, wallpaper, macadmin]
 ---
 
-Update 1: Now with fix (Thanks [Owen](https://github.com/opragel) for inspiration!)
-
-Update 2: Now with safer methodology (Thanks [Michael Lynn/Frogor](https://github.com/pudquick))
+Update 4: Note about non-blurred wallpapers and extra EFI data
 
 Update 3: Now with further management tools/discoveries.
 
-Update 4: Note about non-blurred wallpapers and extra data
+Update 2: Now with safer methodology (Thanks [Michael Lynn/Frogor](https://github.com/pudquick))
+
+Update 1: Now with fix (Thanks [Owen](https://github.com/opragel) for inspiration!)
 
 A few days ago there was a post on [MacEnterprise](https://groups.google.com/forum/m/#!topic/macenterprise/fU3KWrbNfg8) about issues setting Sierra's login wallpaper. I immediately posted as I had not seen the issues that were described, but after doing a deep dive last night, it is true - there are some changes to this functionality.
 
-### El Capitan Notes
+## El Capitan Notes
 In El Capitan, one could simply do the following:
+
 * Copy your selected wallpaper in .png format to /Library/Caches (Example: `cp -R ~/Desktop/mysuperawesomewallpaper.png /Library/Caches/com.apple.desktop.admin.png`)
 * ensure root was the owner (Example: `chown root:wheel /Library/Caches/com.apple.desktop.admin.png` )
 * ensure it was world readable (Example: `chmod 755 /Library/Caches/com.apple.desktop.admin.png`
@@ -24,15 +25,16 @@ In El Capitan, one could simply do the following:
 
 These four steps could be automated with a package/script/etc and were pretty simple to configure.
 
-### Sierra Notes
+## Sierra Notes
 With Sierra, while this methodology still works, it is incomplete. You will notice the following:
+
 * Loginwindow not get updated
 * FileVault pre-boot window not updated
 * User lock screen not updated
 
 Unfortunately for the 3rd item, this cannot be modified, as Apple automatically overlays a blur on top of the user's wallpaper. With that said, the other two items can be corrected, albeit with some unfortunate requirements.
 
-### Down the rabbit hole we go...
+## Down the rabbit hole we go...
 If you go to System Preferences -> Desktop & Screen Saver and change your wallpaper you will notice that immediately com.apple.desktop.admin.png is changed, the loginwindow is updated and if you reboot, the FileVault pre-boot is also updated.
 
 ![loginwindow](https://raw.githubusercontent.com/erikng/blogposts/master/SierraDesktop/loginwindow.png)
@@ -54,7 +56,7 @@ This is pretty clear as to what is happening. Apple is taking our png, writing i
 
 So if that's all it does, why is it when we recreate this scenario through a package/script, only some of the elements are updated? Perhaps our grep left out some important pieces...
 
-#### Unleash the Kraken
+## Unleash the Kraken
 To give you an idea on why one would grep, fs_usage is _extremely_ verbose. The prior example's output was around 400 event lines, whereas without grep, we are at 281,000 event lines.
 
 With that said, we need to get to the bottom of what is happening.
@@ -79,6 +81,7 @@ fs_usage
 What a difference!
 
 A couple of things immediately stick out:
+
 * Two preference files
 * Many references to EFI Resources
 * A dotfile that seems to trigger an update to the EFI
@@ -87,8 +90,9 @@ A couple of things immediately stick out:
 
 All signs point to EFI resources, but we need to prove this theory.
 
-##### Plists
+### Plists
 First, let's take a look at these plist files.
+
 ```bash
 defaults read /usr/standalone/bootcaches.plist
 PostBootPaths =     {
@@ -100,6 +104,7 @@ PostBootPaths =     {
         LocalizedResourcesCache = "/System/Library/Caches/com.apple.corestorage/EFILoginLocalizations";
     };
 ```
+
 This is fairly interesting. We now know the bootcache BackgroundImage is set (which is why if you simply deploy the admin.png and reboot it works), there is a default EFI boot cache and a subsequent localization EFI boot cache.
 
 ```bash
@@ -108,9 +113,10 @@ defaults read /Library/Preferences/SystemConfiguration/com.Apple.Boot.plist
     "Kernel Flags" = "";
 }
 ```
+
 This preference file is a little less interesting, however this is an older preference file that is becoming less relevant. Older macadmins may remember this was used prior to Mavericks to set a custom boot image.
 
-##### EFI boot caches
+### EFI boot caches
 ```python
 ls -lO /usr/standalone/i386/EfiLoginUI/
 -rw-r--r--  1 root  wheel  restricted 1069412 Jul 30 15:41 Lucida13.efires
@@ -143,24 +149,26 @@ ls -lO /System/Library/Caches/com.apple.corestorage/EFILoginLocalizations
 -rw-r--r--  1 root  wheel  -   171012 Sep 24 22:03 sound.efires
 -rw-r--r--  1 root  wheel  -   252398 Sep 24 22:03 unknown_userUI.efires
 ```
+
 Now we're getting somewhere. These files were modified at the same time we changed the Desktop wallpaper. There's also conveniently a `logonui.efires`, which might be the file we are looking for.
 
 All signs are pointing to this EFI resource location, but we still don't definitely know if this is where the issue is.
 
-### What the hell is an efires file?
+## What the hell is an efires file?
 If you've never kept up with Hackintosh community, you probably have never heard about these files. [Piker-Alpha](https://pikeralpha.wordpress.com) and his sister (RIP) are largely the ones who first started doing deep dives into these files.
 
 .efires files are EFI Resource files. They are LZVN compressed files, that contain various images that Apple uses during the boot process.
 
-##### Backstory and shameless plug
+### Backstory and shameless plug
 Last year, with the help [Michael Lynn/Frogor](http://michaellynn.github.io/), I released [BootPicker](https://github.com/erikng/BootPicker), a PSD file for easily creating Apple boot documentation. We dumped the .efire files and [extracted](https://gist.github.com/pudquick/2800b39b68f5acb135b4) the boot files, giving us the exact images for Apple's boot process. It's better than [Apple's own documentation, with fake assets!](https://support.apple.com/en-us/HT204156). Piker/Sam's original work with [LZVN](https://github.com/Piker-Alpha/LZVN) and [efires-extract](https://dl.dropboxusercontent.com/u/126585663/efires-xtract) were instrumental in our success.
 
 I never did a post on BootPicker, but check it out - I think you'll love it!
 
-##### Back to Sierra
+### Back to Sierra
 Unfortunately, Piker-Alpha's efires-extract does not take into account Sierra's new folder structure, however I have modified it to now work. You can find a copy [here](https://gist.github.com/erikng/b4e2d35253b2e224f019cbc02213872d).
 
 Let's spin it up.
+
 ```python
 ./efires-extract
 <snipped>
@@ -187,10 +195,11 @@ So we have definitely confirmed our initial suspicions:
 * `/System/Library/PrivateFrameworks/EFILogin.framework/Versions/A/Resources/EFIResourceBuilder.bundle` is the key to rebuilding the EFI cache.
 * There may be a trigger at `/Library/Caches/.com.apple.updateEFIResources`
 
-### GUI Triggers and CLI SIP Brick Wall
+## GUI Triggers and CLI SIP Brick Wall
 You may already know where this is going.
 
 The following GUI actions, cause EFIResourceBuilder to trigger:
+
 * Right Click, settings Wallpaper
 * System Preferences -> Desktop & Screensaver -> Selecting new wallpaper
 * System Preferences -> Security & Privacy -> Set Lock Message
@@ -200,11 +209,14 @@ In my further investigation using Hopper, I attempted to find out how to use the
 Interestingly enough, when googling about the EFILogin framework, I found [this link](https://jamfnation.jamfsoftware.com/discussion.html?id=7531#responseChild40288) on JAMF Nation that outlined a method to trigger the EFI rebuild process.
 
 Let's try it:
+
 ```ruby
 touch /System/Library/PrivateFrameworks/EFILogin.framework/Resources/EFIResourceBuilder.bundle/Contents/Resources
 touch: /System/Library/PrivateFrameworks/EFILogin.framework/Resources/EFIResourceBuilder.bundle/Contents/Resources: Permission denied
 ```
+
 :unamused:
+
 ```python
 ls -lO /System/Library/PrivateFrameworks/EFILogin.framework/Resources/EFIResourceBuilder.bundle/Contents/
 -rw-r--r--    1 root  wheel  restricted,compressed 1264 Jul 30 18:47 Info.plist
@@ -213,9 +225,10 @@ drwxr-xr-x  131 root  wheel  restricted            4454 Sep 24 11:53 Resources
 drwxr-xr-x    3 root  wheel  restricted             102 Jul 30 18:48 _CodeSignature
 -rw-r--r--    1 root  wheel  restricted,compressed  523 Jul 30 18:48 version.plist
 ```
+
 :cry:
 
-##### Disabling SIP
+### Disabling SIP
 I just want to get this out of the way...
 
 **DO NOT DISABLE SIP TO DEPLOY A CUSTOM WALLPAPER!**
@@ -235,10 +248,11 @@ ls -lO /System/Library/Caches/com.apple.corestorage/EFILoginLocalizations
 
 Yep! The .efires timestamp are reflecting the current time. So while we had to disable SIP, this method still works and was probably an oversight on Apple's part. Shame on all of _us_ for not noticing this until now.
 
-### Closing Thoughts (OpenRadar)
+## Closing Thoughts (OpenRadar)
 It's quite apparent that Apple will continue to use the .efires files for their boot process and while they allow an alternative cache to exist, if you want your loginwindow to be updated, you _must_ update the EFI cache.
 
 While I do wish Apple would have more documentation related to Enterprise Management, Apple has historically been cagey on this process. SIP bug withstanding, we now definitely know what the process is:
+
 * Add custom com.apple.desktop.admin.png to /Library/Caches
 * Take ownership of the png and mark it as idempotent to ensure no one else can modify it accidentally
 * Rebuild EFI cache for loginwinow and FileVault screens
@@ -247,7 +261,7 @@ For admins that want to duplicate my issue or reach out to their System Engineer
 
 [rdar://28462923](https://openradar.appspot.com/radar?id=4982909354115072)
 
-### Updated with fix
+## Updated with fix
 Thanks to some detective work by my buddies, we have found an alternative method to triggering the event.
 
 ```bash
@@ -262,6 +276,7 @@ ProgramArguments = (
 ```
 
 From the manpage of kextcache:
+
 ```
 -u os_volume, -update-volume os_volume
 
@@ -276,7 +291,8 @@ as if no caches need updating: success is returned.
 
 By invoking kextcache, we can update the caches! We just need to force it, since once has previously been created.
 
-Here are the exact steps to have a working/admin deployed LoginUI.
+Here are the exact steps to have a working/admin deployed LoginUI:
+
 * Copy your selected wallpaper in .png format to /Library/Caches (Example: `cp -R ~/Desktop/mysuperawesomewallpaper.png /Library/Caches/com.apple.desktop.admin.png`)
 * ensure root was the owner (Example: `chown root:wheel /Library/Caches/com.apple.desktop.admin.png` )
 * ensure it was world readable (Example: `chmod 755 /Library/Caches/com.apple.desktop.admin.png`
@@ -284,7 +300,7 @@ Here are the exact steps to have a working/admin deployed LoginUI.
 <del>* delete the unprotected EFI caches (Exmaple: `rm -rf /System/Library/Caches/com.apple.corestorage/EFILoginLocalizations/*.*`)</del>
 <del> * force a rebuild of the cache (Example: `/usr/sbin/kextcache -fu /`)</del>
 
-### Update 2
+## Update 2
 
 Instead of deleting the unprotected EFI caches and using kextcache, you can do the following:
 
@@ -293,7 +309,7 @@ Instead of deleting the unprotected EFI caches and using kextcache, you can do t
 
 Much love to the `-fu` flag Apple. :)
 
-### Update 3
+## Update 3
 Earlier someone reached out to me and informed me that the login screen was not being truly forced. After looking at things again, I discovered `/System/Library/PrivateFrameworks/LoginUIKit.framework/Versions/A/LoginUIKit`. In this binary are some interesting leads.
 
 This tool automatically creates a gaussian blur each time the loginwindow is displayed to the end user. By default it will look at `/System/Library/CoreServices/DefaultDesktop.jpg` which is actually a SIP protected symbolic link that in Sierra points to `/Library/Desktop Pictures/Sierra.jpg`. Pay close attentions here. While the symbolic link is protected, the default Sierra wallpaper is not.
@@ -310,7 +326,7 @@ To finalize - If an admin wants to fully control the FileVault EFI loginwindow _
 
 To be clear, this method will use a gaussian blur at the loginwindow, but allow you to force a specific wallpaper.
 
-### Update 4
+## Update 4
 In further testing, if your non-blurred wallpaper is not working, there are chances that you have extra `EXIF` data added to your png, which will cause the loginwindow to bail and use the default Sierra wallpaper.
 
 I recommend opening up your wallpaper in `Preview.app` and then saving it. This should remove the extra data and your wallpaper should then load at the loginwindow.
