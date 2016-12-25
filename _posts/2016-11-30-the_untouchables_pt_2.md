@@ -1,8 +1,11 @@
-# The Untouchables Pt 2: Offline TouchBar activation with a purged disk
+---
+layout: post
+title: "The Untouchables Pt 2: Offline TouchBar activation with a purged disk"
+description: "A few days ago I wrote a post about a new activation mechanism for the TouchBar/WatchOS hybrid device.
 
-A few days ago I wrote a post about a new activation mechanism for the TouchBar/WatchOS hybrid device.
-
-After doing some more tests, I began to discover something interesting...
+After doing some more tests, I began to discover something interesting..."
+tags: [activation, macOS, watchOS, TouchBar, macbookpro, sierra]
+---
 
 ### Preface
 While I have tried to document and piece together as much as possible here, some of the statements could be inaccurate. Until Apple posts more information about this process, take everything you read below with a grain of salt. If you choose to use the methodologies in production, I offer no warranties to the integrity of your sytem.
@@ -16,7 +19,7 @@ While the preflight container data located in _/Library/Updates/PreflightContain
 
 After discussing this with some colleagues (thanks yet again [Michael](https://twitter.com/mikeymikey) and [Pepijn](https://twitter.com/bruienne)) we realized that EmbeddedOSInstallService utilizes the temporary directory for the root user.
 
-```bash
+```
 root# getconf DARWIN_USER_TEMP_DIR
 /private/var/folders/zz/zyxvpxvq6csfxvn_n0000000000000/T/
 ```
@@ -38,7 +41,9 @@ This bundle contains Apple's signed firmware files (img4 format), and a few plis
 
 A request is sent to URL (which I will not post) with a tss-request. Apple sends back a tss-response and then creates the BuildManifest.plist, EOS_RestoreOptions.plist and Restore.plist. These files have several certificates that have been signed by Apple.
 
-```bash
+``` ruby
+/bin/ls -R /private/var/folders/zz/zyxvpxvq6csfxvn_n0000000000000
+
 /private/var/folders/zz/zyxvpxvq6csfxvn_n0000000000000/T/%RANDOM_GUID%-EmbeddedOSInstall-PersonalizedBundle:
 BuildManifest.plist
 EOS_RestoreOptions.plist
