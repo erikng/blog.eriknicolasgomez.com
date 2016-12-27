@@ -3,6 +3,7 @@ layout: post
 title: "Paradise Island - Hiding El Capitan's Free Upgrade Banner"
 description: "Upgrade now. Please?"
 tags: [El Capitan, Upgrade, macOS, OS X]
+comments: true
 ---
 
 Yesterday, El Capitan came out and with it came great fanfare...except if you aren't ready to deploy it.

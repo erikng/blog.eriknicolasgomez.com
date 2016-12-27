@@ -3,6 +3,7 @@ layout: post
 title: "The Untouchables - Apple's new OS 'activation' for Touch Bar MacBook Pros"
 description: "A critical software update is required for your Mac."
 tags: [Activation, macOS, watchOS, Touch Bar, MacBook Pro, Sierra]
+comments: true
 ---
 ![Critical Update Hero](/images/critical_update.jpg "Critical Update Hero")
 

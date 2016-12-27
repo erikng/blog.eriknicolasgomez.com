@@ -3,6 +3,7 @@ layout: post
 title: "Controlling the Diagnostics & Usage report settings on Yosemite – A profile alternative"
 description: "Use profiles if at all possible."
 tags: [profiles, macOS, OS X]
+comments: true
 ---
 
 For the past few weeks I have been trying to rid myself of all Default User Template changes. The last piece to the puzzle is Setup Assistant.

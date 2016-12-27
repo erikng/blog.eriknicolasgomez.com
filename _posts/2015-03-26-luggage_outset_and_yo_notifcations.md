@@ -3,6 +3,7 @@ layout: post
 title: "Using Luggage, Outset and Yo for awesome User Notifications"
 description: "A powerful tooling combinations."
 tags: [Luggage, outset, Yo, notifications, macOS, OS X]
+comments: true
 ---
 
 I am currently in the midst of radically changing the OS X experience at my company. Users will be going from monolithic/unmanaged to a self-service/managed model. This could be jarring for them and without proper user training, they could easily miss some of the key features we would like them to know about.

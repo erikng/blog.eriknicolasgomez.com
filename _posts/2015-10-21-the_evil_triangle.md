@@ -3,6 +3,7 @@ layout: post
 title: "The Evil Triangle: El Capitan, SUS and Caching"
 description: "What happens when engineers code in a bubble."
 tags: [El Capitan, SUS, Caching, Server, macOS, OS X]
+comments: true
 ---
 
 Update: As of December 8th, 2015, this issue is now resolved.

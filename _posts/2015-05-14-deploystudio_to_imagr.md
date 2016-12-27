@@ -3,6 +3,7 @@ layout: post
 title: "Moving your DeployStudio Workflows to Imagr"
 description: "Stop using Apple's... I mean 'admin's' tool."
 tags: [DeployStudio, Imagr]
+comments: true
 ---
 
 If you're here, chances are you're interested in Imagr and read a [blog post](https://managingosx.wordpress.com/2015/04/22/introducing-imagr/) or [two](https://managingosx.wordpress.com/2015/04/22/setting-up-server-side-resources-for-imagr-testing/) or [three](https://osxdominion.wordpress.com/2015/05/12/we-are-imagr-and-so-can-you/). Unfortunately, something is holding you back. Maybe it's time, your imaging process or a very specific function of DeployStudio that you absolutely need. As you'll quickly find out, most barriers are short lived.

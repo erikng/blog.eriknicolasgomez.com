@@ -3,6 +3,7 @@ layout: post
 title: "Yosemite Style Banners for Munki 2"
 description: "You get a banner. Everyone gets a banner."
 tags: [Munki Manifest Selector, Imagr]
+comments: true
 ---
 ![MSC Hero](https://onemoreadmin.files.wordpress.com/2015/05/xcode.png "MSC Hero")
 

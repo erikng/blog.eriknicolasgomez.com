@@ -3,6 +3,7 @@ layout: post
 title: "Cacher 2 – Dropping Server 4 Support and Future Plans"
 description: "Why didn't I write this in python?"
 tags: [Cacher, Server, macOS, OS X]
+comments: true
 ---
 
 ## Current State

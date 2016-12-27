@@ -3,6 +3,7 @@ layout: post
 title: "Apple’s EFI logonui – managing macOS Sierra’s wallpaper"
 description: "Reverse engineering Sierra's new loginwindow."
 tags: [loginwindow, macOS, Sierra, efi, wallpaper, macadmin]
+comments: true
 ---
 
 Update 4: Note about non-blurred wallpapers and extra EFI data

@@ -3,6 +3,7 @@ layout: post
 title: "Using Munki Manifest Selector with Imagr"
 description: "It works and it works well."
 tags: [Munki Manifest Selector, Imagr]
+comments: true
 ---
 
 There is one tool that is integral to my technicians workflow and my sanity. With several hundred locations, I needed a way to properly set Munki's ClientIdentifier. At previous employers, I was able to define a machine naming convention that worked well, but with so many moving parts where I am at now, I needed something dynamic, consistent and stable: [Munki Manifest Selector](https://github.com/buffalo/Munki-Manifest-Selector)
