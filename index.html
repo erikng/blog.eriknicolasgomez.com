@@ -6,11 +6,11 @@ layout: default
 <section id="banner">
     <div class="inner">
         <h2>One More Admin</h2>
-        <h5>Erik Gomez</h5>
+        <h1>Erik Gomez</h1>
     </div>
 </section>
 <section id="main" class="wrapper style1">
-    {% for post in site.posts %}
+    {% for post in paginator.posts %}
         <div class="wrapper {% cycle 'style1', 'style2' %}">
             <header class="major">
                 <h2><a href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a></h2>
@@ -25,4 +25,14 @@ layout: default
             </section>
         </div>
     {% endfor %}
+    <br>
+	<article class="container">
+		<footer>
+			{% if paginator.previous_page %}
+			  <a href="{{ paginator.previous_page_path }}" style="float: left;" class="button">&nbsp;&larr; Previous&nbsp;</a> {% endif %}
+			{% if paginator.next_page %}
+			  <a href="{{ paginator.next_page_path }}" style="float: right;" class="button">&nbsp;Next &rarr;&nbsp;</a> {% endif %}
+		</footer>
+	</article>
+	<br><br>
 </section>
