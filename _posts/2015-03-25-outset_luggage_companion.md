@@ -2,7 +2,7 @@
 layout: post
 title: "Outset Luggage Companion"
 description: "My first macadmin post."
-tags: [Apple Configurator 2, logging, macOS, OS X]
+tags: [Apple Configurator 2, Logging, macOS, OS X]
 comments: true
 ---
 

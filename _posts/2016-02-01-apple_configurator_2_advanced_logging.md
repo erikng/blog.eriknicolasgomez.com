@@ -2,7 +2,7 @@
 layout: post
 title: "Advanced Logging for Apple Configurator 2"
 description: "A short post on enabling debug logging with Apple Configurator 2."
-tags: [Apple Configurator 2, logging, macOS, OS X]
+tags: [Apple Configurator 2, Logging, macOS, OS X]
 comments: true
 ---
 

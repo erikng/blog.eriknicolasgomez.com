@@ -2,7 +2,7 @@
 layout: post
 title: "Using Luggage, Outset and Yo for awesome User Notifications"
 description: "A powerful tooling combinations."
-tags: [Luggage, outset, Yo, notifications, macOS, OS X]
+tags: [Luggage, Outset, Yo, Notifications, macOS, OS X]
 comments: true
 ---
 

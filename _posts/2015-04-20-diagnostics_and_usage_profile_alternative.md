@@ -2,7 +2,7 @@
 layout: post
 title: "Controlling the Diagnostics & Usage report settings on Yosemite – A profile alternative"
 description: "Use profiles if at all possible."
-tags: [profiles, macOS, OS X]
+tags: [Profiles, macOS, OS X]
 comments: true
 ---
 

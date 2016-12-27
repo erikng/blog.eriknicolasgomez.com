@@ -4,7 +4,7 @@ title: "The Untouchables Pt 2: Offline TouchBar activation with a purged disk"
 description: "A few days ago I wrote a post about a new activation mechanism for the TouchBar/WatchOS hybrid device.
 
 After doing some more tests, I began to discover something interesting..."
-tags: [activation, macOS, watchOS, TouchBar, macbookpro, sierra]
+tags: [Activation, macOS, watchOS, TouchBar, MacBook Pro, Sierra]
 comments: true
 ---
 

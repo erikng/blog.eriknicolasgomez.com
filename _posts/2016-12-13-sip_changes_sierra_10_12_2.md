@@ -2,7 +2,7 @@
 layout: post
 title: "System Integrity Protection (SIP) changes in macOS Sierra 10.12.2"
 description: "Welcome changes to SIP in 10.12.2."
-tags: [SIP, System Integrity Protection, macOS, sierra]
+tags: [SIP, System Integrity Protection, macOS, Sierra]
 comments: true
 ---
 
