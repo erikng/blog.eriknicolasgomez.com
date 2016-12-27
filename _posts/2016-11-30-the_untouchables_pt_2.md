@@ -5,6 +5,7 @@ description: "A few days ago I wrote a post about a new activation mechanism for
 
 After doing some more tests, I began to discover something interesting..."
 tags: [activation, macOS, watchOS, TouchBar, macbookpro, sierra]
+comments: true
 ---
 
 ### Preface
