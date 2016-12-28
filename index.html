@@ -14,6 +14,7 @@ layout: default
         <div class="wrapper {% cycle 'style1', 'style2' %}">
             <header class="major">
                 <h2><a href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a></h2>
+                <h5 class="post-description">{{ post.description }}</h5>
                 <h4>
                     {{ post.date | date: "%b %-d, %Y" }} - 
 					{% capture words %}
@@ -23,12 +24,12 @@ layout: default
 					{{ words | plus: 250 | divided_by: 250 | append: " minute read" }}
 					{% endunless %}
 				</h4>
-				<h5>
+				<h6>
 				Categories:
 				  {% for tag in post.tags %}
 					<a href="/tags#{{ tag | replace: ' ','+'}}">{{ tag }}&nbsp;&nbsp;</a>
 				  {% endfor %}
-				</h5>
+				</h6>
             </header>
             <section class="container">
                 {{ post.excerpt }}
