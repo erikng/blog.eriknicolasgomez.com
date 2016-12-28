@@ -223,3 +223,7 @@ Your package will regenerate and now include your customized application. Instal
 Congrats! You now have a customized notification that will appear for all of your users and a package you can deploy out with your [favorite deployment tool](https://github.com/munki/munki).
 
 If you'd like to use my own example go [here](https://github.com/erikng/blogposts/tree/master/YoExample) for all the necessary files.
+
+## Table Of Contents
+* Do not remove this line (it will not be displayed)
+{:toc}

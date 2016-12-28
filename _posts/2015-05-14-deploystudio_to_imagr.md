@@ -539,3 +539,7 @@ If you would like Image to automatically reboot after deploying your image (and 
 As you can see, many of DeployStudio's checkboxes are very small configuration changes. While none of these examples contain any error checking, they work quite well.
 
 Through the years my workflows have slimmed down considerably. Most have been converted to mobile configuration files, while others have simply moved into munki/outset. While you may consider some aspects of DeployStudio essential, I continue to find myself _decreasing_ the amount of steps needed for a "successful image". As you transfer your workflows over to Imagr, think about trimming down as much fat as possible. In the end your results will be much more stable and you'll become a more dynamic admin.
+
+## Table Of Contents
+* Do not remove this line (it will not be displayed)
+{:toc}

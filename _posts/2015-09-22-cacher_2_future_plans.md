@@ -32,3 +32,6 @@ Add to that, there are still a few [issues](https://github.com/erikng/Cacher/iss
 
 Enjoy Cacher 2 and be on the lookout for Cacher stats inside of Sashay.
 
+## Table Of Contents
+* Do not remove this line (it will not be displayed)
+{:toc}

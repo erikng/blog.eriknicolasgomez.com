@@ -124,3 +124,7 @@ exit 0
 That's it. There's no need to re-architect MMS - just simply wrap it in a DMG. Obviously this is a first version and there isn't any download verification but with MMS being so small (~100k) for most deployments this should be sufficient.
 
 Don't stop yourself from moving to Imagr. Get creative and you **will** be happy with the results.
+
+## Table Of Contents
+* Do not remove this line (it will not be displayed)
+{:toc}

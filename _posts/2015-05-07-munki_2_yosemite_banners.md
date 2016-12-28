@@ -106,3 +106,7 @@ Attached below are several banners that I have modified from the Mac App Store. 
 ![MSC Banner](/images/2015/05/twitter.png "MSC Banner")
 ![MSC Banner](/images/2015/05/wunderlist.png "MSC Banner")
 ![MSC Banner](/images/2015/05/xcode.png "MSC Banner")
+
+## Table Of Contents
+* Do not remove this line (it will not be displayed)
+{:toc}

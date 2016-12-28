@@ -105,3 +105,7 @@ If you have never used munki-pkg before, it is a very straight forward approach 
 ## Sorry Apple!
 
 ![Jack](/images/2015/10/lost.gif)
+
+## Table Of Contents
+* Do not remove this line (it will not be displayed)
+{:toc}

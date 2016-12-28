@@ -75,3 +75,7 @@ Attached is an example of the settings you will need to manage.
 ```
 
 Once applied by your favorite tool, you're golden.
+
+## Table Of Contents
+* Do not remove this line (it will not be displayed)
+{:toc}

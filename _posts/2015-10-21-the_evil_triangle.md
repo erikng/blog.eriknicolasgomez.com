@@ -206,3 +206,7 @@ Thankfully, Apple has also issued `Security Update 2015-007` which should resolv
 Unfortunately, I no longer have an ETA for when this will be resolved. All signs point to 10.11.2, but without a current beta to test, I cannot confirm that the behavior is resolved.
 
 If you are running into this issue and have a Sales Engineer, please reach out to them with impact data. The more pressure we can place on Apple, the sooner this issue can be put to rest.
+
+## Table Of Contents
+* Do not remove this line (it will not be displayed)
+{:toc}
