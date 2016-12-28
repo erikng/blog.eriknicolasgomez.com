@@ -5,6 +5,7 @@ layout: default
     <article class="container">
         <header class="major">
             <h2 class="post-title">{{ page.title }}</h2>
+            <h5 class="post-description">{{ page.description }}</h5>
 			<h5>
 				{% capture words %}
 				  {{ page.content | number_of_words }}
@@ -14,11 +15,12 @@ layout: default
 				{% endunless %}
 			</h5>
                 <p class="post-meta">{{ page.date | date: "%b %-d, %Y" }}{% if page.author %} • {{ page.author }}{% endif %}{% if page.meta %} • {{ page.meta }}{% endif %}</p>
-			<h5>
+			<h6>
+			Categories:
 			  {% for tag in page.tags %}
 				<a href="/tags#{{ tag | replace: ' ','+'}}">{{ tag }}&nbsp;&nbsp;</a>
 			  {% endfor %}
-			</h5>
+			</h6>
         </header>
 
         <section class="post-content">
