@@ -21,3 +21,4 @@ sass:
     sass_dir: _sass
 
 paginate: 6
+permalink: pretty
