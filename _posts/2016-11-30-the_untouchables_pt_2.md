@@ -1,9 +1,7 @@
 ---
 layout: post
 title: "The Untouchables Pt 2: Offline TouchBar activation with a purged disk"
-description: "A few days ago I wrote a post about a new activation mechanism for the TouchBar/WatchOS hybrid device.
-
-After doing some more tests, I began to discover something interesting..."
+description: "I've got FDRData in my ESP."
 tags: [Activation, macOS, watchOS, TouchBar, MacBook Pro, Sierra]
 comments: true
 ---
@@ -11,7 +9,7 @@ comments: true
 ### Preface
 While I have tried to document and piece together as much as possible here, some of the statements could be inaccurate. Until Apple posts more information about this process, take everything you read below with a grain of salt. If you choose to use the methodologies in production, I offer no warranties to the integrity of your sytem.
 
-If you just want the answer, go to `Baking The Cake`
+If you just want the answer, go to [Baking The Cake](#baking-the-cake)
 
 ### ROOT_DARWIN_USER_TEMP_DIR
 While the preflight container data located in _/Library/Updates/PreflightContainers_ (Example: /Library/Updates/PreflightContainers/865FA1BB-3EF6-4F77-A4B7-01529BCE33F0.preflightContainer) changed each reboot, there was one common folder across all of my test machines:
@@ -168,3 +166,7 @@ Quite a bit of time has been taken to piecemeal this together. While it has been
 This _will_ impact both imaging workflows _and_ DEP workflows and __once__ again, people who _"remain in the past"_ can continue to fully automate this process if needed.
 
 Modern workflows? Yeah about that...
+
+## Table Of Contents
+* Do not remove this line (it will not be displayed)
+{:toc}

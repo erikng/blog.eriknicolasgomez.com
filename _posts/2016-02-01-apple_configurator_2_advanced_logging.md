@@ -21,3 +21,7 @@ defaults delete ~/Library/Containers/com.apple.configurator.ui/Data/Library/Pref
 ```
 
 Enjoy.
+
+## Table Of Contents
+* Do not remove this line (it will not be displayed)
+{:toc}

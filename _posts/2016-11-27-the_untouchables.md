@@ -5,7 +5,7 @@ description: "A critical software update is required for your Mac."
 tags: [Activation, macOS, watchOS, Touch Bar, MacBook Pro, Sierra]
 comments: true
 ---
-![Critical Update Hero](/images/critical_update.jpg "Critical Update Hero")
+![Critical Update Hero](/images/2016/11/critical_update.jpg "Critical Update Hero")
 
 ---
 
@@ -15,7 +15,7 @@ Last week [Joe Chilcote](https://twitter.com/chilcote) discovered an interesting
 
 Given that I did not see this issue when testing DEP, I set forth to to attempt to duplicate the issue and find out what triggered this event.
 
-(If you don't want to read this whole post or want to dupe the radars I submitted, scroll down to `As a macadmin, does this impact me?` for a TL;DR version.)
+(If you don't want to read this whole post or want to dupe the radars I submitted, scroll down to [As a macadmin, does this impact me?](#as-a-macadmin-does-this-impact-me) for a TL;DR version.)
 
 ## Critical Software Update?
 
@@ -31,7 +31,7 @@ I was initially worried about this discovery due to it breaking a _very_ typical
 
 Upon reboot, SetupAssistant was _not_ skipped and you were instead greeted with this lovely screen:
 
-![Critical Update 1](https://github.com/erikng/blogposts/blob/master/SierraTBP/Critical%20Software%20Update%201.png?raw=true "Critical Update 1")
+![Critical Update 1](/images/2016/11/Critical_Software_Update_1.png "Critical Update 1")
 
 Attempting to skip this page would lead to an additional failure:
 
@@ -39,10 +39,10 @@ Attempting to skip this page would lead to an additional failure:
 
 Even more worrying was the final note:
 `Your Mac can't be used until this update is installed. Shutdown / Try Again`
-![Critical Update 2](https://github.com/erikng/blogposts/blob/master/SierraTBP/Critical%20Software%20Update%202.png?raw=true "Critical Update 2")
+![Critical Update 2](/images/2016/11/Critical_Software_Update_2.png "Critical Update 2")
 
 If you did connect your TBP to an online source, the critical update was downloaded, installed and your system was rebooted.
-![Critical Update 3](https://github.com/erikng/blogposts/blob/master/SierraTBP/Critical%20Software%20Update%203.png?raw=true "Critical Update 3")
+![Critical Update 3](/images/2016/11/Critical_Software_Update_3.png "Critical Update 3")
 
 This entire process takes about two minutes to finish and then you can login into the Mac. Obviously a lot of engineering effort went into this - this is not a fluke.
 
@@ -356,7 +356,7 @@ Given that iOS has had difficulty in the past with time, I hopped in my DeLorean
 
 While there were no logging events with EmbeddedOSInstall, the user experience was terrible. This is what the user sees for 2+ minutes.
 
-![1970 TouchBar](https://github.com/erikng/blogposts/blob/master/SierraTBP/01-01-1970_TBP.png?raw=true "1970 TouchBar")
+![1970 TouchBar](/images/2016/11/01-01-1970_TBP.png?raw=true "1970 TouchBar")
 
 One can imagine that the OS is no longer validated, but why doesn't Apple attempt to detect a network, and then run `ntpdate` if the time if incorrect? While I have not submitted a radar for this, I plan very soon. Why Apple continues to not test time sync situations is beyond me.
 
@@ -411,3 +411,7 @@ We need answers and we need answers soon. Leaving us in the dark about future pr
 Bring back the portion of WWDC for macadmins - invite us! We would love to talk! :)
 
 Thanks to [Michael Lynn](https://twitter.com/mikeymikey) and [Pepijn Bruienne](https://twitter.com/bruienne) for working with me late Wednesday night. As we continue to dissect this, I hope to see more in-depth discoveries.
+
+## Table Of Contents
+* Do not remove this line (it will not be displayed)
+{:toc}

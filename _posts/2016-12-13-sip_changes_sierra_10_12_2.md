@@ -19,7 +19,7 @@ Please note that you will need to run this as _root_. To see if the command was 
 
 Example:
 
-```bash
+```python
 csrutil status
 System Integrity Protection status: disabled.
 
@@ -42,3 +42,7 @@ I have asked for an enhancement to mimic the behavior of `fdesetup status`
 Hopefully Apple can have `csrutil status` show something like this:
 
 System Integrity Protection is Off, but will be enabled after the next restart.
+
+## Table Of Contents
+* Do not remove this line (it will not be displayed)
+{:toc}

@@ -38,7 +38,7 @@ Unfortunately for the 3rd item, this cannot be modified, as Apple automatically 
 ## Down the rabbit hole we go...
 If you go to System Preferences -> Desktop & Screen Saver and change your wallpaper you will notice that immediately com.apple.desktop.admin.png is changed, the loginwindow is updated and if you reboot, the FileVault pre-boot is also updated.
 
-![loginwindow](https://raw.githubusercontent.com/erikng/blogposts/master/SierraDesktop/loginwindow.png)
+![loginwindow](/images/2016/09/loginwindow.png)
 
 Let's do a quick inspection into what could be happening:
 
@@ -186,7 +186,7 @@ Well look at that. `loginui_background.png` :tada:
 
 So what exactly is that file?
 
-![loginui_background](https://raw.githubusercontent.com/erikng/blogposts/master/SierraDesktop/loginui_background.png)
+![loginui_background](/images/2016/09/loginui_background.png)
 
 Oh look, it's the same file as `com.apple.desktop.admin.png`!
 
@@ -298,8 +298,8 @@ Here are the exact steps to have a working/admin deployed LoginUI:
 * ensure root was the owner (Example: `chown root:wheel /Library/Caches/com.apple.desktop.admin.png` )
 * ensure it was world readable (Example: `chmod 755 /Library/Caches/com.apple.desktop.admin.png`
 * set idempotent flag, so it cannot be overwritten (Example: `chflags uchg /Library/Caches/com.apple.desktop.admin.png`)
-<del>* delete the unprotected EFI caches (Exmaple: `rm -rf /System/Library/Caches/com.apple.corestorage/EFILoginLocalizations/*.*`)</del>
-<del> * force a rebuild of the cache (Example: `/usr/sbin/kextcache -fu /`)</del>
+* ~~delete the unprotected EFI caches (Example: `rm -rf /System/Library/Caches/com.apple.corestorage/EFILoginLocalizations/*.*`)~~
+* ~~force a rebuild of the cache (Example: `/usr/sbin/kextcache -fu /`)~~
 
 ## Update 2
 
@@ -334,3 +334,7 @@ I recommend opening up your wallpaper in `Preview.app` and then saving it. This 
 
 
 *This post proudly brought to you by, 3.5mm jack headphones.
+
+## Table Of Contents
+* Do not remove this line (it will not be displayed)
+{:toc}
