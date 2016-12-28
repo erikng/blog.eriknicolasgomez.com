@@ -7,6 +7,7 @@ comments: true
 ---
 
 With the release of macOS Sierra 10.12.2, Apple has made one welcome change to System Integrity Protection (SIP): you can now re-enable the feature without being booted into the Recovery partition!
+
 ## How To
 To re-enable SIP, you run the following command:
 
