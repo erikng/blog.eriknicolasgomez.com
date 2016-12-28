@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Using Luggage, Outset and Yo for awesome User Notifications"
-description: "A powerful tooling combinations."
+description: "A powerful tooling combination."
 tags: [Luggage, Outset, Yo, Notifications, macOS, OS X]
 comments: true
 ---
@@ -12,7 +12,7 @@ Enter [Yo](https://github.com/sheagcraig/yo). Written by Craig Shea and utilizin
 
 By utilizing [Outset](https://github.com/chilcote/outset), [Luggage](https://github.com/unixorn/luggage), and Yo, we can create a user login condition that will notify the user of available documentation.
 
-![Yo Screenshot](https://onemoreadmin.files.wordpress.com/2015/03/yo.png "Yo Screenshot")
+![Yo Screenshot](/images/2015/03/yo.png "Yo Screenshot")
 
 ## Let's begin...
 
@@ -32,7 +32,7 @@ mkdir -p ~/Desktop/YoExample
 
 If you have Pages, go ahead and make a document, export as a PDF and save it to our working directory. In this example, let's use <strong>yo.pdf</strong>.
 
-![Pages Screenshot](https://onemoreadmin.files.wordpress.com/2015/03/screen-shot-2015-03-26-at-6-40-05-pm.png "Pages Screenshot")
+![Pages Screenshot](/images/2015/03/Pages_SS.png "Pages Screenshot")
 
 Outset is a powerful tool that allows you to run packages/scripts at various stages. Let's create a script and save it in our working directory. Outset requires that your scripts contain the proper extension, so don't forget it.
 
@@ -156,15 +156,15 @@ Luggage will ask you for your password. If everything goes right, a package will
 
 Please note that Luggage is very particular with tab spacing and it is possible that wordpress will strip them. See the bottom of the post for the actual files.
 
-![Luggage Screenshot](https://onemoreadmin.files.wordpress.com/2015/03/screen-shot-2015-03-26-at-7-24-05-pm.png "Luggage Screenshot")
+![Luggage Screenshot](/images/2015/03/Luggage_SS.png "Luggage Screenshot")
 
 With your package in tow, install it, reboot (or logout) and log back in to see your notification appear.
 
-![Yo Example](https://onemoreadmin.files.wordpress.com/2015/03/yo.png "Yo Example")
+![Yo Example](/images/2015/03/yo.png "Yo Example")
 
 If you click on Open PDF, you should see something like this:
 
-![Yo Example2 ](https://onemoreadmin.files.wordpress.com/2015/03/yopdf.png "Yo Example 2")
+![Yo Example2 ](/images/2015/03/yopdf.png "Yo Example 2")
 
 Great! You have a fully functioning setup for all users, and a deployable package. You can stop here but what if you want more?
 
@@ -181,13 +181,13 @@ Browse to your YoExample folder, and a new folder called __yo__ will now exist. 
 
 Expand the root yo folder, the sub folder called yo and the Supporting Files folder. Click on `Images.xcassets` and then click on AppIcon. Drag and drop any PNG image (size 128x128) into the Mac 128pt 1x area and replace the original icon. Here is a great icon you could use.
 
-![NeagleCon](https://onemoreadmin.files.wordpress.com/2015/03/neaglecon.png "NeagleCon")
+![NeagleCon](/images/2015/03/neaglecon.png "NeagleCon")
 
-![Xcode 1](https://onemoreadmin.files.wordpress.com/2015/03/xcodeicon.png "Xcode 1")
+![Xcode 1](/images/2015/03/xcodeicon.png "Xcode 1")
 
-Now that we've replaced the icon, let's change the BundleIdentifier to ensure our new icon will take effect. Click on <strong>Info.plist </strong>and change the bundle identifier to something you see fit. In this example let's use <em>com.github.erikng</em>.
+Now that we've replaced the icon, let's change the BundleIdentifier to ensure our new icon will take effect. Click on __Info.plist__ and change the bundle identifier to something you see fit. In this example let's use `com.github.erikng`.
 
-![Xcode 2](https://onemoreadmin.files.wordpress.com/2015/03/xcodeinfo.png "Xcode 2")
+![Xcode 2](/images/2015/03/xcodeinfo.png "Xcode 2")
 
 With our changes made, let's save the project (CMD +S) and build our project (CMD+B).
 
@@ -218,8 +218,8 @@ nano Makefile
 
 Your package will regenerate and now include your customized application. Install the new package, log out and log back in and your notification should re-appear, but look different.
 
-![Yo Notification](https://onemoreadmin.files.wordpress.com/2015/03/yonotification1.png "Yo Notification")
+![Yo Notification](/images/2015/03/yonotification1.png "Yo Notification")
 
-Congrats! You now have a customized notification that will appear for all of your users and a package you can deploy out with your <a href="https://github.com/munki/munki" target="_blank">favorite deployment tool.</a>
+Congrats! You now have a customized notification that will appear for all of your users and a package you can deploy out with your [favorite deployment tool](https://github.com/munki/munki).
 
-If you'd like to use my own example go [here](https://github.com/erikng/blogposts) for all the necessary files.
+If you'd like to use my own example go [here](https://github.com/erikng/blogposts/tree/master/YoExample) for all the necessary files.

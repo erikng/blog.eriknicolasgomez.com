@@ -6,7 +6,8 @@ tags: [El Capitan, SUS, Caching, Server, macOS, OS X]
 comments: true
 ---
 
-Update: As of December 8th, 2015, this issue is now resolved.
+Update 1: As of December 8th, 2015, this issue is now resolved.
+
 In order to have this fully corrected you must have:
 
 - El Capitan 10.11.2 for clients

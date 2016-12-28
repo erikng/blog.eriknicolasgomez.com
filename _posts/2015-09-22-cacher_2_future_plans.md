@@ -6,9 +6,9 @@ tags: [Cacher, Server, macOS, OS X]
 comments: true
 ---
 
-## Current State
+If you're reading this, chances are you know about [Cacher](https://github.com/erikng/Cacher). If you haven't, please read my previous article detailing Cacher and how to set it up. You can find it [here](/2015/05/19/cacher.html)
 
-If you're reading this, chances are you know about [Cacher](https://github.com/erikng/Cacher). If you haven't, please read my previous article detailing Cacher and how to set it up. You can find it [here](https://onemoreadmin.wordpress.com/2015/05/19/re-introducing-cacher/)
+## Current State
 
 With the release of Apple's Server 5, iOS 9 and El Capitan, Cacher has been receiving some increased attention. To add to that, a few of my buddies have been tweeting about it (Thanks [Ben](https://macmule.com/) and [Arek](http://arekdreyer.com))
 

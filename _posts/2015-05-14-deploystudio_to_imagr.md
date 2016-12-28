@@ -144,7 +144,7 @@ spctl --master-disable
 ```
 
 ## DS Generic Task
-Basically everything we are doing here are considered "Generic Tasks". See [my other post](https://onemoreadmin.wordpress.com/2015/05/14/using-munki-manifest-selector-with-imagr/) for an approach to non-scripted generic tasks.
+Basically everything we are doing here are considered "Generic Tasks". See [my other post](/2015/05/14/munki_manifest_selector_with_imagr.html) for an approach to non-scripted generic tasks.
 
 ## DS Package Install Task
 Packages are very straight forward
@@ -182,7 +182,7 @@ chmod 644 "{{target_volume}}/Library/Preferences/com.apple.SoftwareUpdate.plist"
 ## Time Task
 [Rich Trouton](https://github.com/rtrouton/rtrouton_scripts/blob/master/rtrouton_scripts/time_settings/time_settings.sh) has a great script to accomplish this.
 
-```xml
+```bash
 <dict>
   <key>type</key>
   <string>script</string>
@@ -232,7 +232,7 @@ I would highly recommend that you package this as saving this directly in the im
 
 With that said, [Sir Gilbert](https://github.com/grahamgilbert/macscripts/blob/master/AD%20Bind/postinstall) has a great script for this (taken from DS.)
 
-```xml
+```bash
 <dict>
   <key>type</key>
   <string>script</string>

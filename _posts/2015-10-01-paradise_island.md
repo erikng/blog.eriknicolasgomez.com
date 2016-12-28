@@ -10,7 +10,7 @@ Yesterday, El Capitan came out and with it came great fanfare...except if you ar
 
 Maybe there is a [Microsoft bug](https://support.microsoft.com/en-us/kb/3098396) holding you back or perhaps it's even an [Apple One](https://forums.developer.apple.com/message/47409#47409). Regardless,  when your users now open the App Store update tab, they will see this.
 
-![Lovely](https://onemoreadmin.files.wordpress.com/2015/10/screen-shot-2015-10-01-at-6-54-34-am.png)
+![Lovely](/images/2015/10/lovely.png)
 
 Lovely.
 
@@ -58,7 +58,7 @@ If you notice, there is a `context-menu` class that contains the phrase `hideosu
 ### Method 1 - Right Click - Hide Update
 Any user can simply right click on the banner and select `Hide Update`
 
-![Hide Update](https://onemoreadmin.files.wordpress.com/2015/10/screen-shot-2015-10-01-at-7-29-28-am.png)
+![Hide Update](/images/2015/10/hideupdate.png)
 
 Simple enough right? But what actually happens when you press this button?
 
@@ -104,4 +104,4 @@ If you have never used munki-pkg before, it is a very straight forward approach 
 
 ## Sorry Apple!
 
-![Jack](https://media2.giphy.com/media/wxYgRoM7xDHP2/200_s.gif)
+![Jack](/images/2015/10/lost.gif)
