@@ -5,7 +5,7 @@ description: "A simple way to configure the touchbar for your users."
 tags: [Touch Bar, MacBook Pro, macOS, Sierra]
 comments: true
 ---
-![MiniBar Hero](https://github.com/erikng/blogposts/blob/master/ControlStrip/Customized%20Touch%20Bar.png?raw=true "MiniBar Hero")
+![MiniBar Hero](/images/Customized_Touch_Bar.png "MiniBar Hero")
 
 ---
 
@@ -16,13 +16,13 @@ The following is a brief overview on how to quickly set these defaults.
 ## The Control Strip
 The Control Strip is the persistant, right area of the Touch Bar. You can customize four quick use actions.
 
-![Control Strip](https://github.com/erikng/blogposts/blob/master/ControlStrip/macbook-pro-touch-bar-control-strip-tech-spec.jpg?raw=true "Control Strip")
+![Control Strip](/images/macbook-pro-touch-bar-control-strip-tech-spec.jpg "Control Strip")
 
 You can customize it through System Preferences -> Keyboard -> Customize Touch Bar
 
 Once there, a GUI overlay will be displayed, allowing you to drag the desired customization directly to the Touch Bar.
 
-![Control Strip Customization](https://github.com/erikng/blogposts/blob/master/ControlStrip/ControlStripUI.jpg?raw=true "Control Strip Customization")
+![Control Strip Customization](/images/ControlStripUI.jpg "Control Strip Customization")
 
 
 ## How to configure the Control Strip
@@ -138,7 +138,7 @@ killall ControlStrip
 
 Your users would then be left with the following:
 
-![Customized Control Strip](https://github.com/erikng/blogposts/blob/master/ControlStrip/Customized%20Touch%20Bar.png?raw=true "Customized Control Strip")
+![Customized Control Strip](/images/Customized_Touch_Bar.png "Customized Control Strip")
 
 ## Final Notes
 While some macadmins hate over-managing configurations, there is some benefits to this approach:
