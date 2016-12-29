@@ -76,7 +76,7 @@
 	{% if page.image %}
 	  <meta content="{{ site.url }}/images/{{ page.image }}" property="og:image">
 	{% else %}
-	  <meta content="{{ site.url }}/images/banner.png" property="og:image">
+	  <meta content="{{ site.url }}/images/banner.jpg" property="og:image">
 	{% endif %}
 	{% if page.categories %}
 	  {% for category in page.categories limit:1 %}
@@ -109,7 +109,7 @@
 	{% if page.image %}
 	  <meta name="twitter:image:src" content="{{{ site.url }}/images/{{ page.image }}">
 	{% else %}
-	  <meta name="twitter:image:src" content="{{ site.url }}/images/banner.png">
+	  <meta name="twitter:image:src" content="{{ site.url }}/images/banner.jpg">
 	{% endif %}
 
     <!--[if lte IE 8]><script src="js/html5shiv.js"></script><![endif]-->
