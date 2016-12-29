@@ -25,9 +25,68 @@
     <meta http-equiv="cleartype" content="on">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <base href="/">
-    <link href="/feed.xml" type="application/rss+xml" rel="alternate" title="RSS Feed for blog.eriknicolasgomez.com" />
+    
+    <!-- RSS -->
+    <link href="{{ site.url }}/feed.xml" type="application/atom+xml" rel="alternate" title="{{ site.title }} RSS Feed">
     <meta http-equiv="content-type" content="text/html; charset=utf-8" />
     <meta name="keywords" content="" />
+
+    <!-- Twitter Cards -->
+    {% if site.owner.twitter %}
+    {% if page.image.hero %}
+        <meta name="twitter:card" content="summary_large_image">
+        <meta name="twitter:image" content="{{ site.url }}/images/posts/{{ page.image.hero }}">
+    {% else %}
+        {% if page.image.thumb %}
+        <meta name="twitter:card" content="summary">
+        <meta name="twitter:image" content="{{ site.url }}/images/posts/{{ page.image.thumb }}">
+        {% else %}
+        <meta name="twitter:card" content="summary_large_image">
+        <meta name="twitter:image" content="{{ site.url }}/images/social/twitter-card.png">
+        {% endif %}
+    {% endif %}
+    <meta name="twitter:title" content="{% if page.title %}{{ page.title }}{% else %}{{ site.title }}{% endif %}">
+    <meta name="twitter:description" content="{% if page.description %}{{ page.description }}{% else %}{{ site.description }}{% endif %}">
+    <meta name="twitter:creator" content="@{{ site.owner.twitter }}">{% endif %}
+
+    <!-- Open Graph -->
+	<meta content="{{ site.title }}" property="og:site_name">
+	{% if page.title %}
+	  <meta content="{{ page.title }}" property="og:title">
+	{% else %}
+	  <meta content="{{ site.title }}" property="og:title">
+	{% endif %}
+	{% if page.title %}
+	  <meta content="article" property="og:type">
+	{% else %}
+	  <meta content="website" property="og:type">
+	{% endif %}
+	{% if page.description %}
+	  <meta content="{{ page.description }}" property="og:description">
+	{% else %}
+	  <meta content="{{ site.description }}" property="og:description">
+	{% endif %}
+	{% if page.url %}
+	  <meta content="{{ site.url }}{{ page.url }}" property="og:url">
+	{% endif %}
+	{% if page.date %}
+	  <meta content="{{ page.date | date_to_xmlschema }}" property="article:published_time">
+	  <meta content="{{ site.url }}/about/" property="article:author">
+	{% endif %}
+	{% if page.image %}
+	  <meta content="/images/{{ page.title }}/{{ page.image }}" property="og:image">
+	{% endif %}
+	{% if page.categories %}
+	  {% for category in page.categories limit:1 %}
+	  <meta content="{{ category }}" property="article:section">
+	  {% endfor %}
+	{% endif %}
+	{% if page.tags %}
+	  {% for tag in page.tags %}
+	  <meta content="{{ tag }}" property="article:tag">
+	  {% endfor %}
+	{% endif %}
+
     <!--[if lte IE 8]><script src="js/html5shiv.js"></script><![endif]-->
     <script src="{{ site.baseurl }}/js/jquery.min.js"></script>
     <script src="{{ site.baseurl }}/js/skel.min.js"></script>
