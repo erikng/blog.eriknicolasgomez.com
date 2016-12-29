@@ -9,6 +9,7 @@ baseurl: "" # the subpath of your site, e.g. /blog/
 url: "http://blog.eriknicolasgomez.com" # the base hostname & protocol for your site
 twitter_username: Contains_ENG
 github_username:  erikng
+author: Erik Gomez
 
 # Build settings
 markdown: kramdown
@@ -22,3 +23,16 @@ sass:
 
 paginate: 6
 permalink: pretty
+gems:
+  - jekyll-seo-tag
+
+# Jekyll SEO Tag
+twitter:
+  username: Contains_ENG
+logo: /images/banner.jpg
+social:
+  name: Erik Gomez
+  links:
+    - https://twitter.com/Contains_ENG
+    - https://www.linkedin.com/in/eriknicolasgomez
+    - https://github.com/erikng
