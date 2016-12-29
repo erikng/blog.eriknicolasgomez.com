@@ -5,6 +5,7 @@ title: "Managing Sierra's Loginwindow - Redux"
 description: "An easier approach to managing the loginwindow."
 tags: [Loginwindow, macOS, Sierra, EFI, Wallpaper, Macadmin]
 published: true
+date: 2016-12-28 17:16:08
 comments: true
 ---
 
