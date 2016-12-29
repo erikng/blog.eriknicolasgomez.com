@@ -31,25 +31,7 @@
     <meta http-equiv="content-type" content="text/html; charset=utf-8" />
     <meta name="keywords" content="" />
 
-    <!-- Twitter Cards -->
-    {% if site.owner.twitter %}
-    {% if page.image.hero %}
-        <meta name="twitter:card" content="summary_large_image">
-        <meta name="twitter:image" content="{{ site.url }}/images/posts/{{ page.image.hero }}">
-    {% else %}
-        {% if page.image.thumb %}
-        <meta name="twitter:card" content="summary">
-        <meta name="twitter:image" content="{{ site.url }}/images/posts/{{ page.image.thumb }}">
-        {% else %}
-        <meta name="twitter:card" content="summary_large_image">
-        <meta name="twitter:image" content="{{ site.url }}/images/social/twitter-card.png">
-        {% endif %}
-    {% endif %}
-    <meta name="twitter:title" content="{% if page.title %}{{ page.title }}{% else %}{{ site.title }}{% endif %}">
-    <meta name="twitter:description" content="{% if page.description %}{{ page.description }}{% else %}{{ site.description }}{% endif %}">
-    <meta name="twitter:creator" content="@{{ site.owner.twitter }}">{% endif %}
-
-    <!-- Open Graph -->
+	<!-- Open Graph -->
 	<meta content="{{ site.title }}" property="og:site_name">
 	{% if page.title %}
 	  <meta content="{{ page.title }}" property="og:title">
