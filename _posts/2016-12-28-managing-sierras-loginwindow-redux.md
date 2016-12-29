@@ -11,7 +11,7 @@ comments: true
 
 [A few months ago](/2016/09/24/apples-efi-logonui-managing-macos-sierras-wallpaper) I wrote a post detailing how to manage the EFI lock screen, loginwindow and trigger the EFI cache. It was updated many times throughout the following days and inevitably caused some confusion.
 
-It turns out, most admins only want to configure the loginwindow and I decided to document an easier process.
+It turns out, most admins only want to set the background image of the loginwindow and I decided to document an easier process.
 
 #### TL;DR Version?
 Read the [How To](#how-to-again) and if you're interested - use the [script](#example-script)
