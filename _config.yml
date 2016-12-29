@@ -36,3 +36,8 @@ social:
     - https://twitter.com/Contains_ENG
     - https://www.linkedin.com/in/eriknicolasgomez
     - https://github.com/erikng
+defaults:
+  - scope:
+      path: ""
+    values:
+      image: /images/banner.jpg
