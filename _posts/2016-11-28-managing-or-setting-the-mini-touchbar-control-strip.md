@@ -4,6 +4,7 @@ title: "Managing (or setting) the Mini TouchBar Control Strip"
 description: "A simple way to configure the touchbar for your users."
 tags: [Touch Bar, MacBook Pro, macOS, Sierra]
 comments: true
+logo: /images/2016/11/Customized_Touch_Bar.png
 ---
 ![MiniBar Hero](/images/2016/11/Customized_Touch_Bar.png "MiniBar Hero")
 
