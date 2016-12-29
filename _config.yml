@@ -29,7 +29,7 @@ gems:
 # Jekyll SEO Tag
 twitter:
   username: Contains_ENG
-logo: /images/banner.jpg
+image: /images/banner.jpg
 social:
   name: Erik Gomez
   links:
