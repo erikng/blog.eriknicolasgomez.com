@@ -13,11 +13,25 @@ comments: true
 
 It turns out, most admins only want to set the background image of the loginwindow and I decided to document an easier process.
 
+#### Update 1
+The incredibly talented [Victor Vrantchan](https://groob.io/) released a CLI tool written in Go to convert any png/jpg to a png with an Alpha Channel. This means you no longer need expensive/proprietary software to make a Sierra supported loginwindow wallpaper.
+
+You can find pngalpha [here](https://github.com/groob/pngalpha/releases)
+
+```bash
+Usage of ./pngalpha:
+  -in string
+        path to input image (jpeg or png)
+  -out string
+        path to output png (default "/Library/Caches/com.apple.desktop.admin.png")
+```
+
+
 #### TL;DR Version?
 Read the [How To](#how-to-again) and if you're interested - use the [script](#example-script)
 
 ## The Wallpaper
-As of 10.12 and higher, your wallpaper __must__ contain an Alpha channel. This part confused many admins who either had a black loginwindow or the default Sierra background. 
+As of 10.12 and higher, your wallpaper __must__ contain an Alpha channel. This part confused many admins who either had a black loginwindow or the default Sierra background.
 
 Unfortunately, one of my favorite tools, __Pixelmator__, does [not](http://support.pixelmator.com/viewtopic.php?f=4&t=12365) have support for this feature. It doesn't look like they have any [plans](http://support.pixelmator.com/viewtopic.php?f=4&t=9598) to either.
 
