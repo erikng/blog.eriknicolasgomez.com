@@ -25,6 +25,7 @@ paginate: 6
 permalink: pretty
 gems:
   - jekyll-seo-tag
+  - jemoji
 
 # Jekyll SEO Tag
 twitter:
