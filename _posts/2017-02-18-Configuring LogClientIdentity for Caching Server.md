@@ -86,30 +86,30 @@ caching:LocalSubnetsOnly = yes
 
 ## Cacher plug
 
-As of [Cacher 3.0.2](https://github.com/erikng/Cacher/releases/tag/3.0.2), Cacher will now detect your LogClientIdentity settings and warn if they are incorrectly configured. Whether the value is missing or incorrectly set, you can correct this by running `sudo Cacher --configureserver`
+As of [Cacher 3.0.3](https://github.com/erikng/Cacher/releases/tag/3.0.3), Cacher will now detect your LogClientIdentity settings and warn if they are incorrectly configured. Whether the value is missing or incorrectly set, you can correct this by running `sudo cacher.py --configureserver`
 
 Also, if you attempt to run Cacher on logs without LogClientIdentity, it will now warn you:
 > WARNING: Found %s logs that did not contain the client identity. These logs have been dropped and are not counted in the statistics. More than likely, LogClientIdentity was incorrectly set or not configured on this date.
 
 Example Cacher runs:
 ```
-./Cacher
+./cacher.py
 LogClientIdentity is not set
 
 /Applications/Server.app/Contents/ServerRoot/usr/sbin/serveradmin settings caching:LogClientIdentity = true
-./Cacher
-LogClientIdentity is set to a string value: true
+./cacher.py
+LogClientIdentity is incorrectly set to: true - Type: str
 
 /Applications/Server.app/Contents/ServerRoot/usr/sbin/serveradmin settings caching:LogClientIdentity = True
-./Cacher
-LogClientIdentity is set to a string value: True
+./cacher.py
+LogClientIdentity is incorrectly set to: True - Type: str
 
 /Applications/Server.app/Contents/ServerRoot/usr/sbin/serveradmin settings caching:LogClientIdentity = 1
-./Cacher
-LogClientIdentity is set to an integer value: 1
+./cacher.py
+LogClientIdentity is incorrectly set to: 1 - Type: int
 
 /Applications/Server.app/Contents/ServerRoot/usr/sbin/serveradmin settings caching:LogClientIdentity = yes
-./Cacher
+./cacher.py
 Cacher has retrieved the following stats for 2017-02-18:
 ```
 
