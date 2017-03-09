@@ -15,7 +15,7 @@ For the past five months, I have been working tirelessly on this feature. I must
 Chef, Munki, Puppet, Simian, etc (and the companies using these tools) all stand to benefit from this feature. It is tremendously exciting.
 
 ## Uncertainty in certainty
-As I stated in [Part I](/2017/03/09/Custom-DEP-Part-1-An-Introduction/) of this series, we are in a very unique time. With WWDC 2017 right around the corner, we still have very little idea on what Apple will announce and most importantly, deprecate. It definitely seems like the final nails on the coffin for the following:
+As I stated in [Part I](/2017/03/08/Custom-DEP-Part-1-An-Introduction/) of this series, we are in a very unique time. With WWDC 2017 right around the corner, we still have very little idea on what Apple will announce and most importantly, deprecate. It definitely seems like the final nails on the coffin for the following:
 - Software Update Server
 - Imaging (RIP Imagr, DeployStudio, Casper Imaging, etc)
 

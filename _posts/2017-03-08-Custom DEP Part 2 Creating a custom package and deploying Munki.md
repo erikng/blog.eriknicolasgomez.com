@@ -179,7 +179,7 @@ Depending on your vendor, this process may be automated, but for demonstration p
 
 Now that you have your signed package and corresponding manifest.plist, you can now deploy munki via your MDM server!
 
-Let's look at that process now.
+Let's look at that process now (below is a video, not a picture).
 
 [![DEP YouTube video](https://img.youtube.com/vi/airlXv95XNE/0.jpg)](https://www.youtube.com/watch?v=airlXv95XNE){:target="_blank"}
 
@@ -246,7 +246,7 @@ For this next example, we are going to do the following:
 ```
 - You cannot have nested distribution packages!
 
-6. Create your postinstall script. Save this file as `postinstall` `./munki-pkg/munki_config/scripts . This will example will configure the SoftwareRepoURL for munki. Adapt as needed.
+6. Create your postinstall script. Save this file as `postinstall` in `./munki-pkg/munki_config/scripts` . This example will configure the SoftwareRepoURL for munki. Adapt as needed.
 
 ```bash
 #!/bin/sh
