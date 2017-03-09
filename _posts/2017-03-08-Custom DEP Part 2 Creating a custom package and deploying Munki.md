@@ -251,7 +251,6 @@ For this next example, we are going to do the following:
 ```bash
 #!/bin/sh
 
-# turn off Bluetooth
 if [ "$3" == "/" ]; then
     TARGETVOL=""
 else
