@@ -27,4 +27,5 @@ group :jekyll_plugins do
    gem "rouge"
    gem "jemoji"
    gem "jekyll-seo-tag"
+   gem "jekyll-youtube"
 end
