@@ -181,7 +181,7 @@ Now that you have your signed package and corresponding manifest.plist, you can 
 
 Let's look at that process now.
 
-{% youtube "https://www.youtube.com/watch?v=airlXv95XNE" %}
+[![DEP YouTube video](https://img.youtube.com/vi/airlXv95XNE/0.jpg)](https://www.youtube.com/watch?v=airlXv95XNE){:target="_blank"}
 
 If you pay close attention, as the device was scrolling down the /Applications list, Managed Software Center finished installing.
 
