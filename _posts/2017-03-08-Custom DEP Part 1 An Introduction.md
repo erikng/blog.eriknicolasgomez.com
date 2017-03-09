@@ -105,7 +105,7 @@ This major MDM vendor will allow us (you!) to supply your own, **company signed*
 
 Here is a visual reference on how this will work:
 
-![DEP_InstallApplication_Custom](/images/2017/03/dep_installapplication_Custom.png)
+![DEP_InstallApplication_Custom](/images/2017/03/dep_installapplication_custom.png)
 
 ### Coming soon to a MDM near you...
 Expect this feature soon. How soon? Very soon.
