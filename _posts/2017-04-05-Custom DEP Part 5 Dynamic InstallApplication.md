@@ -7,7 +7,6 @@ tags: [macOS, DEP, MDM, EMM, InstallApplication, mdmclient]
 published: true
 date: 2017-04-05 18:55:00
 comments: true
-image: /images/2017/03/dep_installapplication_Custom.png
 ---
 
 Last month I outlined an upcoming feature for a major MDM vendor. In this time, I have received a lot of amazing feedback, but there have also been some questions that have come up.
