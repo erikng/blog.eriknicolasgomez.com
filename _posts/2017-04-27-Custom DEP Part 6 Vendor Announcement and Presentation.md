@@ -18,6 +18,8 @@ You can find my presentation slides [here](/media/pdf/macbrained_april.pdf)
 I also announced a few open source projects that you might be interested in.
 
 ## DEPNotify
+![](/images/2017/04/depnotify_300.png)
+
 DEPNotify is a UI tool for showing your users the status of your DEP enrollment process.
 
 ![](/images/2017/04/depnotify_ui.png)
@@ -26,18 +28,14 @@ DEPNotify is a UI tool for showing your users the status of your DEP enrollment 
 
 [#depnotify](https://macadmins.slack.com/messages/depnotify/details/) on Slack MacAdmins
 
-![](/images/2017/04/depnotify_300.png)
-
 ## InstallApplications
-InstallApplications is a tool I recently open sourced and blogged about in [Part 5](/2017/04/05/Custom-DEP-Part-5-Dynamic-InstallApplication/) . This works around the limitations of mdmclient/InstallApplication.
+![](/images/2017/04/installapplications_300.png)
 
-![](/images/2017/04/depnotify_ui.png)
+InstallApplications is a tool I recently open sourced and blogged about in [Part 5](/2017/04/05/Custom-DEP-Part-5-Dynamic-InstallApplication/) . This works around the limitations of mdmclient/InstallApplication.
 
 [https://github.com/erikng/installapplications](https://github.com/erikng/installapplications)
 
 [#installapplications](https://macadmins.slack.com/messages/installapplications/details/) on Slack MacAdmins
-
-![](/images/2017/04/installapplications_300.png)
 
 # It's an exciting time to be a macadmin
 As I said months ago, it's an exciting time to be a macadmin. We now have vendors that are forward thinking and will allow us to have flexible DEP deployments, custom tailored to each company's unique requirements.
