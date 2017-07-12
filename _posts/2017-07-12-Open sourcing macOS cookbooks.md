@@ -29,7 +29,7 @@ Here are a few you should definitely look at:
 
 You can find Facebook's repo [here](https://github.com/facebook/IT-CPE/tree/master/chef)
 
-## You can also find another blog post that I wrote at my current employer [here](https://medium.com)
+## You can also find another blog post that I wrote at my current employer [here](https://medium.com/@Pinterest_Engineering/chef-new-open-source-it-cookbooks-for-macos-2fb2a23f9f7c)
 
 ## Table Of Contents
 * Do not remove this line (it will not be displayed)
