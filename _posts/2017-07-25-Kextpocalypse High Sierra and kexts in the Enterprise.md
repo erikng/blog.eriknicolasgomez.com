@@ -130,11 +130,10 @@ As you can see below, the tool was able to find kexts that mdfind didn't see, bu
 Once you have identified which products your company uses that may be impacted by this change, you should communicate with your security team (if you have one). You may find out that some of the tools your company uses are directly needed for **compliancy and/or security** reasons.
 
 ## What if our company needs product X for compliance/security reasons?
-
 If this is the case, you may need to re-think your strategy around macOS. If you cannot adequately stay in compliance, these devices may no longer suite your business needs. Regardless, **these decisions should not be taken lightly and should not be decided by your IT organization**. You should consult with your company's senior leadership before making any actions.
 
 ## Interim communication with your helpdesk
-The `spctl kext-consent` command is similar to the `csrutil` command as it stores it's values in **NVRAM**. This means that if the [PRAM is reset](https://support.apple.com/en-us/HT204063), the kext-consent values are now reset to the _default_ values.
+The `spctl kext-consent` command is similar to the `csrutil` command as it stores it’s values in **NVRAM**, and in that the machine must be booted from Recovery or Netboot to correctly set the values. This means that if the [PRAM is reset](https://support.apple.com/en-us/HT204063), the kext-consent values are now reset to the _default_ values.
 
 - If you have completely disabled kext-consent, it is now active.
 - If you had trusted Team ID's via the spctl command, they are no longer trusted.
