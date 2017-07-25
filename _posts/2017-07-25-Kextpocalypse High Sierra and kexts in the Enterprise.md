@@ -137,9 +137,11 @@ If this is the case, you may need to re-think your strategy around macOS. If you
 The `spctl kext-consent` command is similar to the `csrutil` command as it stores it's values in **NVRAM**. This means that if the [PRAM is reset](https://support.apple.com/en-us/HT204063), the kext-consent values are now reset to the _default_ values.
 
 - If you have completely disabled kext-consent, it is now active.
-- If you had trusted Team ID's, they are no longer trusted.
+- If you had trusted Team ID's via the spctl command, they are no longer trusted.
 
 Put simply, PRAM resets should **not be used for basic troubleshooting** and should only be used as a last resort. If your technicians do this, you may want to have some documentation on how to re-add the Team ID's in the recovery OS.
+
+Note: Team ID's trusted via the GUI will still be trusted.
 
 ## What if my users are not admins?
 As the `Security & Privacy` section in _System Preferences_ requires admin rights to unlock, standard users are not allowed to authorize kext consent. You may have to modify the [authorization database](https://developer.apple.com/library/content/technotes/tn2095/_index.html) to allow this, which may not be an acceptable workaround for your company.
@@ -159,7 +161,7 @@ As currently architected, enterprise customers using DEP **do not** have the abi
 4. If you use DEP/MDM only - file additional tickets asking how you are supposed to use `spctl kext-consent`.
 
 # Final Thoughts
-On July 20th, someone on twitter posted an email from Apple Developer Relations:
+On July 20th, [Felix Schwarz](https://twitter.com/felix_schwarz/status/887945239977242624) on Twitter posted an email from Apple Developer Relations:
 
 ![Kextpocalypse](https://pbs.twimg.com/media/DFKbICyXgAAyC-u?format=jpg)
 
