@@ -81,7 +81,7 @@ Because of this, the following tutorial will make an assumption that _all_ macOS
 
 These four settings will ensure that DEP is mandatory for all macOS devices. `Await Configuration` is an interesting command in that your custom DEP package will begin to download (and possibly install if it's very small) _prior_ to the SetupAssistant finishing.
 
-![AirWatch - DEP Features](/images/2017/07/AirWatch_DEP_Features.png)
+![AirWatch - DEP Features](/images/2017/07/Airwatch_DEP_Features.png)
 
 ### Configuring DEP SetupAssistant
 For most custom DEP enrollments (especially ones that require authentication), there will only be a few settings that administrator cares about.
@@ -139,7 +139,7 @@ Now that you have a DEP profile assigned and set as default, you need to add som
 - If successful, your devices will show up in the **Enrollment Status** page
 - If your devices have successfully been assigned your DEP profile, they will have a **Registered** status
 
-![Apple - DEP Assign Devices Success](/images/2017/07/DEP_Assign_Devices_Success.png)
+![Apple - DEP Assign Devices Success](/images/2017/07/AirWatch_DEP_Sync_Devices_Success.png)
 
 Congrats - now you have macOS devices syncing, but there's some more work to be done.
 
@@ -214,7 +214,7 @@ To disable the agent:
 - **Uncheck** the **Download Mac Agent Post Enrollment** option
 - Hit **Save**
 
-![AirWatch - Disable AirWatch Agent](/images/2017/07/Airwatch_Disable_Airwatch_Agent.png)
+![AirWatch - Disable AirWatch Agent](/images/2017/07/AirWatch_Disable_Airwatch_Agent.png)
 
 ### Optional Step - Disabling AirWatch Catalog
 By default, Airwatch deploys a web clip pointing to the AirWatch catalog. If you are using a tool like munki, you more than likely want to disable this feature.
