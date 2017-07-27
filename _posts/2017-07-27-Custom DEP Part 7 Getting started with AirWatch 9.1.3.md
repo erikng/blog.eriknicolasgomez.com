@@ -112,7 +112,7 @@ Congrats - you now have setup DEP and assigned it to your macOS devices... but y
 
 ## Configuring DEP Stage 3 - Assigning devices to a DEP server
 
-### Aople Portal
+### Apple Portal
 Now that you have a DEP profile assigned and set as default, you need to add some devices to your DEP server.
 
 - In the Apple tab, go to **Device Enrollment Program** -> **Manage Devices**
@@ -162,7 +162,7 @@ Congrats - you're inching closer to being done, but there's just a few more thin
 ## Configuring DEP Stage 5 - Add and assign a custom DEP package
 Now onto the fun part.
 
-Assuming you have already created your custom DEP package (that is a **signed, distribution package!**)m you can now easily add and assign it to your devices.
+Assuming you have already created your custom DEP package (that is a **signed, distribution package!**) you can now easily add and assign it to your devices.
 
 - Go to **Apps & Books** -> **List View**
 - Under the **Internal** tab, select **Add Application**
