@@ -70,7 +70,7 @@ One key to pay attention to is `donotwait`. This is an optional key that Install
 
 What this means is if you do not pass the `donotwait` key, you will wait for _entirity_ of the caffeination script to finish, thereby ruining the entire point of caffeination.
 
-Obviously this key can be appleid for other scripts, so if you find yourself running into this, you can easily handle it by following utilizing this key.
+Obviously this key can be applied for other scripts, so if you find yourself running into this, you can easily handle it by following utilizing this key.
 
 ## LaunchDaemon
 InstallApplications supports several arguments, all of which can be passed through the LaunchDaemon.
@@ -93,9 +93,14 @@ InstallApplications supports several arguments, all of which can be passed throu
 
 ### DEPNotify
 
-In this example, we pass the required jsonurl , the `--depnotify` option, telling InstallApplications to open DEPNotify for the user and `<string>DEPNotifyArguments: -munki</string>` to create a basic munki log and for DEPNotify to tail it upon launch. We also pass a DEPNotify command to specify a custom image, in this case LaunchPad.icns.
+Let's break down the flags above:
+- `--jsonurl` is a URL to your blueprint
+- `--depnotify` tells InstallApplications to open DEPNotify for the user
+- `DEPNotifyPath: /path/to/DEPNotify` required path to DEPNotify
+- `DEPNotifyArguments: -munki` to create a blank munki log which DEPNotify will tail it upon launch.
+- `DEPNotifyPath: /Applications/Utilities/DEPNotify.app` A custom image for DEPNotify to use, in this case LaunchPad.icns.
 
-In order for this to properly work, you must pass a special `DEPNotifyPath: /path/to/DEPNotify` argument.
+As you can see from above, InstallApplications is very modular.
 
 By default, InstallApplications will automatically create a `determinate` number for DEPNotify to use, which allows the progress bar to automatically move as each DEP step is processed. If you need more advanced DEP status messages, my suggestion is to turn this off by adding `<string>DEPNotifySkipStatus</string>` to the LaunchDaemon, which will prevent InstallApplications from passing _any_ status messages to the DEPNotify log.
 
@@ -103,9 +108,8 @@ With the latest version of DEPNotify, you can also open it in fullscreen. To do 
 - `<string>DEPNotifyArguments: -munki -fullScreen</string>`
 - `<string>DEPNotifyArguments: -fullScreen</string>`
 
-
 ## LaunchAgent
-While the LaunchAgent isn't designed to be customized, it works similarly to outset's on-demand feature in that it utilized a watch path. When you utilize a `userscript`, InstallApplications does the following:
+While the LaunchAgent isn't designed to be customized, it works similarly to outset's on-demand feature in that it utilizes a watch path. When you utilize a `userscript`, InstallApplications does the following:
 
 Root InstallApplications process:
 - Copies the script to a staging area
