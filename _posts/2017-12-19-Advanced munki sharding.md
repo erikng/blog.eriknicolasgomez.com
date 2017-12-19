@@ -22,7 +22,7 @@ While it sounds simple, I ultimately designed three different strategies before 
 ## Shard outline
 To steal a line from [Graham Gilbert](https://grahamgilbert.com/blog/2015/11/23/releasing-changes-with-sharding/):
 
-`Sharding is traditionally associated with databases - splitting up your dataset to make it more manageable. When using the term in this instance we are taking about splitting up our computers - there are several reasons you might want to do this. You might want to split them up for similar performance reasons - if you’re deploying large software updates your server might not be able to cope with all your clients pulling it at once. You might want a way to roll changes out to certain groups of machines.`
+> Sharding is traditionally associated with databases - splitting up your dataset to make it more manageable. When using the term in this instance we are taking about splitting up our computers - there are several reasons you might want to do this. You might want to split them up for similar performance reasons - if you’re deploying large software updates your server might not be able to cope with all your clients pulling it at once. You might want a way to roll changes out to certain groups of machines.
 
 ![shard outline](/images/2017/12/shard_example.png)
 
