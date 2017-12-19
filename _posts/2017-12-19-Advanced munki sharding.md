@@ -5,7 +5,7 @@ title: "Advanced munki sharding"
 description: "Or perhaps cautiously deploying High Sierra"
 tags: [macOS, Munki, shard, sharding, High Sierra]
 published: true
-date: 2017-12-19 12:00:00
+date: 2017-12-19 10:00:00
 comments: true
 ---
 
