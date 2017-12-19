@@ -98,7 +98,7 @@ Let's break down the flags above:
 - `--depnotify` tells InstallApplications to open DEPNotify for the user
 - `DEPNotifyPath: /path/to/DEPNotify` required path to DEPNotify
 - `DEPNotifyArguments: -munki` to create a blank munki log which DEPNotify will tail it upon launch.
-- `DEPNotifyPath: /Applications/Utilities/DEPNotify.app` A custom image for DEPNotify to use, in this case LaunchPad.icns.
+- `Command: Image: /Applications/Launchpad.app/Contents/Resources/Launchpad.icns` A custom image for DEPNotify to use, in this case LaunchPad.icns.
 
 As you can see from above, InstallApplications is very modular.
 
