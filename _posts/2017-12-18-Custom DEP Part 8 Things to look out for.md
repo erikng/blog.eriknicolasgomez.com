@@ -44,8 +44,7 @@ So let's get this out of the way first. There's some really shitty bugs that you
 
 This is a big one. While MDM's like AirWatch, MicroMDM and SimpleMDM allow you to send _multiple_ signed packages through mdmclient, **don't do it**. What will happen is only a single package will be processed for installation and subsequent installations will fail, until the device is rebooted.
 
-### [/usr/libexec/mdmclient dep nag does not nag if user has doNotDisturb enabled
-](https://openradar.appspot.com/35571322)
+### [/usr/libexec/mdmclient dep nag does not nag if user has doNotDisturb enabled](https://openradar.appspot.com/35571322)
 
 This one isn't as huge (and some may not view this as a bug) but for us it was very disappointing to experience this. As several of our users set doNotDisturb often, users were never seeing nags. To get around this, I wrote a tool called [Naggy](https://github.com/erikng/mdmscripts/tree/master/dep/tools/naggy) that forcibly disables doNotDisturb, right before a dep nag is sent to the device. While this might be too "big brother", I felt it was necessary.
 
