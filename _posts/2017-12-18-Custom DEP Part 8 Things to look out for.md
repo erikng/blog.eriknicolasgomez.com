@@ -60,8 +60,8 @@ During DEP, the installer environment is invoked by mdmclient. This leads to spe
 Here are just some of the problems I have seen with this methodology:
 
 - Scripts called by normal installer environment (installer -pkg ./package.pkg -target /) behaving differently during DEP
-- Scripts calling user actions hanging installer indefinitely.
-- Scripts calling munki hanging installer, which inevitably indefinitely hangs any munki run's that install .pkg/.mpkg files.
+- Scripts calling user actions hanging installer indefinitely
+- Scripts calling munki hanging installer, which inevitably indefinitely hangs any munki run's that install .pkg/.mpkg files
 - Scripts not logging properly
 - Scripts hanging entire DEP workflow until they finish
 - Added build process complexity when doing rapid testing (test pkg, see failure, update script, update pkg, deploy pkg, re-test)
@@ -72,7 +72,7 @@ While everyone's tool chains are different, you should ask yourself "Do I actual
 At the very least you need the following:
 - A daemonized process (running as root) for higher level orchestration
 - An agent process (running as the user) for user level orchestration
-- Some user experience GUI.
+- Some user experience GUI
 
 Tools that include launch daemons/agents for their own orchestration may not be needed _during_ DEP and should be excluded.
 
@@ -85,7 +85,7 @@ Reduction examples:
 - VPN Software
 - Software suites (Microsoft Office, Adobe tools)
 - Apple software updates
-- Anything that requires a reboot.
+- Anything that requires a reboot
 
 You can automate these processes immediately after your DEP enrollment has completed.
 
@@ -95,7 +95,7 @@ Beyond this, your process should invoke your user experience as quickly as possi
 - Initiate user experience
 - Run tooling
 - Inform user of DEP process completion
-- Silently continue on post-DEP process or reboot device.
+- Silently continue on post-DEP process or reboot device
 
 ## You're going to make a shitload of changes in the beginning
 There's no way to sugar coat this. You're going to be spending a shitload of time making small changes here and there in your workflow.
@@ -111,9 +111,9 @@ In summary, most custom DEP environments will require the following:
 2. macadmin tooling and user experience tooling
 3. Root process that should be a dynamic LaunchDaemon vs using installer/payload-free packages.
 4. User process that should be a dynamic LaunchAgent
-5. Ability to specify when/how your tools should run.
-6. Ability to run macOS tools that don't interfere/block other aspects of your DEP enrollment.
-7. Ability to make rapid changes as easily as possible with as few roadblocks as possible.
+5. Ability to specify when/how your tools should run
+6. Ability to run macOS tools that don't interfere/block other aspects of your DEP enrollment
+7. Ability to make rapid changes as easily as possible with as few roadblocks as possible
 
 # In my opinion, [InstallApplications](https://github.com/erikng/installapplications) is the clear answer for these issues.
 Throughout my journey, I have hit all of these issues. That's why I wrote and continue to enhance [InstallApplications](https://github.com/erikng/installapplications).
