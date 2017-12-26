@@ -109,7 +109,7 @@ If you are reading this, I am going to make a few assumptions:
 - `cd ./munki`
 
 5. Run the new [make_munki_mpkg_DEP](https://github.com/munki/munki/blob/master/code/tools/make_munki_mpkg_DEP.sh) script with the `-s` flag. You will pass your developer certificate as a string. This requires elevated permissions to run.
-  - `sudo ./munki/code/tools/make_munki_mpkg_DEP.sh -s "Developer ID Installer: Example (R9UM25C6B5)"`
+  - `sudo ./code/tools/make_munki_mpkg_DEP.sh -s "Developer ID Installer: Example (R9UM25C6B5)"`
 
 If everything goes right you should see the following in Terminal:
 
