@@ -55,7 +55,7 @@ GEM
     minima (2.1.0)
       jekyll (~> 3.3)
     minitest (5.10.1)
-    nokogiri (1.7.0.1)
+    nokogiri (1.8.1)
       mini_portile2 (~> 2.1.0)
     pathutil (0.14.0)
       forwardable-extended (~> 2.6)
