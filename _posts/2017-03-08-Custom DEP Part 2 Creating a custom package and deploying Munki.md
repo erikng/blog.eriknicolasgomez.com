@@ -25,7 +25,7 @@ If you are reading this, I am going to make a few assumptions:
 - MDM with custom `InstallApplication` (even if you don't have this, there's much to learn)
 - probuctbuild binary `/usr/bin/productbuild`
 - pkgutil binary `/usr/sbin/pkgutil`
-- Victor's awesome [AppManifest](https://github.com/micromdm/tools/releases/download/v1.2.0/appmanifest) tool.
+- Victor's awesome [AppManifest](https://github.com/micromdm/tools/releases/download/v1.1.0/appmanifest) tool.
 - Greg's awesome [munkipkg](https://github.com/munki/munki-pkg) tool.
 - Git / [Xcode Command Line Tools](https://developer.apple.com/download/more/)
 - [munki code](https://github.com/munki)
