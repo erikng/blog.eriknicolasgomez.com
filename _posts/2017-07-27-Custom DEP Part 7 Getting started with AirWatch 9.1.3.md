@@ -237,7 +237,7 @@ While this post is to mainly describe how to get setup, you could easily create 
 ## Testing Custom DEP
 This is the easy part.
 
-Turn on a macOS device that you've registed in DEP (or better yet a virtual machine using [vfuse](https://github.com/chilcote/vfuse)).
+Turn on a macOS device that you've registered in DEP (or better yet a virtual machine using [vfuse](https://github.com/chilcote/vfuse)).
 
 - If DEP worked you should see something like this
 

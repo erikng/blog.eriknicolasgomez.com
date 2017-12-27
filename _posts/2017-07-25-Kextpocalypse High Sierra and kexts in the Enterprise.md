@@ -127,7 +127,7 @@ As you can see below, the tool was able to find kexts that mdfind didn't see, bu
 ```
 
 ## Legal compliance and security
-Once you have identified which products your company uses that may be impacted by this change, you should communicate with your security team (if you have one). You may find out that some of the tools your company uses are directly needed for **compliancy and/or security** reasons.
+Once you have identified which products your company uses that may be impacted by this change, you should communicate with your security team (if you have one). You may find out that some of the tools your company uses are directly needed for **compliance and/or security** reasons.
 
 ## What if our company needs product X for compliance/security reasons?
 If this is the case, you may need to re-think your strategy around macOS. If you cannot adequately stay in compliance, these devices may no longer suit your business needs. Regardless, **these decisions should not be taken lightly and should not be decided by your IT organization**. You should consult with your company's senior leadership before making any actions.

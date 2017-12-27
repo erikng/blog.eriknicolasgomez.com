@@ -68,7 +68,7 @@ In the example above, we are installing DEPNotify (as a package) while the user 
 ### donotwait
 One key to pay attention to is `donotwait`. This is an optional key that InstallApplication uses to process scripts differently. When I open sourced the [caffeination script](https://github.com/erikng/mdmscripts/blob/master/dep/machinescripts/caffeinate.py#L3-L7) last week, I put a warning in the comments where this command line tool will wait until it's finished.
 
-What this means is if you do not pass the `donotwait` key, you will wait for _entirity_ of the caffeination script to finish, thereby ruining the entire point of caffeination.
+What this means is if you do not pass the `donotwait` key, you will wait for _entirety_ of the caffeination script to finish, thereby ruining the entire point of caffeination.
 
 Obviously this key can be applied for other scripts, so if you find yourself running into this, you can easily handle it by following utilizing this key.
 

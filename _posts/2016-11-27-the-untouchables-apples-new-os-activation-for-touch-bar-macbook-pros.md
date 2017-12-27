@@ -70,7 +70,7 @@ Good news everyone: Mac imaging isn't dead ... yet. While trying to recreate thi
   * Delete FileVault 2 volume
   * Re-run Workflow 4
 
-In _none_ of these tests did I receive the critical software update. For informational purposes, workflow 5 was tested due to Imagr's inability to wipe FileVault encrypted volumes and was the closest thing to Joe's testing. After some discussions with Joe, we had a theory as to the true culpit of the issue.
+In _none_ of these tests did I receive the critical software update. For informational purposes, workflow 5 was tested due to Imagr's inability to wipe FileVault encrypted volumes and was the closest thing to Joe's testing. After some discussions with Joe, we had a theory as to the true culprit of the issue.
 
 ### Workflow Goldmine
 * Workflow 6
