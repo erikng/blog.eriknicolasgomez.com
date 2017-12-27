@@ -14,7 +14,7 @@ For the better part of six months, macadmins across the world have been worried 
 
 What if DEP was the **only** light touch/no touch method for installing your company required assets? What if this requirement comes with APFS/10.13?
 
-These are the questions I have had for months. In this time, some macadmins have have threatened to retire/leave the ecyosystem entirely, while others have raised concerns that their companies may not be able to continue managing Apple products if their toolsets are rendered useless. While both of those thoughts are unsettling, today's post is about positivity.
+These are the questions I have had for months. In this time, some macadmins have have threatened to retire/leave the ecosystem entirely, while others have raised concerns that their companies may not be able to continue managing Apple products if their toolsets are rendered useless. While both of those thoughts are unsettling, today's post is about positivity.
 
 ## This usually bitter macadmin is actually excited.
 

@@ -46,9 +46,9 @@ In part [2](/2017/03/09/Custom-DEP-Part-2-Creating-a-custom-package-and-deployin
 
 ## Clever things to try:
 - Caffeinate your machines during DEP bootstrapping to ensure they don't go to sleep: `/usr/bin/caffeinate`
-- Utilize [Yo](https://github.com/sheagcraig/yo) for your bootstrap status. You can use persistant notifications.
+- Utilize [Yo](https://github.com/sheagcraig/yo) for your bootstrap status. You can use persistent notifications.
 - Utilize [Outset](https://github.com/chilcote/outset) to run scripts in the user context.
-- Create a munki `dep` manifest that installs only the absolute minimum amount of tooling you need. Instead of using munki's [bootstrapping](https://github.com/munki/munki/wiki/Bootstrapping-With-Munki) method, call munki with the --id flag. `/usr/local/munki/managedsoftwareupdate --id dep`. If utlizing this approach, don't [bother](https://github.com/munki/munki/issues/695) pre-installing the munki icons.
+- Create a munki `dep` manifest that installs only the absolute minimum amount of tooling you need. Instead of using munki's [bootstrapping](https://github.com/munki/munki/wiki/Bootstrapping-With-Munki) method, call munki with the --id flag. `/usr/local/munki/managedsoftwareupdate --id dep`. If utilizing this approach, don't [bother](https://github.com/munki/munki/issues/695) pre-installing the munki icons.
 - Managed Software Center.app will not automatically looks for updates when a munki run has recently ran. You can force this to happen by removing the `LastCheckDate` value from /Library/Preferences/Managed Installs.plist.
 - You can speed up the next munki run by triggering a quiet run `/usr/local/munki/managedsoftwareupdate --checkonly --quiet`.
 

@@ -7,7 +7,7 @@ comments: true
 ---
 
 ### Preface
-While I have tried to document and piece together as much as possible here, some of the statements could be inaccurate. Until Apple posts more information about this process, take everything you read below with a grain of salt. If you choose to use the methodologies in production, I offer no warranties to the integrity of your sytem.
+While I have tried to document and piece together as much as possible here, some of the statements could be inaccurate. Until Apple posts more information about this process, take everything you read below with a grain of salt. If you choose to use the methodologies in production, I offer no warranties to the integrity of your system.
 
 If you just want the answer, go to [Baking The Cake](#baking-the-cake)
 

@@ -25,7 +25,7 @@ Where things get fuzzy is NetInstall/NetRestore. NetBoot has already been pushed
 
 Could /Library/LaunchDaemons be next? Possibly, but I don't think that time is now. If and when that time comes, as Apple engineers, we will adapt and work on the next methodologies for managing Apple products.
 
-Regardless, until that time comes we now have a **major** MDM vendor that will be announcing support for custom `InstallApplication` very soon. Will other MDM vendors join and help colloborate with open source tools?
+Regardless, until that time comes we now have a **major** MDM vendor that will be announcing support for custom `InstallApplication` very soon. Will other MDM vendors join and help collaborate with open source tools?
 
 ## Yes
 
