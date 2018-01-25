@@ -2,7 +2,7 @@
 layout: post
 author: Erik Gomez
 title: "Automated CloudFront invalidation rules"
-description: "Defining rules for tools like imagr, munki and reposado"
+description: "Defining object cache rules for tools like imagr, munki and reposado"
 tags: [amazon, aws, automation, CloudFront, Imagr, Munki, Reposado]
 published: true
 date: 2018-01-25 13:00:00
@@ -13,7 +13,7 @@ With Apple releasing their [deprecation notice for macOS Server functionality](h
 
 For some time, my recommendation has been [CloudFront](https://aws.amazon.com/cloudfront/) and while this post will not get into _how_ or _why_ to configure CloudFront, it will show you how to create automated invalidation rules to further refine your deployments.
 
-## Why use invalidation rules?
+## Why use object cache rules vs invalidation?
 Imagr, Munki and Reposado all deal with flat files and plists to define their behavior. Quite often you will change the content, but you will almost never change the _filenames_. With CloudFront this is problematic as your users will [continue to download cached objects](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/Invalidation.html) vs your newly updated ones.
 
 While you can certainly script this, Amazon has specific rules with how many times you are allowed to invalidate using the API.
@@ -30,8 +30,8 @@ While you can certainly script this, Amazon has specific rules with how many tim
 
 While 1,000 invalidations does seem quite high, imagine each time you update your munki catalogs, manifests and pkginfo files. You could quickly eat up these invalidations in only a few days.
 
-## How to define an invalidation rule.
-Defining invalidation rules are incredibly simple.
+## How to define an object cache rule.
+Defining object cache rules are incredibly simple.
 
 In your AWS console, go to CloudFront Distributions -> your CloudFront instance -> Behaviors. You will more than likely see a default path pattern of * - leave this alone.
 
@@ -55,7 +55,7 @@ The path pattern is fairly obvious but I will explain with an example munki repo
 * ./pkgs
 * **./pkgsinfo**
 
-If you wanted to automatically invalidate your catalogs, manifests and pkginfo files, you would simply create three invalidation rules with the following path patterns:
+If you wanted to automatically invalidate your catalogs, manifests and pkginfo caches, you would simply create three object cache rules with the following path patterns:
 
 * /catalogs/*
 * /manifests/*
@@ -65,7 +65,7 @@ With recent versions of munki, there is now a `_icon_hashes.plist` for all of yo
 
 * /icons/_icon_hashes.plist
 
-Finally, you may want to create an invalidation rule for your client resources files. While these don't change often, it could throw you for a loop when you make a change and don't see it on appear.
+Finally, you may want to create an object cache rule for your client resources files. While these don't change often, it could throw you for a loop when you make a change and don't see it on appear.
 
 * /client_resources/*
 
@@ -81,7 +81,7 @@ Here is where you will want to use the Customize option. Depending on how aggres
 * Set Maximum/Default TTL to whatever value you want (value is in seconds)
 
 ### Example
-In the following image, you will see a full invalidation rule for _all_ munki catalogs, with a highly aggressive invalidation of **two minutes (120 seconds)**. This will mean from the time you do a `s3 sync` to your CloudFront instance, in two minutes, your users will be able to see new packages in Managed Software Center.
+In the following image, you will see a full object cache rule for _all_ munki catalogs, with a highly aggressive expiration of **two minutes (120 seconds)**. This will mean from the time you do a `s3 sync` to your CloudFront instance, in two minutes, your users will be able to see new packages in Managed Software Center.
 
 ![CloudFront create behavior](/images/2018/01/cloudfront_create_behavior.png)
 
@@ -91,7 +91,7 @@ After you have created all of the rules you want, you want to make sure they are
 ![CloudFront behaviors](/images/2018/01/cloudfront_behaviors.png)
 
 ## ...and you're done
-No more manual invalidations, aws cli invalidations and no potential for paying Amazon more money. :)
+No more manual/aws cli invalidations and no potential for paying Amazon more money. :)
 
 ## Table Of Contents
 * Do not remove this line (it will not be displayed)
