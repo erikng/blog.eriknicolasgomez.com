@@ -228,10 +228,7 @@ For this next example, we are going to do the following:
 3. Copy the build-info.json from `munki_kickstart`
 - `cp ./munki-pkg/munki_kickstart/build-info.json ./munki-pkg/munki_config`
 
-4. Copy the build-info.json from `munki_kickstart`
-- `cp ./munki-pkg/munki_kickstart/build-info.json ./munki-pkg/munki_config`
-
-5. Using your text editor of choice (Atom, TextWrangler, vi, nano) configure the project's `identifier`, `name`, but most importantly, change `distribution_style` from true to false.
+4. Using your text editor of choice (Atom, TextWrangler, vi, nano) configure the project's `identifier`, `name`, but most importantly, change `distribution_style` from true to false.
 ```json
 {
     "ownership": "recommended",
@@ -246,7 +243,7 @@ For this next example, we are going to do the following:
 ```
 - You cannot have nested distribution packages!
 
-6. Create your postinstall script. Save this file as `postinstall` in `./munki-pkg/munki_config/scripts` . This example will configure the SoftwareRepoURL for munki. Adapt as needed.
+5. Create your postinstall script. Save this file as `postinstall` in `./munki-pkg/munki_config/scripts` . This example will configure the SoftwareRepoURL for munki. Adapt as needed.
 
 ```bash
 #!/bin/sh
