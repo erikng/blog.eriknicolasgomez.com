@@ -133,7 +133,7 @@ Great. So now you have a signed munki package with your developer certificate, b
 Depending on your vendor, this process may be automated, but for demonstration purposes, we will use Victor's appmanifest tool.
 
 ### Creating the Manifest.plist
-1. Using a browser, download [appmanifest](https://github.com/micromdm/tools/releases/download/v1.2.0/appmanifest). Save this to the root of your working DEP folder.
+1. Using a browser, download [appmanifest](https://github.com/micromdm/tools/releases/download/v1.1.0/appmanifest). Save this to the root of your working DEP folder.
 
 2. In Terminal, go back to your root DEP folder
  - `cd ~/DEP`
