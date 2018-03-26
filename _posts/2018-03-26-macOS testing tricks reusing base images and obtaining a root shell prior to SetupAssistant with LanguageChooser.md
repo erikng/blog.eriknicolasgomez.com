@@ -38,6 +38,8 @@ Once you have your base image, use this as your base:
 ![AutoDMG - Custom Image](/images/2018/03/custom_image.png)
 ![AutoDMG - Custom Image - Save](/images/2018/03/custom_image_save.png)
 
+By utilizing this method, you can quickly and easily add packages on top of an image without going through the whole hassle of creating an AutoDMG from scratch. This saves me about 20-30 minutes per build.
+
 ## macOS testing trick 2 - Enabling LanguageChooser prior to SetupAssistant with AutoDMG and munki-pkg
 So after seeing Matthew's comment I began googling and ultimately found a dotfile that would launch LanguageChooser. By simply touching `/private/var/db/.RunLanguageChooserToo`, the LanguageChooser would open up _prior_ to SetupAssistant.
 
@@ -45,6 +47,7 @@ I made an installation package with [a custom munki-pkg configuration](https://g
 
 ![AutoDMG - Custom Image](/images/2018/03/custom_image.png)
 
+This custom image now allowed me to boot into the LanguageChooser rather than booting directly into SetupAssistant
 
 ## macOS testing trick 3 - Using vfuse templates to create a DEP capable VM with a pre-allocated snapshot
 Now that I had a custom image, I needed to pass that onto one of my favorite tools, [vfuse](https://github.com/chilcote/vfuse).
