@@ -52,7 +52,7 @@ This custom image now allowed me to boot into the LanguageChooser rather than bo
 ## macOS testing trick 3 - Using vfuse templates to create a DEP capable VM with a pre-allocated snapshot
 Now that I had a custom image, I needed to pass that onto one of my favorite tools, [vfuse](https://github.com/chilcote/vfuse).
 
-While most people work with vfuse through it's main arguments, I prefer to only use vfuse's template argument.
+While most people work with vfuse through its main arguments, I prefer to only use vfuse's template argument.
 
 `vfuse -t /path/to/template`
 
@@ -104,7 +104,7 @@ Once the installation is finished, you can validate that it has been successfull
 
 ![Virtual Machine - Validating Update](/images/2018/03/virtual_machine_validating_update.png)
 
-From here, issue a `shutdown` command and immediately create a new shapshot. By utilizing this method, you can now create a fully up-to-date, quasi-never-booted virtual machine for testing things like DEP. It's about as close as you can get without a full application installer.
+From here, issue a `shutdown` command and immediately create a new VMware Fusion snapshot (`CMD + SHIFT + S`). By utilizing this method, you can now create a fully up-to-date, quasi-never-booted virtual machine for testing things like DEP. It's about as close as you can get without a full application installer.
 
 ## Final Thoughts
 While this method isn't perfect and cannot be reliably automated, it is a great way to test beta macOS versions without application installers. Thanks to Chris and Matthew for originally documenting the pieces needed to do this.
