@@ -43,7 +43,7 @@ By utilizing this method, you can quickly and easily add packages on top of an i
 ## macOS testing trick 2 - Enabling LanguageChooser prior to SetupAssistant with AutoDMG and munki-pkg
 So after seeing Matthew's comment I began googling and ultimately found a dotfile that would launch LanguageChooser. By simply touching `/private/var/db/.RunLanguageChooserToo`, the LanguageChooser would open up _prior_ to SetupAssistant.
 
-I made an installation package with [a custom munki-pkg configuration](https://github.com/munki/munki-pkg/pull/30) and then added this to my custom AutoDMG image.
+I made an installation package with [a custom munki-pkg configuration](https://github.com/erikng/munki-pkg-pkgs/tree/master/EnableLanguageChooser) and then added this to my custom AutoDMG image.
 
 ![AutoDMG - Custom Image](/images/2018/03/custom_image.png)
 
