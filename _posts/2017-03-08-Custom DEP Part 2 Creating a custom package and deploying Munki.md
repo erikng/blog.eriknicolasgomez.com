@@ -133,7 +133,7 @@ Great. So now you have a signed munki package with your developer certificate, b
 Depending on your vendor, this process may be automated, but for demonstration purposes, we will use Victor's appmanifest tool.
 
 ### Creating the Manifest.plist
-1. Using a browser, download [appmanifest](https://github.com/micromdm/tools/releases/download/v1.2.0/appmanifest). Save this to the root of your working DEP folder.
+1. Using a browser, download [appmanifest](https://github.com/micromdm/tools/releases/download/v1.1.0/appmanifest). Save this to the root of your working DEP folder.
 
 2. In Terminal, go back to your root DEP folder
  - `cd ~/DEP`
@@ -228,10 +228,7 @@ For this next example, we are going to do the following:
 3. Copy the build-info.json from `munki_kickstart`
 - `cp ./munki-pkg/munki_kickstart/build-info.json ./munki-pkg/munki_config`
 
-4. Copy the build-info.json from `munki_kickstart`
-- `cp ./munki-pkg/munki_kickstart/build-info.json ./munki-pkg/munki_config`
-
-5. Using your text editor of choice (Atom, TextWrangler, vi, nano) configure the project's `identifier`, `name`, but most importantly, change `distribution_style` from true to false.
+4. Using your text editor of choice (Atom, TextWrangler, vi, nano) configure the project's `identifier`, `name`, but most importantly, change `distribution_style` from true to false.
 ```json
 {
     "ownership": "recommended",
@@ -246,7 +243,7 @@ For this next example, we are going to do the following:
 ```
 - You cannot have nested distribution packages!
 
-6. Create your postinstall script. Save this file as `postinstall` in `./munki-pkg/munki_config/scripts` . This example will configure the SoftwareRepoURL for munki. Adapt as needed.
+5. Create your postinstall script. Save this file as `postinstall` in `./munki-pkg/munki_config/scripts` . This example will configure the SoftwareRepoURL for munki. Adapt as needed.
 
 ```bash
 #!/bin/sh
