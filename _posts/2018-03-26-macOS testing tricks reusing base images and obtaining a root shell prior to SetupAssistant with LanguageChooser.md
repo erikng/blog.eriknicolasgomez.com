@@ -99,7 +99,7 @@ You should see this.
 
 Once the installation is finished, you can validate that it has been successfully updated by running `sw_vers`.
 
-![Virtual Machine - Validating Update](/images/2018/03/virtual_machine_virtual_machine_validating_update.png)
+![Virtual Machine - Validating Update](/images/2018/03/virtual_machine_validating_update.png)
 
 From here, issue a `shutdown` command and immediately create a new shapshot. By utilizing this method, you can now create a fully up-to-date, quasi-never-booted virtual machine for testing things like DEP. It's about as close as you can get without a full application installer.
 
