@@ -38,7 +38,7 @@ During this same presentation, I outlined some of the main issues I had with the
 3. Because of issue 1, they also added payload keys that an admin may not realize they are managing (Example: Unchecking an item sets the value to `False`, not removing the key from management)
 4. Because of issue 1, 2 and 3, if an admin deployed two profiles with conflicting settings, the client device could get in an [undefined state](https://help.apple.com/serverapp/mac/5.0/#/apdE3493-C50A-4E9E-DDDD-CBCBC8C73507), where settings are loaded at random.
 5. Most MDM's lack variable driven payload keys or only have these for very specific configurations (Example: 802.1x profiles)
-6. MDM's lack the ability to understand the profile's installation _context_. In other words, they can only know the profile is installed, not what settings were used.
+6. MDM's lack the ability to understand the profile's installation _content_. In other words, they can only know the profile is installed, not what settings were used.
 
 #### Pros of MDM .mobileconfig installs
 While there are several issues with the way MDM's handle profiles (making them untenable for most of my use cases), there are a few pro's, some of them which we are now only beginning to see with the release of 10.13.4.
