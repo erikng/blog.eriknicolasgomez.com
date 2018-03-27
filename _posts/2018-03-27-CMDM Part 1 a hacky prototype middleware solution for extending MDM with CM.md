@@ -19,12 +19,12 @@ In April of 2017, I gave a [presentation](/2017/04/27/Custom-DEP-Part-6-Vendor-A
 Unfortunately no one, including myself ever had time to use this API for anything other than a demo.
 
 ### This API is powerful, but why did AirWatch build it in the first place?
-Before the Custom DEP partnership announcement and even before the joint meetings, AirWatch was running into somewhat of a development cadence issue: Apple was now releasing major Spring updates, usually with brand-new MDM features. Whereas the Fall development had more lead time (WWDC -> months of betas -> GA), the Spring release had just a few weeks of development time. With traditional MDM development, creating a new feature means you have to create the API (internal or public), wire it up to a UI/UX and then write unit tests to ensure everything works (and doesn't break anything else). Beyond that, AirWatch may have already created their roadmap prior to Apple's new Spring announcements.
+Before the Custom DEP partnership announcement and even before the joint meetings, AirWatch wanted to create a new API, to extend their MDM beyond the typical UI usage.
 
 By creating this "Bare-metal MDM API", AirWatch could solve the following:
-1. They could prioritize new MDM commands in their current roadmap
+1. They could prioritize new MDM commands in their current roadmap and write full UI/UX as they built them.
 2. _Customers_ could test new, beta MDM commands on their production instances without a secondary beta/QA instance as soon as Apple released the beta macOS versions.
-3. At worst, if the UX couldn't land prior to Spring/Fall releases, they would always have "0-day" support for _all_ current/future MDM commands through this API.
+3. They would always have "0-day" support for _all_ current/future MDM commands through this API.
 
 AirWatch launched this new API with AirWatch 9.1, but made one interesting design choice that would later have ramifications...
 
