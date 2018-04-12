@@ -237,7 +237,7 @@ While this post is to mainly describe how to get setup, you could easily create 
 ## Testing Custom DEP
 This is the easy part.
 
-Turn on a macOS device that you've registered in DEP (or better yet a virtual machine using [vfuse](https://github.com/chilcote/vfuse)).
+Turn on a macOS device that you've registered in DEP (or better yet [check out my guide](https://blog.eriknicolasgomez.com/2018/03/26/macOS-testing-tricks-reusing-base-images-and-obtaining-a-root-shell-prior-to-SetupAssistant-with-LanguageChooser/#macos-testing-trick-3---using-vfuse-templates-to-create-a-dep-capable-vm-with-a-pre-allocated-snapshot) on how to create a DEP capable virtual machine with [vfuse](https://github.com/chilcote/vfuse)).
 
 - If DEP worked you should see something like this
 
