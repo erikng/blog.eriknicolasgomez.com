@@ -205,7 +205,9 @@ Assuming you have already created your custom DEP package (that is a **signed, d
 Congrats! You are DONE. Time to test! :smile:
 
 
-### Optional Step - Disabling AirWatch agent installation.
+## Configuring DEP Stage 6 - Disabling AirWatch agent installation.
+Through at least 10.13.4, you will not be able to reliably install _both_ the custom package and the AirWatch agent. This is due to a macOS [bug](https://openradar.appspot.com/radar?id=4927456712589312) and was one of the reasons why AirWatch held off releasing this feature. 
+
 If you are using a tool like [InstallApplications](https://github.com/erikng/installapplications) or [munki](https://github.com/munki/munki), you may not need to have the AirWatch agent installed or you may actually install it through another mechanism.
 
 To disable the agent:
