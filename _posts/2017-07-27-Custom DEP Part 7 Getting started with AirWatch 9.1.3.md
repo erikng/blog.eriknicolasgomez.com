@@ -202,10 +202,10 @@ Assuming you have already created your custom DEP package (that is a **signed, d
 
 ![AirWatch - Bootstrap Pkg Assignment 3](/images/2017/07/AirWatch_Bootstrap_Pkg_Assignment_3.png)
 
-Congrats! You are DONE. Time to test! :smile:
 
+## Configuring DEP Stage 6 - Disabling AirWatch agent installation.
+Through at least 10.13.4, you will not be able to reliably install _both_ the custom package and the AirWatch agent. This is due to a macOS [bug](https://openradar.appspot.com/radar?id=4927456712589312) and was one of the reasons why AirWatch held off releasing this feature. 
 
-### Optional Step - Disabling AirWatch agent installation.
 If you are using a tool like [InstallApplications](https://github.com/erikng/installapplications) or [munki](https://github.com/munki/munki), you may not need to have the AirWatch agent installed or you may actually install it through another mechanism.
 
 To disable the agent:
@@ -215,6 +215,9 @@ To disable the agent:
 - Hit **Save**
 
 ![AirWatch - Disable AirWatch Agent](/images/2017/07/AirWatch_Disable_Airwatch_Agent.png)
+
+Congrats! You are DONE. Time to test! :smile:
+
 
 ### Optional Step - Disabling AirWatch Catalog
 By default, Airwatch deploys a web clip pointing to the AirWatch catalog. If you are using a tool like munki, you more than likely want to disable this feature.
@@ -227,9 +230,6 @@ To disable the catalog web clip:
 - Hit **Save**
 
 ![AirWatch - Disable AirWatch Catalog](/images/2017/07/AirWatch_Disable_Catalog.png)
-
-### Notes about sending multiple InstallApplication commands prior to macOS 10.12.6
-If you are deploying custom DEP to devices prior to 10.12.5, you will not be able to reliably install _both_ the custom package and the AirWatch agent. This is due to a macOS bug and was one of the reasons why AirWatch held off releasing this feature. If you do not know the operating system level that you will be deploying to, you may want to turn the agent off anyway.
 
 ### Notes about custom packages
 While this post is to mainly describe how to get setup, you could easily create macOS groups internally that scope to specific custom packages. This would then allow you to have a `production` package that everyone gets, while also being able to use a `test` environment for your own devices. The ideas are endless.
