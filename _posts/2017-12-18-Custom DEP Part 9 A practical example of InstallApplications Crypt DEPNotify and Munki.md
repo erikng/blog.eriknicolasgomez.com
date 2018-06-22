@@ -273,7 +273,7 @@ That's it! No recreation of packages, no changes to the MDM itself, just a simpl
 
 ### Notes about running InstallApplications in terminal
 
-While you can technically run InstallApplications `sudo python /Library/Application Support/installapplications/installapplications.py --json url https://somewhere.tld` to test, it is highly encouraged that you _don't_ do this. Your root scripts will run in a slightly different environment (non-daemonized), and in my testing, they may work in terminal runs but not during DEP.
+While you can technically run InstallApplications `sudo python /Library/Application Support/installapplications/installapplications.py --jsonurl https://somewhere.tld` to test, it is highly encouraged that you _don't_ do this. Your root scripts will run in a slightly different environment (non-daemonized), and in my testing, they may work in terminal runs but not during DEP.
 
 ## Example video
 
