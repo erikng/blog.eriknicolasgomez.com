@@ -283,7 +283,7 @@ productbuild --synthesize \
 ```
 - Pay close attention here, as your packages will be installed in the order that you specify.
 
-3. Using your text editor of choice (Atom, TextWrangler, vi, nano), open both `Distrbution` and `Distribution_custom.plist`
+3. Using your text editor of choice (Atom, TextWrangler, vi, nano), open both `Distribution` and `Distribution_custom.plist`
 
 4. On line 8 of `Distribution_custom.plist`, replace it with the following from the `Distribution` file and save.
 
