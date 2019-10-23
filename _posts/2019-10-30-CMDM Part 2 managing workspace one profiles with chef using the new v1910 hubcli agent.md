@@ -1,7 +1,7 @@
 ---
 layout: post
 author: Erik Gomez
-title: "C-MDM Part 2 - managing workspace one profiles with chef using the new v1910 hubcli agent"
+title: "C-MDM Part 2 - Managing Workspace One profiles with Chef using the new v1910 hubcli agent"
 description: "This is going to be a crazy journey"
 tags: [ABM, AirWatch, API, CM, Configuration Management, Chef, DEP, MDM, Mobile Device Management, Munki]
 published: true
