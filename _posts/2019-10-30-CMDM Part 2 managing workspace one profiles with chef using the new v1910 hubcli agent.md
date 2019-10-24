@@ -2,7 +2,7 @@
 layout: post
 author: Erik Gomez
 title: "C-MDM Part 2 - Managing Workspace One profiles with Chef using the new v1910 hubcli agent"
-description: "This is going to be a crazy journey"
+description: "Finally something secure enough for production use"
 tags: [ABM, AirWatch, API, CM, Configuration Management, Chef, DEP, MDM, Mobile Device Management, Munki]
 published: true
 date: 2019-10-30 00:00:00
@@ -48,12 +48,12 @@ Recently, [Graham Gilbert](https://grahamgilbert.com/) released a much better id
 Utilizing MicroMDM and MDMDirector together certainly reduces if not completely removes the need for locally installed profiles (and much much more), but it may not be for everyone - certainly not if you pay a MDM vendor.
 
 ## The partnership with Workspace One has continued
-I've had a pretty great partnership with Workspace One. We co-authored and released the [custom bootstrap methodology](https://docs.vmware.com/en/VMware-Workspace-ONE-UEM/1811/VMware-Workspace-ONE-UEM-macOS-Device-Management/GUID-AWT-BOOTSTRAP-C.html) and I wrote an open sourced [InstallApplications](https://github.com/erikng/installapplications) which continues to be used worldwide to provision macOS devices through MDM enrollment.
+I've had a pretty great partnership with Workspace One. We co-authored and released the [custom bootstrap methodology](https://docs.vmware.com/en/VMware-Workspace-ONE-UEM/1909/macOS_Platform/GUID-AWT-BOOTSTRAP-C.html) and I wrote an open sourced [InstallApplications](https://github.com/erikng/installapplications) which continues to be used worldwide to provision macOS devices through MDM enrollment.
 
 After joining my current employer, we too realized that some kind of middleware tool would be a highly valuable to have in our arsenal. While Nate and I wanted (want) to build something as robust as MDMDirector for Workspace One, we decided to again partner with the Workspace One macOS team to create a secure, device level binary that could send commands directly to the MDM server.
 
 ## Workspace One v1910 - hubcli
-With the October 2019 release of Workspace One Agent (requires Workspace One Console v1910 as well), there is a new binary called `hubcli`.
+With the October 2019 release of Workspace One Intelligent Hub Agent (requires UEM Console v1910 as well), there is new functionality within the `hubcli` binary (originally released with v1904).
 
 We actually have a reason to install the agent! :smile:
 
@@ -61,7 +61,7 @@ We actually have a reason to install the agent! :smile:
 The `hubcli` binary utilizes the MDM certificate installed onto the device (at time of enrollment) to communicate to enhanced Workspace One APIs. This ensures the device can **only obtain and send commands on behalf of itself** and no other devices enrolled into your console.
 
 ### Getting information from hubcli
-The Workspace One agent installs a symlink to `/usr/local/bin/hubcli` which currently points to `/Applications/Workspace ONE Intelligent Hub.app/Contents/Resources/IntelligentHubAgent.app/Contents/Resources/cli/hubcli`.
+The Workspace One Intelligent Hub postinstall creates a symlink to `/usr/local/bin/hubcli` which currently points to `/Applications/Workspace ONE Intelligent Hub.app/Contents/Resources/IntelligentHubAgent.app/Contents/Resources/cli/hubcli`.
 
 ```
 hubcli
@@ -84,20 +84,21 @@ Of interest to us is the `hubcli profiles` command
 ```
 hubcli profiles --help
 Description:
-  Request installation of an assigned profile from the Workspace ONE UEM.
+Request installation of profiles from the UEM server
+
 Usage:
-  hubcli profiles <--install ProfileID> | <--list [--json]>
+  hubcli profiles <--install ProfileID | --list [--json]>
+
 Commands:
-  --install    Request installation of an assigned profile from the Workspace ONE UEM.
-  list    Request list of all assigned profiles from Workspace ONE UEM.
-  json    List all assigned profiles in json format.
+  --install     request profile installation for given id
+  --list        request list of assigned profiles
+  --json        return --list in json format
+
 Examples:
-  Request installation of an assigned profile from the Workspace ONE UEM.
-    hubcli profiles --install <ProfileID>
-  Request list of all assigned profiles from Workspace ONE UEM.
-    hubcli profiles --list
-  Request list of all assigned profiles from Workspace ONE UEM in json format.
-    hubcli profiles --list --json
+  Request profile with ID 123
+        hubcli profiles --install 123
+  View list of assigned profiles in json format
+        hubcli profiles --list --json
 ```
 
 If we run `hubcli profiles --list --json` we get nice json list of all profiles currently scoped to the device.
