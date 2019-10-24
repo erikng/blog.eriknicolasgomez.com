@@ -45,7 +45,7 @@ But people were _very_ intrigued with the idea and it spurred lots of great disc
 
 Recently, [Graham Gilbert](https://grahamgilbert.com/) released a much better idea around this concept called [MDM Director](https://github.com/mdmdirector/mdmdirector). It's actually quite incredible, but unfortunately it requires MicroMDM and a hell of a lot of deep knowledge around the MDM protocol, MDM APIs, and Go.
 
-Utilizing MicroMDM and MDMDirector together certainly reduces if not completely removes the need for locally installed profiles (and much much more), but it may not be for everyone - certainly not if you pay a MDM vendor.
+Utilizing MicroMDM and MDMDirector together certainly reduces if not completely removes the need for locally installed profiles (and much much more), but it may not be for everyone - certainly not if you pay an MDM vendor.
 
 ## The partnership with Workspace One has continued
 I've had a pretty great partnership with Workspace One. We co-authored and released the [custom bootstrap methodology](https://docs.vmware.com/en/VMware-Workspace-ONE-UEM/1909/macOS_Platform/GUID-AWT-BOOTSTRAP-C.html) and I wrote an open sourced [InstallApplications](https://github.com/erikng/installapplications) which continues to be used worldwide to provision macOS devices through MDM enrollment.
@@ -230,6 +230,29 @@ We than take that content and loop through the resulting plist, and compare each
 One thing to be mindful of is that Workspace One takes the name of your profile and adds special information to the profile. For instance if you name a profile `Example Device Profile` in the MDM console, it will deploy to your device `Example Device Profile/V_1` and update the "version" each time you make a change in the console.
 
 `cpe_workspaceone` doesn't care about this abstraction detail and simplifies it by concatenating the string and logic automatically for you. All _you_ need to care about is the profile name.
+
+`cpe_workspaceone` handles much more than just the enforcement of the MDM profiles. It can also be used to silently install the agent and hide it from the user.
+
+```
+# Install the package
+node.default['cpe_workspaceone']['install'] = true
+{
+  'checksum' => '0d83adceaba5a6a9d6cba7d4acec89ded10de1aea80522d91585bc4d4c6317b9',
+  'pkg_name' => 'workspace_one_intelligent_hub-19.10b2',
+  'version' => '19.10 Beta',
+}.each do |k, v|
+  node.default['cpe_workspaceone']['pkg'][k] = v
+end
+
+# Manage the agent's settings
+node.default['cpe_workspaceone']['manage'] = true
+# Hide the menubar
+node.default['cpe_workspaceone']['prefs'] = {
+  'HubAgentIconVisiblePreference' => false,
+}
+```
+
+For more information, please see the README of the cookbook.
 
 ## Final Thoughts
 If you are a Chef shop that also uses Workspace One and want to start utilizing this with chef, download the `cpe_workspaceone` cookbook [here](https://github.com/uber/cpe-chef-cookbooks/tree/master/cpe_workspaceone). Remember you need to be on version 1910 of the console and agent for this to work.
