@@ -5,7 +5,7 @@ title: "C-MDM Part 2 - Managing Workspace One profiles with Chef using the new v
 description: "Finally something secure enough for production use"
 tags: [ABM, AirWatch, API, CM, Configuration Management, Chef, DEP, MDM, Mobile Device Management, Munki]
 published: true
-date: 2019-10-30 00:00:00
+date: 2019-10-31 00:00:00
 comments: true
 ---
 
@@ -53,7 +53,7 @@ I've had a pretty great partnership with Workspace One. We co-authored and relea
 After joining my current employer, we too realized that some kind of middleware tool would be a highly valuable to have in our arsenal. While Nate and I wanted (want) to build something as robust as MDMDirector for Workspace One, we decided to again partner with the Workspace One macOS team to create a secure, device level binary that could send commands directly to the MDM server.
 
 ## Workspace One v1910 - hubcli
-With the October 2019 release of Workspace One Intelligent Hub Agent (requires UEM Console v1910 as well), there is new functionality within the `hubcli` binary (originally released with v1904).
+With the October 2019 release of [Workspace One Intelligent Hub Agent](https://docs.vmware.com/en/VMware-Workspace-ONE-Intelligent-Hub/services/rn/Workspace-ONE-Intelligent-Hub-for-macOS.html) (requires [UEM Console v1910](https://docs.vmware.com/en/VMware-Workspace-ONE-UEM/1910/rn/VMware-Workspace-ONE-UEM-Release-Notes-1910.html) as well), there is new functionality within the `hubcli` binary (originally released with v1904).
 
 We actually have a reason to install the agent! :smile:
 
