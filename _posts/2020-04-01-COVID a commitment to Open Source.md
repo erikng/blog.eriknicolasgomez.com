@@ -18,9 +18,9 @@ Apart from permanent damage to my lung system, I am also at risk due to my weigh
 From joining this community ten years ago, it was instilled into me that the Open Source community is integral to almost all macadmins.
 
 Starting today, I have moved my three most popular tools to the MacAdmins GitHub organization:
-- https://github.com/erikng/installapplications has moved to https://github.com/macadmins/installapplications
-- https://github.com/erikng/nudge has moved to https://github.com/macadmins/nudge
-- https://github.com/erikng/umad has moved to https://github.com/macadmins/umad
+- [https://github.com/erikng/installapplications](https://github.com/erikng/installapplications) has moved to [https://github.com/macadmins/installapplications](https://github.com/macadmins/installapplications)
+- [https://github.com/erikng/nudge](https://github.com/erikng/nudge) has moved to [https://github.com/macadmins/nudge](https://github.com/macadmins/nudge)
+- [https://github.com/erikng/umad](https://github.com/erikng/umad) has moved to [https://github.com/macadmins/umad](https://github.com/macadmins/umad)
 
 I encourage others to do the same and if there are any other personal repos people would like me to move over, I'm happy to do so.
 
