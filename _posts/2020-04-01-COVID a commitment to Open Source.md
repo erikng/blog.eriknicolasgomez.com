@@ -5,7 +5,7 @@ title: "COVID - A commitment to Open Source"
 description: "Finally something secure enough for production use"
 tags: [Open Source, Nudge, UMAD, InstallApplications, DEP, MDM, Mobile Device Management]
 published: true
-date: 2019-04-01 00:00:00
+date: 2020-04-01 00:00:00
 comments: true
 ---
 
