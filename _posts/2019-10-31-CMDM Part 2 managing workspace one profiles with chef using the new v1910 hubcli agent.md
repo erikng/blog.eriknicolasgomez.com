@@ -101,7 +101,7 @@ Examples:
         hubcli profiles --list --json
 ```
 
-If we run `hubcli profiles --list --json` we get nice json list of all profiles currently scoped to the device.
+If we run `hubcli profiles --list --json` we get a nice json list of all the profiles currently scoped to the device. If a profile isn't listed, confirm the `Assignment Type` is set to `Optional` and the profile is scoped to the Mac.
 ```
 {
   "DeviceProfiles" : [
