@@ -1,7 +1,7 @@
 ---
 layout: post
 author: Erik Gomez
-title: "Demystifying SwiftUI for Macadmins Part 1 - Creting a hero image with ZStack"
+title: "Demystifying SwiftUI for Macadmins Part 1 - Creating a hero image with ZStack"
 description: "SwiftUI is amazing and ZStacks are powerful"
 tags: [Open Source, Swift, SwiftUI, Xcode, SF Symbols]
 published: true
