@@ -1136,7 +1136,62 @@ My hope is some of the [issues](https://github.com/DerekSelander/dsdump/issues/3
 # Conclusion
 As you can see, this took a tremendous amount of effort for something that really should just be a public API. Please Apple, please, release one in a future version of macOS.
 
-I have submitted [feedback to Apple]() and I would appreciate it being duplicated if you care about data like this.
+I have submitted feedback to Apple and I would appreciate it being duplicated if you care about data like this.
+
+```
+FB9959106
+
+Basic Information
+
+Which area are you seeing an issue with?
+Security
+
+Please provide a descriptive title for your feedback:
+Please expose the NEConfiguration headers in the NetworkExtension Swift module or expose this information via a tool
+
+What type of issue are you reporting?
+Incorrect/Unexpected Behavior
+
+Details
+
+What does the Security issue you are seeing involve?
+Something else not on this list
+
+Are you able to reproduce the issue?
+Yes
+
+What software version(s) and hardware have you reproduced the issue on?
+Big Sur 11.0 through Monterey 12.3
+
+Description
+
+Please describe the issue and what steps we can take to reproduce it:
+Many security vendors, like CrowdStrike, are now offering Network Extensions. Unfortunately, there is no public API for an organization to check, audit, and repair the status of Network Extensions when they are disabled by the end-user.
+
+There is a plist located at /Library/Preferences/com.apple.networkextension.plist. Vendors have proposed to administrators do something like the following:
+
+sudo /Applications/Falcon.app/Contents/Resources/falconctl disable-filter
+Falcon network filter is disabled
+
+plutil -p /Library/Preferences/com.apple.networkextension.plist | grep falcon -A5 | grep Enabled
+      "Enabled" => 0
+
+sudo /Applications/Falcon.app/Contents/Resources/falconctl enable-filter
+Falcon network filter is enabled
+
+plutil -p /Library/Preferences/com.apple.networkextension.plist | grep falcon -A5 | grep Enabled
+      "Enabled" => 1
+
+This is non-ideal for many reasons, one being that this data may be old due to cfprefsd. The plist is also in a strange format and I found that CFPreferences cannot always extract data from this plist.
+
+To solve this, I have extracted the NetworkExtension Objective C header files myself and created a Swift CLI tool to read this data. You can find that on github here: https://github.com/erikng/gnes/tree/main/gnes
+
+Ideally, I propose 2 ideas:
+1. Create a tool that an administrator can use to read this information directly
+2. Add these headers to the Xcode macOS SDK so that others (like me) can create a Swift CLI tool without using Objective C to Swift bridge files.
+
+By exposing this data, we can accurately query the state of all network extensions installed on machines and re-enable them if they are disabled. This will also help us pass both external and internal audits.
+```
 
 PS. If for some reason you do want an incomplete version of gnes, but in python3, see this [gist](https://gist.github.com/erikng/407366fce4a3df6e1a5f8f44733f89ea)
 
