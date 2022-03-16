@@ -1049,7 +1049,7 @@ If for some reason you like plists over json, `gnes` supports that as well with 
 </plist>
 ```
 
-And finally, If you don't know what extension type you have installed or the identifier of the one you want to target, you can use the `-debug` argument.
+If you don't know what extension type you have installed or the identifier of the one you want to target, you can use the `-debug` argument.
 
 ```shell
 gnes -identifier "com.example.fake.contentFilter" -type contentFilter -debug
@@ -1071,7 +1071,49 @@ Did not find network extension!
 }
 ```
 
-A [future version of the tool](https://github.com/erikng/gnes/issues/1) will just return all extension data in either plist or json format, allowing your other tools to parse the data, rather than only returning specific filters.
+And finally if you just want to return all extension data in either plist or json format.
+
+```shell
+gnes -dump -stdout-json
+```
+
+```json
+{
+  "8A618C8C-B151-4905-9796-B9B07144E649" : {
+    "application" : "com.crowdstrike.falcon.App",
+    "applicationName" : "Falcon",
+    "contentFilter" : {
+      "enabled" : true,
+      "filterGrade" : 1,
+      "provider" : {
+        "dataProviderBundleIdentifier" : "com.crowdstrike.falcon.Agent",
+        "dataProviderDesignatedRequirement" : "identifier \"com.crowdstrike.falcon.Agent\" and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] \/* exists *\/ and certificate leaf[field.1.2.840.113635.100.6.1.13] \/* exists *\/ and certificate leaf[subject.OU] = X9E956P446",
+        "filterPackets" : false,
+        "filterSockets" : true,
+        "organization" : "CrowdStrike",
+        "packetProviderBundleIdentifier" : "com.crowdstrike.falcon.Agent",
+        "pluginType" : "com.crowdstrike.falcon.App",
+        "preserveExistingConnections" : false
+      }
+    },
+    "grade" : 1,
+    "identifier" : "8A618C8C-B151-4905-9796-B9B07144E649",
+    "name" : "Falcon",
+    "payloadInfo" : {
+      "isSetAside" : false,
+      "payloadOrganization" : "GitHub",
+      "payloadUUID" : "8EF5C132-BEB4-499E-BEE3-07CF4361780F",
+      "profileIdentifier" : "10D24B0A-2F2A-4F96-80FA-7A435D65981A",
+      "profileIngestionDate" : "2022-03-08 00:00:00 -0000",
+      "profileSource" : "mdm",
+      "profileUUID" : "58417554-8EAB-4DF5-A2FB-D13AF9DC4042",
+      "systemVersion" : "Version 12.2.1 (Build 21D62)"
+    }
+  }
+}
+```
+
+This is useful if you have others tools (like chef) that can natively parse the data and memoize it.
 
 Further optimization can likely be done with the headers like [combining them into a single file](https://github.com/udevsharold/airkeeper/blob/master/PrivateHeaders.h). There's also likely some [gotchas](https://swiftrocks.com/be-careful-with-objc-bridging-in-swift) with the objc bridge and clearly some optimization that needs to happen in the gnes code, but it at least we have something now that works.
 
