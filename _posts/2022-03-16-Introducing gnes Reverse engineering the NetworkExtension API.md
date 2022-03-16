@@ -801,10 +801,279 @@ So now I had the headers, but what do I actually do with them?
 
 I also found [this blog post](https://medium.com/@subhangdxt/bridging-objective-c-and-swift-classes-5cb4139d9c80) pretty informative. With these sets of data, I was on my way. I knew I didn't need all of the headers that `classdump-dyld` but just the types of data I needed and the particular classes the PyObjC code used.
 
+At the very least, I knew I needed data from the following headers:
+- NEConfiguration.h - Where all the core information is relating to the types of NetworkExtension Configurations
+- NEConfigurationManager.h - Where loading the configurations were
+- NEContentFilter.h - The first type of Network Extension and the one I mainly cared about
+- NEDNSProxy.h - The second type of Network Extension
+- NEVPN.h - The third type of Network Extension
+- NEProfileIngestionPayloadInfo.h - Parts of the data for the Network Extensions config that comes via MDM
+- NEProfilePayloadHandlerDelegate.h - Parts of the data for the Network Extensions to handle the mdm payload
+
+The bridging header needed to consume the primary headers
+```swift
+//
+//  Use this file to import your target's public headers that you would like to expose to Swift.
+//
+
+#import "NEConfigurationManager.h"
+#import "NEProfileIngestionPayloadInfo.h"
+#import "NEContentFilter.h"
+#import "NEVPN.h"
+#import "NEDNSProxy.h"
+```
+
+NEConfigurationManager needed to consume the configuration header but also had some standard classes that would only come from cocoa
+```swift
+//
+
+#import <Cocoa/Cocoa.h>
+#import "NEConfiguration.h"
+```
+
+The profile ingestor header would need to consume the payload header
+```swift
+//
+
+#import "NEProfilePayloadHandlerDelegate.h"
+```
+
+Note that these imports were already defined, but using Apple's internal paths. I had to modify these to use the paths within my swift bundle.
+
+And with that, the original swift code could finally look comparable to the pyobjc code
+
+```python
+from Foundation import NSBundle
+
+NetworkExtension = NSBundle.bundleWithPath_('/System/Library/Frameworks/NetworkExtension.framework')
+NEConfigurationManager = NetworkExtension.classNamed_('NEConfigurationManager')
+manager = NEConfigurationManager.sharedManager()
+err = manager.reloadFromDisk()
+configs = manager.loadedConfigurations()
+```
+
+```swift
+import Foundation
+import NetworkExtension
+
+let sharedManager = NEConfigurationManager.self.shared() // sharedManager() was deprecated to shared() in Swift
+_ = sharedManager?.reloadFromDisk() // identical call like pyobjc
+let loadedConfigurations = sharedManager?.loadedConfigurations // identical call like pyobjc without the ()
+```
+
+Finally I had something! But sadly it wasn't over.
+
+# Swift types
+I want to preface this by saying I am still learning this aspect of Swift and everything you will read in this section could be wrong. Please correct me if that is indeed the case and there is a better way to do this.
+
+In PyObjC, once we had the loaded configurations we could loop through them with a simple for loop:
+
+```python
+if configs:
+    for index, key in enumerate(configs):
+        config = configs[key]
+        if config.application() == identifier:
+            enabled = config.contentFilter().isEnabled()
+```
+
+In swift, loadedConfigurations is a type of `NEConfigurationManager` which you cannot for loop. To solve this, we have to force cast the value as a `NSDictionary`. Once we do this though, the values of this Dictionary become `AnyObject` and we lose the built in property of `NEConfiguration`. To solve for this, we have to again force cast these to the data we need, so we can use the other build in logic that Swift handles for us.
+
+```swift
+if loadedConfigurations != nil {
+  for (_, value) in loadedConfigurations! as NSDictionary { // Force cast NEConfigurationManager to NSDictionary
+    let config = value as! NEConfiguration // Force cast to AnyObject to NEConfiguration
+    if config.application == identifier {
+      if (config.contentFilter != nil) {
+        enabled = (config.contentFilter.enabled != 0) // isEnabled was changed to enabled in Swift
+      }
+    }
+  }
+}
+```
+
+While this is a bit more verbose/obtuse, this is identical code. We now have a working POC. There's a lot of other dragons to contend with, like other data having to be force casted, some keys not "existing" even with the headers extracted, but overall, this exactly what I had to do to get working Swift code.
+
+That leaves us to the best part of the blog.
 # Introducing gnes (G Ness - Get Network Extension Status)
-[gnes](https://github.com/erikng/gnes) is a Swift 5, Objective-C binary that has several options.
+While I told myself I would never open source another tool, I have. [gnes](https://github.com/erikng/gnes) is a Swift 5, Objective-C binary that has several options.
+
+```shell
+NAME
+     gnes – Get Network Extension Status
+
+SYNOPSIS
+     gnes -debug [-identifier identifier] [-type type] output
+
+DESCRIPTION
+     The gnes command is used to read and print network extension status
+
+OPTIONS
+     The options are as follows:
+
+     -debug
+             Optional: Returns all found bundle identifiers and type if passed identifier is not found
+
+     -identifier
+             Required: The bundle identifier of the network extension to query
+
+     -type
+             Required: The type of network extension you are querying. Needed when an application installs multiple network extensions with the same bundle identifier
+                "contentFilter", "dnsProxy", "vpn"
+
+     output
+            Optional: Specific output formats:
+                -stdout-xml -stdout-json -stdout-enabled -stdout-raw
+```
+
+If for instance you just want to know if a NetworkExtension is enabled/disabled you can run the following:
+
+```shell
+sudo /Applications/Falcon.app/Contents/Resources/falconctl disable-filter
+Falcon network filter is disabled
+
+gnes -identifier "com.crowdstrike.falcon.App" -type contentFilter -stdout-enabled
+false
+
+sudo /Applications/Falcon.app/Contents/Resources/falconctl enable-filter
+Falcon network filter is enabled
+
+gnes -identifier "com.crowdstrike.falcon.App" -type contentFilter -stdout-enabled
+true
+```
+
+This again has the benefit of getting this data directly from Apple, rather than trusting a vendor's implementation of this data. Since it reads the configuration in real-time, it is always fully up-to-date.
+
+If you wanted the entire configuration of the extension you could run `gnes -identifier "com.crowdstrike.falcon.App" -type contentFilter -stdout-json`
+```json
+{
+  "application" : "com.crowdstrike.falcon.App",
+  "applicationName" : "Falcon",
+  "contentFilter" : {
+    "enabled" : true,
+    "filterGrade" : 1,
+    "provider" : {
+      "dataProviderBundleIdentifier" : "com.crowdstrike.falcon.Agent",
+      "dataProviderDesignatedRequirement" : "identifier \"com.crowdstrike.falcon.Agent\" and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] \/* exists *\/ and certificate leaf[field.1.2.840.113635.100.6.1.13] \/* exists *\/ and certificate leaf[subject.OU] = X9E956P446",
+      "filterPackets" : false,
+      "filterSockets" : true,
+      "organization" : "CrowdStrike",
+      "packetProviderBundleIdentifier" : "com.crowdstrike.falcon.Agent",
+      "pluginType" : "com.crowdstrike.falcon.App",
+      "preserveExistingConnections" : false
+    }
+  },
+  "grade" : 1,
+  "identifier" : "CD150001-EE65-447B-9251-B32D6CF828B7",
+  "name" : "Falcon",
+  "payloadInfo" : {
+    "isSetAside" : false,
+    "payloadOrganization" : "GitHub",
+    "payloadUUID" : "8EF5C132-BEB4-499E-BEE3-07CF4361780F",
+    "profileIdentifier" : "10D24B0A-2F2A-4F96-80FA-7A435D65981A",
+    "profileIngestionDate" : "2022-03-08 00:00:00 -0000",
+    "profileSource" : "mdm",
+    "profileUUID" : "58417554-8EAB-4DF5-A2FB-D13AF9DC4042",
+    "systemVersion" : "Version 12.2.1 (Build 21D62)"
+  },
+  "type" : "contentFilter"
+}
+```
+
+If for some reason you like plists over json, `gnes` supports that as well with `-stdout-xml`
+
+```xml
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+    <dict>
+        <key>application</key>
+        <string>com.crowdstrike.falcon.App</string>
+        <key>applicationName</key>
+        <string>Falcon</string>
+        <key>contentFilter</key>
+        <dict>
+            <key>enabled</key>
+            <true/>
+            <key>filterGrade</key>
+            <integer>1</integer>
+            <key>provider</key>
+            <dict>
+                <key>dataProviderBundleIdentifier</key>
+                <string>com.crowdstrike.falcon.Agent</string>
+                <key>dataProviderDesignatedRequirement</key>
+                <string>identifier "com.crowdstrike.falcon.Agent" and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = X9E956P446</string>
+                <key>filterPackets</key>
+                <false/>
+                <key>filterSockets</key>
+                <true/>
+                <key>organization</key>
+                <string>CrowdStrike</string>
+                <key>packetProviderBundleIdentifier</key>
+                <string>com.crowdstrike.falcon.Agent</string>
+                <key>pluginType</key>
+                <string>com.crowdstrike.falcon.App</string>
+                <key>preserveExistingConnections</key>
+                <false/>
+            </dict>
+        </dict>
+        <key>grade</key>
+        <integer>1</integer>
+        <key>identifier</key>
+        <string>F5CF37FF-AD81-478A-BC44-158E0C098F9B</string>
+        <key>name</key>
+        <string>Falcon</string>
+        <key>payloadInfo</key>
+        <dict>
+            <key>isSetAside</key>
+            <false/>
+            <key>payloadOrganization</key>
+            <string>GitHub</string>
+            <key>payloadUUID</key>
+            <string>B477FCD3-BB72-4C65-9C81-CB54913C8D2B</string>
+            <key>profileIdentifier</key>
+            <string>40EC65F4-D642-44E7-89A8-B7F84D25BD79</string>
+            <key>profileIngestionDate</key>
+            <string>2022-03-08 00:00:00 -0000</string>
+            <key>profileSource</key>
+            <string>mdm</string>
+            <key>profileUUID</key>
+            <string>6A26A255-51BF-493C-8BC9-4DA9F01CEF6D</string>
+            <key>systemVersion</key>
+            <string>Version 12.2.1 (Build 21D62)</string>
+        </dict>
+        <key>type</key>
+        <string>contentFilter</string>
+    </dict>
+</plist>
+```
+
+And finally, If you don't know what extension type you have installed or the identifier of the one you want to target, you can use the `-debug` option:
+
+```shell
+gnes -identifier "com.example.fake.contentFilter" -type contentFilter -debug
+Did not find network extension!
+{
+  "contentFilter" : [
+    "com.crowdstrike.falcon.App",
+    "com.cisco.anyconnect.macos.acsock"
+  ],
+  "dnsProxy" : [
+    "com.cisco.anyconnect.macos.acsock"
+  ],
+  "unknown" : [
+
+  ],
+  "vpn" : [
+    "com.cisco.anyconnect.macos.acsock"
+  ]
+}
+```
+
+A [future version of the tool](https://github.com/erikng/gnes/issues/1) will just return all extension data in either plist or json format, allowing your other tools to parse the data, rather than only returning specific filters.
 
 Further optimization can likely be done with the headers like [combining them into a single file](https://github.com/udevsharold/airkeeper/blob/master/PrivateHeaders.h), there's likely some [gotchas](https://swiftrocks.com/be-careful-with-objc-bridging-in-swift) with the objc bridge and clearly some optimization that needs to happen in the gnes code, but it at least we have something now that works.
+
+I may also attempt to sign/notarize and package it for easier distribution and at Uber we plan on using this as a drop-in replacement for our [crowdstrike cookbook](https://github.com/uber/client-platform-engineering/blob/main/chef/cookbooks/cpe_crowdstrike_falcon_sensor)
 
 # The state of class dumping on macOS
 To be frank, it appears to be dying. You can [find lots of people](https://mjtsai.com/blog/2020/06/26/reverse-engineering-macos-11-0/) complaining about this since 2020.
