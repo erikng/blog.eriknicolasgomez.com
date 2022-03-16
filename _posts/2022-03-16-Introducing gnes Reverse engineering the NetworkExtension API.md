@@ -795,9 +795,9 @@ So now I had the headers, but what do I actually do with them?
 
 [Apple](https://developer.apple.com/documentation/swift/imported_c_and_objective-c_apis/importing_objective-c_into_swift) has some pretty good documentation for this. Essentially when you add a header file into your swift Application, Xcode will politely ask if you want to create an Objective-C bridging header.
 
-![Importing Objective C into Swift App](https://docs-assets.developer.apple.com/published/0c58cbcc83/swift-ImportingObjC@2x.png)
+![Importing Objective C into Swift App](/images/2022/gnes/swift-ImportingObjC-1.png)
 
-![Swift ObjectiveC header](https://docs-assets.developer.apple.com/published/5c7302fa8d/3074416@2x.png)
+![Swift ObjectiveC header](/images/2022/gnes/swift-ImportingObjC-2.png)
 
 I also found [this blog post](https://medium.com/@subhangdxt/bridging-objective-c-and-swift-classes-5cb4139d9c80) pretty informative. With these sets of data, I was on my way. I knew I didn't need all of the headers that `classdump-dyld` but just the types of data I needed and the particular classes the PyObjC code used.
 
