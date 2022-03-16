@@ -811,7 +811,7 @@ At the very least, I knew I needed data from the following headers:
 - NEProfilePayloadHandlerDelegate.h - Parts of the data for the Network Extensions to handle the mdm payload
 
 The bridging header needed to consume the primary headers
-```swift
+```objc
 //
 //  Use this file to import your target's public headers that you would like to expose to Swift.
 //
@@ -824,7 +824,7 @@ The bridging header needed to consume the primary headers
 ```
 
 NEConfigurationManager needed to consume the configuration header but also had some standard classes that would only come from cocoa
-```swift
+```objc
 //
 
 #import <Cocoa/Cocoa.h>
@@ -832,7 +832,7 @@ NEConfigurationManager needed to consume the configuration header but also had s
 ```
 
 The profile ingestor header would need to consume the payload header
-```swift
+```objc
 //
 
 #import "NEProfilePayloadHandlerDelegate.h"
