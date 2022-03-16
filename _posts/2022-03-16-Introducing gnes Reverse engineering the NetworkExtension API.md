@@ -11,7 +11,7 @@ comments: true
 
 Part of my old job and new job is ensuring that various pieces of software are installed, configured and if tampered with, maliciously or not, to bring it back into a desired state.
 
-As of Big Sur and higher, EDR vendors have begun to implement Content Filter Network Extensions that pass all network traffic through it. Many of these vendors highly recommend implementing it in enterprise environments and it comes on as default.
+As of Big Sur and higher, EDR vendors have begun to implement Content Filter Network Extensions that pass all network traffic through it. Many of these vendors highly recommend implementing it in enterprise environments and it comes on as default. These network extensions try to block malicious activity before it happens while also trying to be mindful of the user's traffic, as it could contain private data.
 
 # A somewhat deep dive into extension code
 
@@ -32,7 +32,7 @@ Falcon network filter is disabled
 
 Tools like [Chef Infra](https://github.com/chef/chef) allow you to write desired state functionality, but very often for situations where you must run a `shell` command, you have to figure out a way to only do this if the state has changed. Failure to do this will result in a non-idempontent chef configuration and can break tools like [ChefSpec](https://docs.chef.io/workstation/chefspec/).
 
-Macadmins on the CrowdStrike slack channel had found the following could tell them of the state.
+Macadmins on the CrowdStrike slack channel had found that the following could return the state of the network filter.
 
 ```shell
 sudo /Applications/Falcon.app/Contents/Resources/falconctl disable-filter
@@ -48,7 +48,7 @@ sudo defaults read "/Library/Application Support/CrowdStrike/Falcon/simplestore.
 1
 ```
 
-While this is an OK method, I had concerns about trusting CrowdStrike to return it's own health state. When discussing this issue with CrowdStrike, one of their engineers recommended doing the following.
+While this is an OK method, I had concerns about trusting CrowdStrike to return its own health state. When discussing this issue with CrowdStrike, one of their engineers recommended the following.
 
 ```shell
 sudo /Applications/Falcon.app/Contents/Resources/falconctl disable-filter
@@ -64,9 +64,7 @@ plutil -p /Library/Preferences/com.apple.networkextension.plist | grep falcon -A
       "Enabled" => 1
 ```
 
-I much preferred this method as this information was sourced directly from Apple. What I didn't like though was the multi grep.
-
-When playing around with this in [macadmins python](https://github.com/macadmins/python) I realized this plist is in a very strange format.
+I much preferred this method as this information was sourced directly from Apple. What I didn't like though was the multi `grep` and using `plutil`. For years Apple has warned that what is on disk in /Library/Preferences may not be what is actually applied, due to [cfprefsd](https://iphonedev.wiki/index.php/Preferences). When playing around with this in [macadmins python](https://github.com/macadmins/python) I realized the plist was in a very strange format.
 
 ```xml
 <string>com.crowdstrike.falcon.App</string>
@@ -99,13 +97,13 @@ for index, value in enumerate(network_extensions):
         print(value.get('Enabled'))
 ```
 
-But having Chef, which is written in Ruby depend on Python just felt like the wrong approach. Luckily as of Chef 17.7.22, Chef now has a built in method for using a [Ruby to ObjC bridge for CoreFoundation](https://github.com/chef/chef/pull/11898). With that bridge available, I [ported the python code into ruby and made it a dynamic function](https://github.com/uber/client-platform-engineering/blob/main/chef/cookbooks/uber_helpers/libraries/node_utils.rb#L737-L760) so we could use it for other Network Extensions, should the time come.
+But having Chef, which is written in Ruby, depend on Python just felt like the wrong approach. Luckily as of Chef 17.7.22, Chef now has a built-in method for using a [Ruby to ObjC bridge for CoreFoundation](https://github.com/chef/chef/pull/11898). With that bridge available, I [ported the python code into ruby and made it a dynamic function](https://github.com/uber/client-platform-engineering/blob/main/chef/cookbooks/uber_helpers/libraries/node_utils.rb#L737-L760) so we could use it for other Network Extensions, should the time come.
 
 We were then able to hook into this [function directly in our crowdstrike code](https://github.com/uber/client-platform-engineering/blob/main/chef/cookbooks/cpe_crowdstrike_falcon_sensor/resources/cpe_crowdstrike_falcon_sensor.rb#L318-L334).
 
-Life was great! But then we started seeing failures on some of our devices. Further investigation showed that this function failed when there were multiple content filters. CFPreferences, or at least the bridge that the Progress team had written was failing, causing Chef runs to fail.
+Life was great! But then we started seeing failures on some of our devices. Further investigation showed that this function failed when there were multiple content filters - typically due to unapproved VPNs. CFPreferences, or at least the bridge that the Progress team had written was failing, causing Chef runs to fail.
 
-With a bit of a hint, I went back to python, but this time tried via PyObjc:
+With a bit of a hint, I _hopped_ back to python, but this time tried via PyObjc:
 
 ```python
 #!/usr/local/bin/managed_python3
@@ -122,16 +120,16 @@ for index, key in enumerate(configs):
         print(config.contentFilter().isEnabled())
 ```
 
-This looks _much_ better, is much more stable, but one of my original requirements was back to being a problem. I decided to take a look at what the Progress team did with [CoreFoundation](https://github.com/chef/corefoundation) and immediately noped my way off that cliff.
+This looks _much_ better, is much more stable, but one of my original requirements was back to being a problem (ruby depending on python). I decided to take a look at what the Progress team did with [CoreFoundation](https://github.com/chef/corefoundation) and immediately noped my way off that cliff.
 
-I started thinking about using JXA as other [macadmins](https://scriptingosx.com/2021/11/the-unexpected-return-of-javascript-for-automation/) have been discussing using this option, but I'm not too fond (or good) with javascript and the idea of shelling out to _another_ non-compiled language bothered me. It also felt like it was going to get [very complex](https://github.com/JXA-Cookbook/JXA-Cookbook/wiki/Using-Objective-C-%28ObjC%29-with-JXA#jxa-objc-bridge---the-fundamentals) very quickly for implementing an Objective-C bridge.
+I started thinking about using `JXA` as other [macadmins](https://scriptingosx.com/2021/11/the-unexpected-return-of-javascript-for-automation/) have been discussing using this option, but I'm not too fond (or good) with javascript and the idea of shelling out to _another_ non-compiled language bothered me. It also felt like it was going to get [very complex](https://github.com/JXA-Cookbook/JXA-Cookbook/wiki/Using-Objective-C-%28ObjC%29-with-JXA#jxa-objc-bridge---the-fundamentals) very quickly for implementing an JXA to Objective-C bridge.
 
 As someone decently versed in Swift these days, I figured that porting my PyObjC code to Swift would be pretty painless, given that so much of my Nudge-Python code easily ported to Swift.
 
 I was absolutely wrong.
 
 # The real journey
-So right off the bat things didn't look so good. Even though Swift had the module `NetworkExtension` already available, you couldn't just grab the class `NEConfigurationManager`
+So right off the bat, things didn't look so good. Even though Swift had the `NetworkExtension` module already available, you couldn't just grab the class `NEConfigurationManager` from it.
 
 ```swift
 import NetworkExtension
@@ -141,7 +139,7 @@ let NEConfigurationManager = NetworkExtension.classNamed("NEConfigurationManager
 ERROR: Module 'NetworkExtension' has no member named 'classNamed'
 ```
 
-Swift has something similar to the PyObjC method where you can load a [bundle via the framework path](https://stackoverflow.com/a/58124538)
+Swift has something similar to the PyObjC method where you can load a [bundle via the framework path](https://stackoverflow.com/a/58124538) so I decided to try loading the bundle itself, rather than the module Xcode offered. This would be similar to the PyObjC method.
 
 ```swift
 import Foundation
@@ -157,7 +155,7 @@ Optional(NEConfigurationManager)
 Program ended with exit code: 0
 ```
 
-Somewhat progress, but then we hit the next stumbling block
+Progress, but then we hit the next road block.
 
 ```swift
 import Foundation
@@ -173,9 +171,9 @@ if let NetworkExtensionBundle = Bundle(path: "/System/Library/Frameworks/Network
 ERROR: Value of type 'AnyClass' (aka 'AnyObject.Type') has no member 'sharedManager'
 ```
 
-Because the compiler didn't know what `NEConfigurationManager` is, we had to cast it to `AnyClass?` and now, the compiler has no idea that there is a sub class called `sharedManager()`
+Because the compiler didn't know what `NEConfigurationManager` is, we had to force cast it to `AnyClass?` and now, the compiler has no idea that there is a sub class called `sharedManager()`. Force casting can be dangerous and commonly introduces issues like this.
 
-If we add back the original NetworkExtension we get _another_ error
+If we add back the original `NetworkExtension` module we get _another_ error.
 
 ```swift
 import Foundation
@@ -191,7 +189,7 @@ if let NetworkExtensionBundle = Bundle(path: "/System/Library/Frameworks/Network
 ERROR: Ambiguous use of 'sharedManager()'
 ```
 
-When googling this error, essentially the compiler doesn't know what `sharedManager()` to use, because multiple frameworks have the same name. Going back to the issue in the previous iteration, we had to force cast it to `AnyClass?` so we've muddled the waters.
+When googling this error, essentially the compiler doesn't know what `sharedManager()` to use, because multiple modules have the same class name. Going back to the issue in the previous iteration, we had to force cast it to `AnyClass?` so we've muddled the waters.
 
 I kept wondering if there was another class name I could use and stumbled upon this [stackoverflow](https://stackoverflow.com/a/35305698) that pointed to a way to print all of the available classes.
 
@@ -209,7 +207,7 @@ if let NetworkExtensionBundle = Bundle(path: "/System/Library/Frameworks/Network
 }
 ```
 
-This gave me a bunch of sub classes via stdout
+This gave me a bunch of classes via Xcode's stdout window.
 
 ```
 dealloc
@@ -236,7 +234,7 @@ if let NetworkExtensionBundle = Bundle(path: "/System/Library/Frameworks/Network
 }
 ```
 
-This showed me where the objects were
+This showed me where the objects were.
 
 ```
 Optional(0x00007ff8196cdfd4)
@@ -244,7 +242,7 @@ Optional(0x00007ff8196df6a1)
 Program ended with exit code: 0
 ```
 
-With this, I thought I could call [method invoke](https://developer.apple.com/documentation/objectivec/1456726-method_invoke) and get passed the issue
+With this, I thought I could call [method invoke](https://developer.apple.com/documentation/objectivec/1456726-method_invoke) and finally move on to finishing the code.
 
 ```swift
 if let NetworkExtensionBundle = Bundle(path: "/System/Library/Frameworks/NetworkExtension.framework") {
@@ -259,16 +257,16 @@ if let NetworkExtensionBundle = Bundle(path: "/System/Library/Frameworks/Network
 ERROR: 'method_invoke' is unavailable: Variadic function is unavailable
 ```
 
-Googling this lead me to another issue. This function, can accept `AnyObject`, [so it's defined as a variadic function](https://akrabat.com/wrapping-variadic-functions-for-use-in-swift/). At this point I was pretty frustrated as I had wasted hours upon hours at night on something that I thought would be a 5 minute port.
+Googling this lead me to another issue. This ObjC function, can accept `AnyObject`, [so it's defined as a variadic function](https://akrabat.com/wrapping-variadic-functions-for-use-in-swift/). To date, Swift cannot support [variadic C functions](https://developer.apple.com/forums/thread/666479). At this point I was pretty frustrated as I had wasted hours upon hours at night on something that I thought would be a 5 minute port.
 
 It was pretty obvious to me that Apple didn't think we needed access to this functionality (or want us to have it) and the only way was to follow [another person's lead](https://blog.timac.org/2018/0717-macos-vpn-architecture/) who built an [open source VPN](https://blog.timac.org/2018/0719-vpnstatus/) that exposed small elements of the [headers](https://github.com/Timac/VPNStatus/blob/97e6932cfab86c3ec1dfddd7fdd3a633044a47ea/Common/ACDefines.h#L101-L114). 
 
 > With this knowledge, it is easy to build a replacement for macOS built-in VPN Status menu. This application can use the NEConfigurationManager class from the private part of the NetworkExtension.framework in order to retrieve the NEConfiguration configurations.
 
-Unfortunately for me, while this was helpful, his application was pure Objective-C. It was now obvious to me though. I needed to dump the headers and get what I needed from them.
+Unfortunately for me, while this was helpful, his application was Objective-C. It was now obvious to me though. I needed to dump the headers and get what I needed from them.
 
 # Stop hitting yourself
-Long ago when writing the Untouchables series, I had learned about `ovtool` and that was my first attempt at trying to understand the framework file
+Long ago when writing the Untouchables series ([pt1](/2016/11/27/the-untouchables-apples-new-os-activation-for-touch-bar-macbook-pros/) and [pt2](2016/11/30/the-untouchables-pt-2-offline-touchbar-activation-with-a-purged-disk/)), I had learned about [otool](https://www.manpagez.com/man/1/otool/) and that was my first attempt at trying to understand the framework file.
 
 ```shell
 otool -vt /Users/Shared/output/System/Library/Frameworks/NetworkExtension.framework/Versions/A/NetworkExtension
@@ -309,7 +307,7 @@ otool -vt /Users/Shared/output/System/Library/Frameworks/NetworkExtension.framew
 00007ff80eee7bfa	jmp	0x7ff80f0e37ea
 ```
 
-With this information I could again see the pointers of the functions, but it's not really useful for my purposes. I tried [another tool](https://github.com/nst/RuntimeBrowser) to no avail. My next thought was that Apple provides headers in the Xcode bundle itself. For macOS it is located at `/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk`
+With this information I could again see the pointers of the functions, but it's not really useful for my purposes. I tried [another tool](https://github.com/nst/RuntimeBrowser) to no avail as the framework wasn't even available. My next thought was that Apple provides headers in the Xcode bundle itself. For macOS it is located at `/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk`
 
 ```shell
 ls -1 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks/NetworkExtension.framework/Versions/A/Headers
@@ -373,7 +371,7 @@ NetworkExtension.apinotes
 NetworkExtension.h
 ```
 
-You can also see these headers on [alexy lysuik's github repo](https://github.com/alexey-lysiuk/macos-sdk/tree/master/MacOSX12.1.sdk/System/Library/Frameworks/NetworkExtension.framework/Versions/A/Headers). Unfortunately these headers didn't have the functions I needed. In fact it looked like these were the headers Xcode itself used for the compiler, aka my original issue :) But with this, I at least knew what the format needed to look like.
+You can also see these headers on [alexy lysuik's github repo](https://github.com/alexey-lysiuk/macos-sdk/tree/master/MacOSX12.1.sdk/System/Library/Frameworks/NetworkExtension.framework/Versions/A/Headers). Unfortunately these headers didn't have the functions I needed. In fact it looked like these were the headers Xcode itself used for the compiler, aka my original issue :). But with this, I at least knew what the format needed to look like.
 
 Googling more lead me to [this link](https://developer.limneos.net/index.php?ios=12.1&framework=NetworkExtension.framework&header=NEConfigurationManager.h) which I found very interesting. This header contained practically all of the information I needed, but it was for iOS 12. More importantly though was one of the first lines.
 
@@ -381,17 +379,15 @@ Googling more lead me to [this link](https://developer.limneos.net/index.php?ios
 * This header is generated by classdump-dyld 1.0
 ```
 
-This lead me down a new, very interesting path. The [iphone dev wiki](https://iphonedev.wiki/index.php/Reverse_Engineering_Tools#Class.2FMetadata_Dumping_tools) has a treasure trove of class/header dumping tools. Of course, as is this case always with macOS, most of these tools were really only designed to work on iOS.
+This lead me down a new, very interesting path. The [iphone dev wiki](https://iphonedev.wiki/index.php/Reverse_Engineering_Tools#Class.2FMetadata_Dumping_tools) has a treasure trove of class/header dumping tools. Of course, as is always the case with macOS, most of these tools were really only designed to work on iOS.
 
 [Since iOS 3.1](https://iphonedev.wiki/index.php/Dyld_shared_cache), Apple had moved to a cache file to improve performance. This feature finally came to macOS with the introduction of Big Sur. You can see these cache files within `/System/Library/dyld/` (dyld_shared_cache_x86_64 for Intel, dyld_shared_cache_arm64e for Apple Silicon).
 
 [classdump-dyld](https://github.com/limneos/classdump-dyld) development seems to have stalled and doesn't support modern macOS versions, so I went looking for alternatives. I found a [macOS headers repo](https://github.com/w0lfschild/macOS_headers/tree/master/tools), but the headers were out of date and I didn't want to use them, even though they looked potentially viable. I wish I had read [issue 3](https://github.com/w0lfschild/macOS_headers/issues/3) at the time, but stopped immediately at [issue 5](https://github.com/w0lfschild/macOS_headers/issues/5). More info on this in a second.
 
-As I continued down the litany of `classdymp-dyld` forks I found [this one](https://github.com/freedomtan/classdump-dyld) that looked promising as it even had Apple M1 support.
+As I continued down the litany of `classdymp-dyld` forks I found [this one](https://github.com/freedomtan/classdump-dyld) that looked promising as it even had Apple M1 support. I cloned the repo, quickly ran `make all` and hoped for the best.
 
-I cloned the repo and quickly ran `make all` and hoped for the best.
-
-There were several interesting arguments you could pass
+There were several interesting arguments you could pass.
 
 ```bash
 # Dumps everything
@@ -788,7 +784,7 @@ NetworkExtension.h
 PKModularService.h
 ```
 
-Yessssssssss! I finally had some progress and could start learning the next part.
+Yessssssssss! I finally had headers! Now I could start learning the next part.
 
 # Adding headers to a swift project
 So now I had the headers, but what do I actually do with them?
@@ -799,18 +795,19 @@ So now I had the headers, but what do I actually do with them?
 
 ![Swift ObjectiveC header](/images/2022/gnes/swift-ImportingObjC-2.png)
 
-I also found [this blog post](https://medium.com/@subhangdxt/bridging-objective-c-and-swift-classes-5cb4139d9c80) pretty informative. With these sets of data, I was on my way. I knew I didn't need all of the headers that `classdump-dyld` but just the types of data I needed and the particular classes the PyObjC code used.
+I also found [this blog post](https://medium.com/@subhangdxt/bridging-objective-c-and-swift-classes-5cb4139d9c80) pretty informative. With these sets of data, I was on my way. I knew I didn't need all of the headers that `classdump-dyld` provided, but just the types of data I needed and the particular classes the PyObjC code used.
 
 At the very least, I knew I needed data from the following headers:
-- NEConfiguration.h - Where all the core information is relating to the types of NetworkExtension Configurations
-- NEConfigurationManager.h - Where loading the configurations were
+- NEConfiguration.h - Where all the core information is relating to the types of NetworkExtension configurations
+- NEConfigurationManager.h - The classes where loading the configurations were
 - NEContentFilter.h - The first type of Network Extension and the one I mainly cared about
 - NEDNSProxy.h - The second type of Network Extension
 - NEVPN.h - The third type of Network Extension
 - NEProfileIngestionPayloadInfo.h - Parts of the data for the Network Extensions config that comes via MDM
 - NEProfilePayloadHandlerDelegate.h - Parts of the data for the Network Extensions to handle the mdm payload
 
-The bridging header needed to consume the primary headers
+The bridging header needed to consume the primary headers.
+
 ```objc
 //
 //  Use this file to import your target's public headers that you would like to expose to Swift.
@@ -823,7 +820,8 @@ The bridging header needed to consume the primary headers
 #import "NEDNSProxy.h"
 ```
 
-NEConfigurationManager needed to consume the configuration header but also had some standard classes that would only come from cocoa
+`NEConfigurationManager` needed to consume the configuration header but also had some standard classes that would only come from cocoa.
+
 ```objc
 //
 
@@ -831,16 +829,17 @@ NEConfigurationManager needed to consume the configuration header but also had s
 #import "NEConfiguration.h"
 ```
 
-The profile ingestor header would need to consume the payload header
+The profile ingestor header would need to consume the payload header.
+
 ```objc
 //
 
 #import "NEProfilePayloadHandlerDelegate.h"
 ```
 
-Note that these imports were already defined, but using Apple's internal paths. I had to modify these to use the paths within my swift bundle.
+Note that these imports were already defined, but using Apple's internal paths. I had to modify these to use the paths within my swift bundle. And with that, the original swift code could finally look comparable to the pyobjc code!
 
-And with that, the original swift code could finally look comparable to the pyobjc code
+Again, here's the python code.
 
 ```python
 from Foundation import NSBundle
@@ -852,6 +851,8 @@ err = manager.reloadFromDisk()
 configs = manager.loadedConfigurations()
 ```
 
+And now the swift code.
+
 ```swift
 import Foundation
 import NetworkExtension
@@ -861,12 +862,12 @@ _ = sharedManager?.reloadFromDisk() // identical call like pyobjc
 let loadedConfigurations = sharedManager?.loadedConfigurations // identical call like pyobjc without the ()
 ```
 
-Finally I had something! But sadly it wasn't over.
+Finally I had something, but sadly it wasn't over.
 
 # Swift types
 I want to preface this by saying I am still learning this aspect of Swift and everything you will read in this section could be wrong. Please correct me if that is indeed the case and there is a better way to do this.
 
-In PyObjC, once we had the loaded configurations we could loop through them with a simple for loop:
+In PyObjC, once we had the loaded configurations we could loop through them with a simple for loop.
 
 ```python
 if configs:
@@ -876,7 +877,7 @@ if configs:
             enabled = config.contentFilter().isEnabled()
 ```
 
-In swift, loadedConfigurations is a type of `NEConfigurationManager` which you cannot for loop. To solve this, we have to force cast the value as a `NSDictionary`. Once we do this though, the values of this Dictionary become `AnyObject` and we lose the built in property of `NEConfiguration`. To solve for this, we have to again force cast these to the data we need, so we can use the other build in logic that Swift handles for us.
+In swift, `loadedConfigurations` is a type of `NEConfigurationManager` which you cannot for loop. To solve this, we have to force cast the value as a `NSDictionary`. Once we do this though, the values of this dictionary become `AnyObject` and we lose the built in property of `NEConfiguration`. To solve for this, we have to again force cast these to the data we need, so we can use the other built-in logic that Swift handles for us.
 
 ```swift
 if loadedConfigurations != nil {
@@ -891,11 +892,11 @@ if loadedConfigurations != nil {
 }
 ```
 
-While this is a bit more verbose/obtuse, this is identical code. We now have a working POC. There's a lot of other dragons to contend with, like other data having to be force casted, some keys not "existing" even with the headers extracted, but overall, this exactly what I had to do to get working Swift code.
+While this is a bit more verbose/obtuse, this is identical code. We now have a working POC! There's a lot of other dragons to contend with, like other data having to be force casted, some keys not "existing" even with the headers extracted, but overall, this is exactly what I had to do to get working Swift code.
 
 That leaves us to the best part of the blog.
 # Introducing gnes (G Ness - Get Network Extension Status)
-While I told myself I would never open source another tool, I have. [gnes](https://github.com/erikng/gnes) is a Swift 5, Objective-C binary that has several options.
+While I told myself I would never open source another tool, I have. I kind of had to. [gnes](https://github.com/erikng/gnes) is a Swift 5, Objective-C binary that has several options.
 
 ```shell
 NAME
@@ -943,7 +944,8 @@ true
 
 This again has the benefit of getting this data directly from Apple, rather than trusting a vendor's implementation of this data. Since it reads the configuration in real-time, it is always fully up-to-date.
 
-If you wanted the entire configuration of the extension you could run `gnes -identifier "com.crowdstrike.falcon.App" -type contentFilter -stdout-json`
+If you wanted the entire configuration of the extension you could run `gnes -identifier "com.crowdstrike.falcon.App" -type contentFilter -stdout-json`.
+
 ```json
 {
   "application" : "com.crowdstrike.falcon.App",
@@ -979,7 +981,7 @@ If you wanted the entire configuration of the extension you could run `gnes -ide
 }
 ```
 
-If for some reason you like plists over json, `gnes` supports that as well with `-stdout-xml`
+If for some reason you like plists over json, `gnes` supports that as well with the `-stdout-xml` argument.
 
 ```xml
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
@@ -1047,7 +1049,7 @@ If for some reason you like plists over json, `gnes` supports that as well with 
 </plist>
 ```
 
-And finally, If you don't know what extension type you have installed or the identifier of the one you want to target, you can use the `-debug` option:
+And finally, If you don't know what extension type you have installed or the identifier of the one you want to target, you can use the `-debug` argument.
 
 ```shell
 gnes -identifier "com.example.fake.contentFilter" -type contentFilter -debug
@@ -1071,9 +1073,9 @@ Did not find network extension!
 
 A [future version of the tool](https://github.com/erikng/gnes/issues/1) will just return all extension data in either plist or json format, allowing your other tools to parse the data, rather than only returning specific filters.
 
-Further optimization can likely be done with the headers like [combining them into a single file](https://github.com/udevsharold/airkeeper/blob/master/PrivateHeaders.h), there's likely some [gotchas](https://swiftrocks.com/be-careful-with-objc-bridging-in-swift) with the objc bridge and clearly some optimization that needs to happen in the gnes code, but it at least we have something now that works.
+Further optimization can likely be done with the headers like [combining them into a single file](https://github.com/udevsharold/airkeeper/blob/master/PrivateHeaders.h). There's also likely some [gotchas](https://swiftrocks.com/be-careful-with-objc-bridging-in-swift) with the objc bridge and clearly some optimization that needs to happen in the gnes code, but it at least we have something now that works.
 
-I may also attempt to sign/notarize and package it for easier distribution and at Uber we plan on using this as a drop-in replacement for our [crowdstrike cookbook](https://github.com/uber/client-platform-engineering/blob/main/chef/cookbooks/cpe_crowdstrike_falcon_sensor)
+I may also attempt to sign/notarize and package it for easier distribution and at Uber we plan on using this as a drop-in replacement for our [network extension code in the crowdstrike cookbook](https://github.com/uber/client-platform-engineering/blob/main/chef/cookbooks/cpe_crowdstrike_falcon_sensor) that we know has some issues.
 
 # The state of class dumping on macOS
 To be frank, it appears to be dying. You can [find lots of people](https://mjtsai.com/blog/2020/06/26/reverse-engineering-macos-11-0/) complaining about this since 2020.
@@ -1082,9 +1084,10 @@ To be frank, it appears to be dying. You can [find lots of people](https://mjtsa
 
 There are other [useful iOS header sources](https://headers.cynder.me/index.php?sdk=iOS15&fw=Frameworks/NetworkExtension.framework) that used other tools like [ktool](https://github.com/cxnder/ktool) but as of just a few days ago the author didn't think he could [ever support macOS Monterey](https://github.com/cxnder/ktool/issues/35). People who have [tried to maintain headers](https://github.com/LeoNatan/Apple-Runtime-Headers/) rely on these tools to work. [Older tools](https://github.com/nygard/class-dump) and their various forks do not work.
 
-Tools like [DyldExtractor](https://github.com/arandomdev/DyldExtractor/issues/33) suffer the same fate. Alternative tools like [dsdump](https://github.com/DerekSelander/dsdump/issues/20) aren't really designed for creating header files and even [forks](https://github.com/paradiseduo/dsdump) or [new tools](https://github.com/paradiseduo/resymbol) based on dsdump still don't work on Monterey.
+Tools like [DyldExtractor](https://github.com/arandomdev/DyldExtractor/issues/33) suffer the same fate. Alternative tools like [dsdump](https://github.com/DerekSelander/dsdump/issues/20) aren't really designed for creating header files and even [forks](https://github.com/paradiseduo/dsdump) or [new tools](https://github.com/paradiseduo/resymbol) based on `dsdump` still don't work on Monterey.
 
-Tools like [dyld-shared-cache-extractor](https://github.com/keith/dyld-shared-cache-extractor) get us halfway there, but then you hit a roadblock (as mentioned above regarding ktool)
+Tools like [dyld-shared-cache-extractor](https://github.com/keith/dyld-shared-cache-extractor) get us halfway there, but then you hit a roadblock (as mentioned above regarding `ktool`).
+
 ```python
 ./dyld-shared-cache-extractor /System/Library/dyld/dyld_shared_cache_x86_64 ./libraries
 ...
@@ -1120,18 +1123,20 @@ Traceback (most recent call last):
 ValueError: Address 0xfffffff8427eeed8 couldn't be found in vm address set
 ```
 
-You can also point Hopper at the shared cache in the folder `/System/Library/dyld/`, but Hopper isn't useful for extracting headers and getting usable code. Tools that kind of [helped with this](https://github.com/antons/dyld-shared-cache-big-sur) died after Big Sur Beta 9
+You can also point Hopper at the shared cache in the folder `/System/Library/dyld/`, but Hopper isn't useful for extracting headers and getting usable code. Tools that kind of [helped with this](https://github.com/antons/dyld-shared-cache-big-sur) died after Big Sur Beta 9.
 
-Even though Apple offers `dsc_extractor` it essentially is useless without [tremendous modifications to the code](https://lapcatsoftware.com/articles/bigsur.html) (things have changes greatly with [newer vesions](https://github.com/apple-oss-distributions/dyld) of Apple's source code). Others have found [clever tricks](https://gist.github.com/NSExceptional/85527151eeec4b0640187a0a165da1cd?permalink_comment_id=3707660#gistcomment-3707660) or simply [took the functions](https://twitter.com/zhuowei/status/1402137181502722051) necessary out of the [main code](https://gist.github.com/zhuowei/4bc4baeb12f64b2e03608cd2b2d7b4d7) but the issue remains - there is data fundamentally missing for these tools to extract the header files.
+Even though Apple open sourced `dsc_extractor` it essentially is useless without [tremendous modifications to the code](https://lapcatsoftware.com/articles/bigsur.html), and things have changes greatly with [newer vesions](https://github.com/apple-oss-distributions/dyld) of Apple's source code to the point where Jeff Johnson's blog post is now longer complete. Others have found [clever tricks](https://gist.github.com/NSExceptional/85527151eeec4b0640187a0a165da1cd?permalink_comment_id=3707660#gistcomment-3707660) or simply [took the functions](https://twitter.com/zhuowei/status/1402137181502722051) necessary out of the [main code](https://gist.github.com/zhuowei/4bc4baeb12f64b2e03608cd2b2d7b4d7) but the issue remains - Even when the binary is dumped from the framework, the data is fundamentally missing for these tools to extract the headers/classes.
 
 There are so many [cool tools](https://mroi.github.io/apple-internals/) around knowledge of macOS and reverse engineering [other formats](https://github.com/bartoszj/acextract) Apple has created, but it just seems like we are hitting a roadblock.
 
-Without someone picking up the mantle (it won't be me), I worry about long term viability for projects like gnes. Future versions of macOS will have new behavior and if Apple continues on not providing admins a method to properly get this data in a supported state, we will be left with _nothing_. The mere fact that I was able to get this data from Big Sur was really due to Apple releasing System Extensions/Network Extensions with that OS.
+Without someone picking up the mantle (it won't be me), I worry about long term viability for projects like gnes. Future versions of macOS will have new behavior and if Apple continues on not providing admins a method to properly get this data in a supported state, we will be left with _nothing_. The mere fact that I was able to get this data from Big Sur was really due to Apple releasing System Extensions/Network Extensions with that OS. Future me and future macadmins may not be so lucky.
 
 My hope is some of the [issues](https://github.com/DerekSelander/dsdump/issues/30) with [dsdump](https://github.com/DerekSelander/dsdump/issues/35) will be resolved and this can be the first part in getting usable data again. I may even take a stab at sending a pull request, time permitting.
 
 # Conclusion
-As you can see, this took a tremendous amount of effort for something that really should just be a public API. Please Apple, please, release one in a future version of macOS. 
+As you can see, this took a tremendous amount of effort for something that really should just be a public API. Please Apple, please, release one in a future version of macOS.
+
+I have submitted [feedback to Apple]() and I would appreciate it being duplicated if you care about data like this.
 
 PS. If for some reason you do want an incomplete version of gnes, but in python3, see this [gist](https://gist.github.com/erikng/407366fce4a3df6e1a5f8f44733f89ea)
 
