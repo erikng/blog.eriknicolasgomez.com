@@ -392,12 +392,35 @@ As I continued down the litany of `classdymp-dyld` forks I found [this one](http
 I cloned the repo and quickly ran `make all` and hoped for the best.
 
 There were several interesting arguments you could pass
-- `./classdump-dyld -o outdir -c` would dump everything it possibly could.
-- `./classdump-dyld -o outdir -r /System/Library/Frameworks/` would dump all the sub frameworks, but was taking quite a while to process it all.
-- `./classdump-dyld -o outdir -r /System/Library/Frameworks/NetworkExtension.framework/` seemed to be what I was looking for
+
+```bash
+# Dumps everything
+./classdump-dyld -o outdir -c
+
+   Now dumping /System/Library/dyld/dyld_shared_cache_x86_64...
+
+
+   Finished dumping /System/Library/dyld/dyld_shared_cache_x86_64...
+
+  Done. Check "outdir" directory.
+```
+
+This shockingly resulted in nothing. Not even the `output` folder
 
 ```shell
-./classdump-dyld -o outdir -r /System/Library/Frameworks/NetworkExtension.framework
+# Dumps all frameworks from the following folder
+./classdump-dyld -o outdir -r /System/Library/Frameworks/
+...
+  Dumping /System/Library/Frameworks/NetworkExtension.framework/PlugIns/NEIKEv2Provider.appex/Contents/MacOS/NEIKEv2Provider...(1 classes)
+...
+  Done. Check "outdir" directory.
+```
+
+No headers for what I wanted.
+
+```shell
+# Dumps just the framework we want
+./classdump-dyld -o outdir -r /System/Library/Frameworks/NetworkExtension.framework/
   Dumping /System/Library/Frameworks/NetworkExtension.framework/PlugIns/NEIKEv2Provider.appex/Contents/MacOS/NEIKEv2Provider...(1 classes)
   Done. Check "outdir" directory.
 ```
@@ -409,15 +432,373 @@ Nothing. Not a single header. :( I googled around and found some links to buildi
   Done. Check "outdir" directory.
 ```
 
-I was about to give up when I started looking author's [open issues](https://github.com/freedomtan/classdump-dyld/issues/3) again. Maybe it works on Big Sur? My wife is pretty slow at installing updates and she was still on macOS Big Sur 11.6, so with a little coercing, she handed me her laptop and I performed the same commands.
+I was about to give up when I started looking author's [open issues](https://github.com/freedomtan/classdump-dyld/issues/3) again. Maybe it works on Big Sur? My wife is pretty slow at installing updates and she was still on macOS Big Sur 11.6, so with a little coercing, she handed me her laptop and I performed the same commands. Both times `-r` failed but `-c`...
 
-```shell
+```bash
+# Dumps everything
+./classdump-dyld -o outdir -c
+...
+  Dumping /System/Library/Frameworks/NetworkExtension.framework/Versions/A/NetworkExtension...(291 classes) (14%)
 
+  Done. Check "outdir" directory.
+
+ls -1 ./outdir/NetworkExtension.framework/Versions/A/NetworkExtension
+CXNetworkExtensionVoIPXPCClient.h
+NEAOVPN.h
+NEAOVPNException.h
+NEAOVPNNetworkAgent.h
+NEAccountIdentifiers.h
+NEAgentAppProxyExtension.h
+NEAgentAppPushExtension.h
+NEAgentDNSProxyExtension.h
+NEAgentExtension.h
+NEAgentFilterExtension.h
+NEAgentPacketTunnelExtension.h
+NEAgentSessionDelegate.h
+NEAgentTunnelExtension.h
+NEAppInfo.h
+NEAppInfoCache.h
+NEAppProxyFlow.h
+NEAppProxyProvider.h
+NEAppProxyProviderContainer.h
+NEAppProxyProviderManager.h
+NEAppProxyTCPFlow.h
+NEAppProxyUDPFlow.h
+NEAppPush.h
+NEAppPushCallKitXPCClient.h
+NEAppPushManager.h
+NEAppPushPluginDriver.h
+NEAppPushProvider.h
+NEAppRule.h
+NEAppSidecarPolicySession.h
+NEAppVPNNetworkAgent.h
+NEBundleProxy.h
+NEByteParser.h
+NEConfiguration.h
+NEConfigurationCommandHandling.h
+NEConfigurationLegacySupport.h
+NEConfigurationManager.h
+NEConfigurationValidating.h
+NEContentFilter.h
+NEContentFilterNetworkAgent.h
+NEDNSOverHTTPSSettings.h
+NEDNSOverTLSSettings.h
+NEDNSPacket.h
+NEDNSProxy.h
+NEDNSProxyManager.h
+NEDNSProxyPluginDriver.h
+NEDNSProxyProvider.h
+NEDNSProxyProviderProtocol.h
+NEDNSQuery.h
+NEDNSResourceRecord.h
+NEDNSSettings.h
+NEDNSSettingsBundle.h
+NEDNSSettingsManager.h
+NEDNSSettingsNetworkAgent.h
+NEEvaluateConnectionRule.h
+NEExtensionAppProxyProviderContext.h
+NEExtensionAppProxyProviderHostContext.h
+NEExtensionAppProxyProviderHostDelegate.h
+NEExtensionAppProxyProviderHostProtocol.h
+NEExtensionAppProxyProviderProtocol.h
+NEExtensionAppPushProviderContext.h
+NEExtensionAppPushProviderHostContext.h
+NEExtensionAppPushProviderHostDelegate.h
+NEExtensionAppPushProviderHostProtocol.h
+NEExtensionAppPushProviderProtocol.h
+NEExtensionDNSProxyProviderContext.h
+NEExtensionDNSProxyProviderHostContext.h
+NEExtensionDNSProxyProviderProtocol.h
+NEExtensionPacketTunnelProviderContext.h
+NEExtensionPacketTunnelProviderHostContext.h
+NEExtensionPacketTunnelProviderHostProtocol.h
+NEExtensionPacketTunnelProviderProtocol.h
+NEExtensionProviderContext.h
+NEExtensionProviderHostContext.h
+NEExtensionProviderHostDelegate.h
+NEExtensionProviderHostProtocol.h
+NEExtensionProviderProtocol.h
+NEExtensionTunnelProviderContext.h
+NEExtensionTunnelProviderHostContext.h
+NEExtensionTunnelProviderHostDelegate.h
+NEExtensionTunnelProviderHostProtocol.h
+NEExtensionTunnelProviderProtocol.h
+NEFileHandle.h
+NEFileHandleMaintainer.h
+NEFilterAbsoluteVerdict.h
+NEFilterBlockPage.h
+NEFilterBrowserFlow.h
+NEFilterControlExtensionProviderContext.h
+NEFilterControlExtensionProviderHostContext.h
+NEFilterControlExtensionProviderHostProtocol.h
+NEFilterControlExtensionProviderProtocol.h
+NEFilterControlProvider.h
+NEFilterControlVerdict.h
+NEFilterDataExtensionProviderContext.h
+NEFilterDataExtensionProviderHostContext.h
+NEFilterDataExtensionProviderHostProtocol.h
+NEFilterDataExtensionProviderProtocol.h
+NEFilterDataProvider.h
+NEFilterDataSavedMessageHandler.h
+NEFilterDataVerdict.h
+NEFilterExtensionProviderContext.h
+NEFilterExtensionProviderHostContext.h
+NEFilterExtensionProviderHostDelegate.h
+NEFilterExtensionProviderHostProtocol.h
+NEFilterExtensionProviderProtocol.h
+NEFilterFlow.h
+NEFilterManager.h
+NEFilterNewFlowVerdict.h
+NEFilterPacketContext.h
+NEFilterPacketExtensionProviderContext.h
+NEFilterPacketExtensionProviderHostContext.h
+NEFilterPacketExtensionProviderHostProtocol.h
+NEFilterPacketInterpose.h
+NEFilterPacketProvider.h
+NEFilterPluginDriver.h
+NEFilterProvider.h
+NEFilterProviderConfiguration.h
+NEFilterRemediationVerdict.h
+NEFilterReport.h
+NEFilterRule.h
+NEFilterSettings.h
+NEFilterSocketFlow.h
+NEFilterSource.h
+NEFilterVerdict.h
+NEFlowDivertFileHandle.h
+NEFlowDivertPluginDriver.h
+NEFlowMetaData.h
+NEFlowNexus.h
+NEHasher.h
+NEHelper.h
+NEHotspotConfiguration.h
+NEHotspotConfigurationHelper.h
+NEHotspotConfigurationManager.h
+NEHotspotEAPSettings.h
+NEHotspotHS20Settings.h
+NEHotspotHelper.h
+NEHotspotHelperCommand.h
+NEHotspotHelperResponse.h
+NEHotspotNetwork.h
+NEIKEv2ASN1DNIdentifier.h
+NEIKEv2AddressAttribute.h
+NEIKEv2AddressIdentifier.h
+NEIKEv2AddressList.h
+NEIKEv2AppVersionAttribute.h
+NEIKEv2AuthPayload.h
+NEIKEv2AuthenticationProtocol.h
+NEIKEv2CertificatePayload.h
+NEIKEv2CertificateRequestPayload.h
+NEIKEv2ChildSA.h
+NEIKEv2ChildSAConfiguration.h
+NEIKEv2ChildSAPayload.h
+NEIKEv2ChildSAProposal.h
+NEIKEv2ConfigPayload.h
+NEIKEv2ConfigurationAttribute.h
+NEIKEv2ConfigurationDelegate.h
+NEIKEv2ConfigurationMessage.h
+NEIKEv2CreateChildPacket.h
+NEIKEv2Crypto.h
+NEIKEv2CustomData.h
+NEIKEv2CustomPayload.h
+NEIKEv2DHKeys.h
+NEIKEv2DHProtocol.h
+NEIKEv2DNSDomainAttribute.h
+NEIKEv2DeleteChildContext.h
+NEIKEv2DeleteIKEContext.h
+NEIKEv2DeletePayload.h
+NEIKEv2EAP.h
+NEIKEv2EAPPayload.h
+NEIKEv2EAPProtocol.h
+NEIKEv2ESPSPI.h
+NEIKEv2EncryptedFragmentPayload.h
+NEIKEv2EncryptedPayload.h
+NEIKEv2EncryptionProtocol.h
+NEIKEv2FQDNIdentifier.h
+NEIKEv2Helper.h
+NEIKEv2IKEAuthPacket.h
+NEIKEv2IKESA.h
+NEIKEv2IKESAConfiguration.h
+NEIKEv2IKESAInitPacket.h
+NEIKEv2IKESAPayload.h
+NEIKEv2IKESAProposal.h
+NEIKEv2IKESPI.h
+NEIKEv2IPv4AddressAttribute.h
+NEIKEv2IPv4DHCPAttribute.h
+NEIKEv2IPv4DNSAttribute.h
+NEIKEv2IPv4NetmaskAttribute.h
+NEIKEv2IPv4PCSCFAttribute.h
+NEIKEv2IPv4SubnetAttribute.h
+NEIKEv2IPv6AddressAttribute.h
+NEIKEv2IPv6DHCPAttribute.h
+NEIKEv2IPv6DNSAttribute.h
+NEIKEv2IPv6PCSCFAttribute.h
+NEIKEv2IPv6SubnetAttribute.h
+NEIKEv2Identifier.h
+NEIKEv2IdentifierPayload.h
+NEIKEv2InformationalContext.h
+NEIKEv2InformationalPacket.h
+NEIKEv2InitiatorIdentifierPayload.h
+NEIKEv2InitiatorTrafficSelectorPayload.h
+NEIKEv2InitiatorTransportIPv6Address.h
+NEIKEv2IntegrityProtocol.h
+NEIKEv2KeyExchangePayload.h
+NEIKEv2KeyIDIdentifier.h
+NEIKEv2Listener.h
+NEIKEv2MOBIKE.h
+NEIKEv2MOBIKEContext.h
+NEIKEv2NewChildContext.h
+NEIKEv2NoncePayload.h
+NEIKEv2NotifyPayload.h
+NEIKEv2PRFProtocol.h
+NEIKEv2Packet.h
+NEIKEv2PacketReceiver.h
+NEIKEv2PacketTunnelProvider.h
+NEIKEv2Payload.h
+NEIKEv2PrivateNotify.h
+NEIKEv2RTT.h
+NEIKEv2Rekey.h
+NEIKEv2RekeyChildContext.h
+NEIKEv2RekeyIKEContext.h
+NEIKEv2RequestContext.h
+NEIKEv2ResponderIdentifierPayload.h
+NEIKEv2ResponderTrafficSelectorPayload.h
+NEIKEv2ResponderTransportIPv6Address.h
+NEIKEv2ResponseConfigPayload.h
+NEIKEv2SPI.h
+NEIKEv2Server.h
+NEIKEv2Session.h
+NEIKEv2SessionConfiguration.h
+NEIKEv2SignatureHashProtocol.h
+NEIKEv2StringAttribute.h
+NEIKEv2SubnetAttribute.h
+NEIKEv2SupportedAttribute.h
+NEIKEv2TrafficSelector.h
+NEIKEv2TrafficSelectorPayload.h
+NEIKEv2Transport.h
+NEIKEv2TransportClient.h
+NEIKEv2TransportDelegate.h
+NEIKEv2UserFQDNIdentifier.h
+NEIKEv2VendorData.h
+NEIKEv2VendorIDPayload.h
+NEIPC.h
+NEIPCWrapper.h
+NEIPSecSA.h
+NEIPSecSAKernelSession.h
+NEIPSecSALocalSession.h
+NEIPSecSASession.h
+NEIPSecSASessionDelegate.h
+NEIPsecNexus.h
+NEIPv4Route.h
+NEIPv4Settings.h
+NEIPv6Route.h
+NEIPv6Settings.h
+NEIdentityKeychainItem.h
+NEInternetNexus.h
+NEKeychainItem.h
+NELaunchServices.h
+NELoopbackConnection.h
+NENetworkAgent.h
+NENetworkAgentRegistrationFileHandle.h
+NENetworkRule.h
+NENexus.h
+NENexusAgent.h
+NENexusAgentDelegate.h
+NENexusBrowse.h
+NENexusFlow.h
+NENexusFlowAssignedProperties.h
+NENexusFlowDivertFlow.h
+NENexusFlowManager.h
+NENexusPathFlow.h
+NEOnDemandRule.h
+NEOnDemandRuleConnect.h
+NEOnDemandRuleDisconnect.h
+NEOnDemandRuleEvaluateConnection.h
+NEOnDemandRuleIgnore.h
+NEPacket.h
+NEPacketTunnelFlow.h
+NEPacketTunnelNetworkSettings.h
+NEPacketTunnelProvider.h
+NEPathController.h
+NEPathControllerNetworkAgent.h
+NEPathEvent.h
+NEPathEventObserver.h
+NEPathRule.h
+NEPluginDriver.h
+NEPolicy.h
+NEPolicyCondition.h
+NEPolicyResult.h
+NEPolicyRouteRule.h
+NEPolicySession.h
+NEPolicySessionFileHandle.h
+NEPrettyDescription.h
+NEProcessIdentity.h
+NEProcessInfo.h
+NEProfileIngestion.h
+NEProfileIngestionDelegate.h
+NEProfileIngestionPayloadInfo.h
+NEProfilePayloadAOVPN.h
+NEProfilePayloadBase.h
+NEProfilePayloadBaseDelegate.h
+NEProfilePayloadBaseVPN.h
+NEProfilePayloadContentFilter.h
+NEProfilePayloadHandlerDelegate.h
+NEProvider.h
+NEProviderAppConfigurationClient.h
+NEProviderServer.h
+NEProviderXPCListener.h
+NEProvider_Subsystem.h
+NEProxyConfigurationNetworkAgent.h
+NEProxyServer.h
+NEProxySettings.h
+NETransparentProxyManager.h
+NETransparentProxyNetworkSettings.h
+NETransparentProxyProvider.h
+NETunnelNetworkSettings.h
+NETunnelProvider.h
+NETunnelProviderManager.h
+NETunnelProviderProtocol.h
+NETunnelProviderSession.h
+NEUserNotification.h
+NEUtilConfigurationClient.h
+NEVPN.h
+NEVPNApp.h
+NEVPNConnection.h
+NEVPNIKEv1ProposalParameters.h
+NEVPNIKEv2SecurityAssociationParameters.h
+NEVPNManager.h
+NEVPNNetworkAgent.h
+NEVPNPluginDriver.h
+NEVPNProtocol.h
+NEVPNProtocolIKEv2.h
+NEVPNProtocolIPSec.h
+NEVPNProtocolL2TP.h
+NEVPNProtocolPPP.h
+NEVPNProtocolPPTP.h
+NEVPNProtocolPlugin.h
+NSCopying.h
+NSExtensionRequestHandling.h
+NSObject.h
+NSSecureCoding.h
+NSXPCListenerDelegate.h
+NWNetworkAgent.h
+NWTLSParameters.h
+NetworkExtension-Structs.h
+NetworkExtension.h
+PKModularService.h
 ```
 
 Yessssssssss! I finally had some progress and could start learning the next part.
 
 # Adding headers to a swift project
+So now I had the headers, but what do I actually do with them?
+
+[Apple](https://developer.apple.com/documentation/swift/imported_c_and_objective-c_apis/importing_objective-c_into_swift) has some pretty good documentation for this. Essentially when you add a header file into your swift Application, Xcode will politely ask if you want to create an Objective-C bridging header.
+
+![Importing Objective C into Swift App](https://docs-assets.developer.apple.com/published/0c58cbcc83/swift-ImportingObjC@2x.png)
+![Swift ObjectiveC header](https://docs-assets.developer.apple.com/published/5c7302fa8d/3074416@2x.png)
+
+I also found [this blog post](https://medium.com/@subhangdxt/bridging-objective-c-and-swift-classes-5cb4139d9c80) pretty informative. With these sets of data, I was on my way. I knew I didn't need all of the headers that `classdump-dyld` but just the types of data I needed and the particular classes the PyObjC code used.
 
 # Introducing gnes (G Ness - Get Network Extension Status)
 [gnes](https://github.com/erikng/gnes) is a Swift 5, Objective-C binary that has several options.
