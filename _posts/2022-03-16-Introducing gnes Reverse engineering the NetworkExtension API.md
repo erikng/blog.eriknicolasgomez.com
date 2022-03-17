@@ -266,7 +266,7 @@ It was pretty obvious to me that Apple didn't think we needed access to this fun
 Unfortunately for me, while this was helpful, his application was Objective-C. It was now obvious to me though. I needed to dump the headers and get what I needed from them.
 
 # Stop hitting yourself
-Long ago when writing the Untouchables series ([pt1](/2016/11/27/the-untouchables-apples-new-os-activation-for-touch-bar-macbook-pros/) and [pt2](2016/11/30/the-untouchables-pt-2-offline-touchbar-activation-with-a-purged-disk/)), I had learned about [otool](https://www.manpagez.com/man/1/otool/) and that was my first attempt at trying to understand the framework file.
+Long ago when writing the Untouchables series ([pt1](/2016/11/27/the-untouchables-apples-new-os-activation-for-touch-bar-macbook-pros/) and [pt2](/2016/11/30/the-untouchables-pt-2-offline-touchbar-activation-with-a-purged-disk/)), I had learned about [otool](https://www.manpagez.com/man/1/otool/) and that was my first attempt at trying to understand the framework file.
 
 ```shell
 otool -vt /Users/Shared/output/System/Library/Frameworks/NetworkExtension.framework/Versions/A/NetworkExtension
